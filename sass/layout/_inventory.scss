@@ -94,6 +94,11 @@ header {
         align-items: center;
     }
 
+    &__icon {
+        --keg-color: purple;
+        fill: var(--keg-color);
+    }
+
     &__amount {
         color: #fff;
         position: absolute;
@@ -127,5 +132,22 @@ header {
         &--break {
             background-color: red;
         }
+    }
+}
+
+.beer-tap-chart {
+    padding: 1rem;
+    width: 100%;
+    height: 400px;
+    background-color: grey;
+    list-style: none;
+    display: grid;
+    align-items: flex-end;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+
+    &__bar {
+        height: var(--bar-percentage);
+        background-color: lightgray;
     }
 }
