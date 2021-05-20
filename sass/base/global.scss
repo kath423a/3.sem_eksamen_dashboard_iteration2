@@ -1,0 +1,5 @@
+@use "../abstracts/vars";
+
+body {
+    background-color: vars.$bg_color;
+}

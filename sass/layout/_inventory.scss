@@ -1,0 +1,131 @@
+@use "../abstracts/vars";
+
+$spacing: 3rem;
+$spacing--small: 2rem;
+$spacing--xsmall: 1rem;
+$flow-space: 1rem;
+
+$breakpoint-medium: 1000px;
+
+:root {
+    --spacing: #{$spacing / 3};
+    --spacing--small: #{$spacing--small / 3};
+    --spacing--xsmall: #{$spacing--xsmall / 3};
+}
+
+@media (min-width: $breakpoint-medium) {
+    :root {
+        --spacing: #{$spacing};
+    }
+}
+
+/* Remove later */
+header {
+    display: none;
+}
+
+@media (min-width: $breakpoint-medium) {
+    header {
+        display: initial;
+    }
+}
+
+.inventory-dashboard-grid {
+    display: grid;
+
+    @media (min-width: $breakpoint-medium) {
+        grid-template-columns: 70px 1fr;
+    }
+}
+
+.inventory-grid {
+    display: grid;
+    padding: var(--spacing);
+    gap: $spacing / 3 * 2;
+
+    @media (min-width: $breakpoint-medium) {
+        grid-template-areas:
+            "beer-tank beer-tank beer-tank"
+            "beer-stock beer-stock bartender-status";
+    }
+}
+
+.inventory-section {
+    background-color: vars.$ui_bg_color;
+    box-shadow: vars.$ui-shadow;
+    border-radius: vars.$ui-corners;
+    padding: var(--spacing);
+
+    &__title {
+        margin-bottom: var(--spacing--small);
+    }
+
+    @media (min-width: $breakpoint-medium) {
+        &--beer-tank-status {
+            grid-area: beer-tank;
+        }
+
+        &--beer-stock {
+            grid-area: beer-stock;
+        }
+
+        &--bartender-status {
+            grid-area: bartender-status;
+        }
+    }
+}
+
+.beer-stock-status-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: $spacing--xsmall;
+    list-style: none;
+}
+
+.beer-stock {
+    max-width: 52px;
+    display: flex;
+    flex-direction: column;
+
+    &__image-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__amount {
+        color: #fff;
+        position: absolute;
+    }
+
+    &__name {
+        font-weight: 300;
+        color: #999999;
+        font-size: 1rem;
+        text-transform: none;
+    }
+}
+
+.bartender-status-list {
+    display: grid;
+    gap: $spacing--xsmall;
+}
+
+.bartender {
+    display: flex;
+    gap: $spacing--small;
+    align-items: center;
+
+    &__status {
+        height: 1em;
+        width: 1em;
+        background-color: green;
+        border-radius: 50%;
+        margin-left: auto;
+
+        &--break {
+            background-color: red;
+        }
+    }
+}
