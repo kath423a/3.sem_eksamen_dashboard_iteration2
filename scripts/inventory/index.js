@@ -9,6 +9,7 @@ let settings = {
             ".js-beer-stock-status-list"
         ),
         beerTapChart: document.querySelector(".js-beer-tap-chart"),
+        beerTapXAxis: document.querySelector(".js-beer-tap-x-axis"),
     },
     templates: {
         beerStock: document.querySelector(".t-beer-stock").content,
@@ -29,12 +30,12 @@ let settings = {
     },
     beerBubbles: {
         minBubbles: 5,
-        maxBubbles: 15,
+        maxBubbles: 10,
         minDuration: 2000,
-        maxDuration: 6000,
-        rangeDuration: 100,
+        maxDuration: 8000,
+        rangeDuration: 200,
         minDelay: 0,
-        maxDelay: 3000,
+        maxDelay: 15000,
         rangeDelay: 100,
     },
 };
@@ -72,6 +73,7 @@ function prepareBeerTapChartObjects(beerTaps) {
 
     // Set amount of beers available from the bar
     settings.hooks.beerTapChart.style.setProperty("--beers", beerTaps.length);
+    settings.hooks.beerTapXAxis.style.setProperty("--beers", beerTaps.length);
 
     // Show updated chart
     beerTaps.forEach((beerTap) => {
@@ -83,6 +85,13 @@ function showBeerTapStatus(beerTapObject) {
     const beerTapChart = settings.hooks.beerTapChart;
     const templateClone = settings.templates.beerTankBar.cloneNode(true);
     const percentage = (beerTapObject.level / beerTapObject.capacity) * 100;
+    const xAxisElement = document.createElement("li");
+    xAxisElement.classList.add("chart__x-axis-name");
+    xAxisElement.innerHTML = beerTapObject.beer;
+
+    const xAxis = settings.hooks.beerTapXAxis;
+    xAxis.append(xAxisElement);
+
     templateClone
         .querySelector(".beer-tap__liquid")
         .style.setProperty("--bar-percentage", percentage.toFixed(2));
@@ -141,9 +150,37 @@ function makeBeerBubbles(beerTapBar) {
 }
 
 function generateBeerBubbles(beerTapBar, numberOfBubbles) {
+    // Destructoring
+    const {
+        minBubbles,
+        maxBubbles,
+        minDuration,
+        maxDuration,
+        rangeDuration,
+        minDelay,
+        maxDelay,
+        rangeDelay,
+    } = settings.beerBubbles;
+
     // for number of bubbles... make a bubble
     for (let index = 1; index <= numberOfBubbles; index++) {
         const templateClone = settings.templates.beerBubble.cloneNode(true);
+        const delay = getRandomInteger(minDelay, maxDelay, rangeDelay);
+        const duration = getRandomInteger(
+            minDuration,
+            maxDuration,
+            rangeDuration
+        );
+
+        templateClone
+            .querySelector(".beer-tap__bubble-container")
+            .style.setProperty("--beer-bubble-delay", delay);
+        templateClone
+            .querySelector(".beer-tap__bubble-container")
+            .style.setProperty("--beer-bubble-duration", duration);
+        templateClone
+            .querySelector(".beer-tap__bubble-container")
+            .style.setProperty("--beer-bubble-x", getRandomInteger(1, 100));
 
         beerTapBar.querySelector(".beer-tap__liquid").append(templateClone);
     }
