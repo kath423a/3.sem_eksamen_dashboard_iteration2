@@ -12,6 +12,8 @@ let settings = {
     },
     templates: {
         beerStock: document.querySelector(".t-beer-stock").content,
+        beerTankBar: document.querySelector(".t-beer-tap").content,
+        beerBubble: document.querySelector(".t-beer-bubble").content,
     },
     beerColors: {
         "Ruined Childhood": "#75b2ff",
@@ -24,6 +26,16 @@ let settings = {
         Mowintime: "#3454d1",
         Steampunk: "#ff912d",
         "Fairy Tale Ale": "#ace365",
+    },
+    beerBubbles: {
+        minBubbles: 5,
+        maxBubbles: 15,
+        minDuration: 2000,
+        maxDuration: 6000,
+        rangeDuration: 100,
+        minDelay: 0,
+        maxDelay: 3000,
+        rangeDelay: 100,
     },
 };
 
@@ -50,7 +62,7 @@ async function getData() {
         prepareBeerTapChartObjects(data.taps);
         console.log(data);
         // Call getQueue again, to wait for the next update to the queue
-        await setTimeout(await getData, 1000);
+        // await setTimeout(await getData, 1000);
     }
 }
 
@@ -68,13 +80,16 @@ function prepareBeerTapChartObjects(beerTaps) {
 }
 
 function showBeerTapStatus(beerTapObject) {
+    const beerTapChart = settings.hooks.beerTapChart;
+    const templateClone = settings.templates.beerTankBar.cloneNode(true);
     const percentage = (beerTapObject.level / beerTapObject.capacity) * 100;
-    console.log(percentage);
-    const bar = document.createElement("li");
-    bar.classList.add("beer-tap-chart__bar");
-    bar.style.setProperty("--bar-percentage", `${percentage.toFixed(2)}%`);
+    templateClone
+        .querySelector(".beer-tap__liquid")
+        .style.setProperty("--bar-percentage", percentage.toFixed(2));
 
-    settings.hooks.beerTapChart.append(bar);
+    const beerWithBubbles = makeBeerBubbles(templateClone);
+
+    beerTapChart.append(beerWithBubbles);
 }
 
 function prepareBeerStockStatusObjects(beersInStock) {
@@ -99,4 +114,54 @@ function showBeerStockStatus(beerObject) {
         beerObject.name;
 
     settings.hooks.beerStockStatusList.append(templateClone);
+}
+
+function makeBeerBubbles(beerTapBar) {
+    // Destructoring
+    const {
+        minBubbles,
+        maxBubbles,
+        minDuration,
+        maxDuration,
+        rangeDuration,
+        minDelay,
+        maxDelay,
+        rangeDelay,
+    } = settings.beerBubbles;
+
+    const randomAmountOfBubbles = getRandomInteger(minBubbles, maxBubbles);
+    console.log(randomAmountOfBubbles);
+
+    const beerTapBarWithBubbles = generateBeerBubbles(
+        beerTapBar,
+        randomAmountOfBubbles
+    );
+
+    return beerTapBarWithBubbles;
+}
+
+function generateBeerBubbles(beerTapBar, numberOfBubbles) {
+    // for number of bubbles... make a bubble
+    for (let index = 1; index <= numberOfBubbles; index++) {
+        const templateClone = settings.templates.beerBubble.cloneNode(true);
+
+        beerTapBar.querySelector(".beer-tap__liquid").append(templateClone);
+    }
+
+    return beerTapBar;
+}
+
+function getRandomInteger(min, max, range = null) {
+    if (range) {
+        // Return af random integer with steps / range
+        // E.g.
+        // min: 10
+        // max: 100
+        // random numbers: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+        const steps = (max - min) / range + 1;
+        return Math.floor(Math.random() * steps) * range + min;
+    } else {
+        // Return a random integer between min max parameters including min max
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
 }
