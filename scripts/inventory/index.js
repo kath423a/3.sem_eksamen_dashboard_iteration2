@@ -40,8 +40,17 @@ let settings = {
     },
 };
 
+let data = {};
+
 async function init() {
     await getData();
+
+    prepareBeerStockStatusObjects(data.storage);
+    prepareBeerTapChartObjects(data.taps);
+
+    setInterval(function () {
+        updateBeerTapStatus(data.taps);
+    }, 2000);
 }
 
 async function getData() {
@@ -57,13 +66,15 @@ async function getData() {
         // reconnect after 1 second
         await getData();
     } else {
-        const data = await response.json();
+        const json = await response.json();
         // updateData(data);
-        prepareBeerStockStatusObjects(data.storage);
-        prepareBeerTapChartObjects(data.taps);
-        console.log(data);
+
+        data = json;
+
+        // updateBeerTapStatus(data.taps);
+
         // Call getQueue again, to wait for the next update to the queue
-        // await setTimeout(await getData, 1000);
+        await setTimeout(await getData, 1000);
     }
 }
 
@@ -96,9 +107,26 @@ function showBeerTapStatus(beerTapObject) {
         .querySelector(".beer-tap__liquid")
         .style.setProperty("--bar-percentage", percentage.toFixed(2));
 
+    templateClone
+        .querySelector(".beer-tap__liquid")
+        .setAttribute("data-beer", beerTapObject.beer);
+
     const beerWithBubbles = makeBeerBubbles(templateClone);
 
     beerTapChart.append(beerWithBubbles);
+}
+
+function updateBeerTapStatus(beerTaps) {
+    console.log(beerTaps);
+    console.log("hello");
+
+    beerTaps.forEach((tap) => {
+        const percentage = (tap.level / tap.capacity) * 100;
+
+        document
+            .querySelector(`[data-beer="${tap.beer}"]`)
+            .style.setProperty("--bar-percentage", percentage);
+    });
 }
 
 function prepareBeerStockStatusObjects(beersInStock) {

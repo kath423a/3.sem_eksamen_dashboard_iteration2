@@ -217,7 +217,7 @@ header {
         overflow: hidden;
         position: relative;
         will-change: height;
-        transition: height 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+        transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
     }
 
     &__bubble-container {
