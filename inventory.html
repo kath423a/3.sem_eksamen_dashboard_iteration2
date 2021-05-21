@@ -90,13 +90,16 @@
                         <h2 class="inventory-section__title">
                             Beer Tank Status
                         </h2>
-                        <img
-                            class="dummy-image"
-                            src="images/chart-dummy.png"
-                            alt="#"
-                        />
 
-                        <ul class="beer-tap-chart js-beer-tap-chart"></ul>
+                        <div class="chart">
+                            <ul class="chart__y-axis">
+                                <li class="chart__y-axis-name">100%</li>
+                                <li class="chart__y-axis-name">50%</li>
+                                <li class="chart__y-axis-name">0%</li>
+                            </ul>
+                            <ul class="beer-tap-chart js-beer-tap-chart"></ul>
+                            <ul class="chart__x-axis js-beer-tap-x-axis"></ul>
+                        </div>
                     </section>
 
                     <section
@@ -205,6 +208,18 @@
                 </div>
                 <h3 class="beer-stock__name"></h3>
             </li>
+        </template>
+
+        <template class="t-beer-tap">
+            <li class="beer-tap">
+                <div class="beer-tap__liquid"></div>
+            </li>
+        </template>
+
+        <template class="t-beer-bubble">
+            <div class="beer-tap__bubble-container">
+                <div class="beer-tap__bubble"></div>
+            </div>
         </template>
 
         <script src="./scripts/inventory/index.js" type="module" defer></script>
