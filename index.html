@@ -11,7 +11,7 @@
       <nav>
         <ul id="menubar">
           <li class="logo">
-            <a href="index.html"><img src="public/logo.svg" /></a>
+            <a href="index.html"><img src="/logo.svg" /></a>
           </li>
           <li>
             <a href="index.html">
@@ -59,6 +59,51 @@
       </nav>
     </header>
 
+    <main>
+      <section id="order_dashboard_wrapper">
+        <div class="order_list">
+          <div class="inner_wrapper">
+            <h2>ORDER LIST</h2>
+            <div class="order_status_tabs">
+              <button>New</button>
+              <button>Doing</button>
+              <button>Done</button>
+            </div>
+            <div class="js_orders_list"></div>
+          </div>
+        </div>
+
+        <div class="order_info">
+          <h2>ORDER INFO</h2>
+          <div class="inner_wrapper">
+            <div class="order_status_info">
+              <p>Order id: <span class="order_id"></span></p>
+              <p>Time: <span class="time"></span></p>
+              <p>For: <span class="customer_name"></span></p>
+            </div>
+            <div class="orders_pop_long">
+              <!-- Show order image, quantity, price -->
+              <img class="beer_image" src="" alt="" />
+              <p>x <span class="quantity"></span></p>
+              <p><span class="price"></span>,-</p>
+            </div>
+            <div class="bottom_info">
+              <h3>Total: <span class="total_total"></span>,-</h3>
+              <button>ACCEPT ORDER</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <template id="order_item">
+      <div class="orders_pop">
+        <div class="order_info_short">
+          <h4>Order id: <span class="order_id"></span></h4>
+          <p>Time: <span class="time"></span> Total: <span class="total"></span>,-</p>
+        </div>
+      </div>
+    </template>
     <script type="module" src="./scripts/order/index.js"></script>
   </body>
 </html>
