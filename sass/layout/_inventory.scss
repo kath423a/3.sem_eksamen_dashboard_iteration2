@@ -143,24 +143,21 @@ header {
 .chart {
     display: grid;
     grid-template-areas:
-        "y chart"
-        "z x";
-    grid-template-columns: auto 1fr;
+        "x chart"
+        "z y";
+    grid-template-columns: 120px 1fr;
     grid-template-rows: 1fr auto;
 
     &__x-axis {
         list-style: none;
         grid-area: x;
         display: grid;
-        padding: 0 4rem;
         gap: 4rem;
-        grid-template-columns: repeat(var(--beers), 100px);
         justify-content: space-between;
-        margin-top: 1rem;
+        margin-right: 1rem;
     }
 
     &__x-axis-name {
-        text-align: center;
         font-family: "Poppins", sans-serif;
         font-weight: 400;
         color: $bar-x-axis-color;
@@ -170,10 +167,9 @@ header {
         list-style: none;
         grid-area: y;
         display: flex;
-        flex-direction: column;
+        flex-direction: row-reverse;
         justify-content: space-between;
         align-items: center;
-        margin-right: 1rem;
     }
 
     &__y-axis-name {
@@ -182,53 +178,85 @@ header {
         color: vars.$ui_color_dark;
         font-size: 1.2rem;
     }
+
+    @media (min-width: $breakpoint-medium) {
+        grid-template-areas:
+            "y chart"
+            "z x";
+        grid-template-columns: auto 1fr;
+
+        &__y-axis {
+            margin-right: 1rem;
+            flex-direction: column;
+        }
+
+        &__x-axis {
+            margin-top: 1rem;
+        }
+
+        &__x-axis-name {
+            text-align: center;
+            padding: 0 4rem;
+        }
+    }
 }
 
 .beer-tap-chart {
-    padding: 0 4rem;
+    padding: 0;
     width: 100%;
-    height: 400px;
     list-style: none;
     display: grid;
     align-items: flex-end;
-    justify-content: space-between;
-    gap: 4rem;
-    // grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
-    grid-template-columns: repeat(var(--beers), 100px);
     border-bottom: 1px solid $bar-chart-border-color;
     border-left: 1px solid $bar-chart-border-color;
     border-bottom-left-radius: vars.$ui-corners;
     grid-area: chart;
+
+    @media (min-width: $breakpoint-medium) {
+        height: 400px;
+        padding: 0 4rem;
+    }
+}
+
+.beer-tap-chart,
+.chart__x-axis {
+    gap: 2rem;
+    grid-template-rows: repeat(var(--beers), 60px);
+
+    @media (min-width: $breakpoint-medium) {
+        grid-template-columns: repeat(var(--beers), 100px);
+        gap: 4rem;
+    }
 }
 
 .beer-tap {
     background-color: $bar-background-color;
     height: 100%;
-    border-radius: vars.$ui-corners vars.$ui-corners 0 0;
+    border-radius: 0 vars.$ui-corners vars.$ui-corners 0;
     display: flex;
     align-items: flex-end;
     position: relative;
 
     &__liquid {
-        height: calc(var(--bar-percentage) * 1%);
+        width: calc(var(--bar-percentage) * 1%);
+        height: 100%;
         background-color: $bar-color;
-        border-radius: vars.$ui-corners vars.$ui-corners 0 0;
-        width: 100%;
+        border-radius: 0 vars.$ui-corners vars.$ui-corners 0;
         overflow: hidden;
         position: relative;
-        will-change: height;
-        transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+        will-change: width;
+        transition: width 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
     }
 
     &__bubble-container {
         position: absolute;
-        height: calc(var(--beer-tap-chart-height) - 2rem);
+        height: 100%;
         width: 100%;
-        animation: bubbles-move 3s linear infinite;
+        animation: bubbles-move-x 3s linear infinite;
         animation-delay: calc(var(--beer-bubble-delay) * 1ms);
         animation-duration: calc(var(--beer-bubble-duration) * 1ms);
-        left: 0;
-        bottom: -20px;
+        left: -20px;
+        top: 0;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -243,14 +271,43 @@ header {
         animation: bubbles-fade-out 3s linear infinite;
         animation-delay: calc(var(--beer-bubble-delay) * 1ms);
         animation-duration: calc(var(--beer-bubble-duration) * 1ms);
-        left: calc(var(--beer-bubble-x) * 1px);
+        top: calc(var(--beer-bubble-x) * 1px);
         position: absolute;
+    }
+
+    @media (min-width: $breakpoint-medium) {
+        border-radius: vars.$ui-corners vars.$ui-corners 0 0;
+
+        &__liquid {
+            border-radius: vars.$ui-corners vars.$ui-corners 0 0;
+        }
+
+        &__bubble-container {
+            height: calc(var(--beer-tap-chart-height) - 2rem);
+            width: 100%;
+            animation: bubbles-move-y 3s linear infinite;
+            will-change: height;
+            transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+            left: 0;
+            bottom: -20px;
+        }
+
+        &__bubble {
+            top: initial;
+            left: calc(var(--beer-bubble-x) * 1px);
+        }
     }
 }
 
-@keyframes bubbles-move {
+@keyframes bubbles-move-y {
     100% {
         transform: translateY(-100%);
+    }
+}
+
+@keyframes bubbles-move-x {
+    100% {
+        transform: translateX(100%);
     }
 }
 
