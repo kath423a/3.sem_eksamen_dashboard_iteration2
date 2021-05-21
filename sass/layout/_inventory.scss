@@ -196,7 +196,6 @@ header {
 
         &__x-axis-name {
             text-align: center;
-            padding: 0 4rem;
         }
     }
 }
@@ -214,7 +213,6 @@ header {
 
     @media (min-width: $breakpoint-medium) {
         height: 400px;
-        padding: 0 4rem;
     }
 }
 
@@ -225,7 +223,9 @@ header {
 
     @media (min-width: $breakpoint-medium) {
         grid-template-columns: repeat(var(--beers), 100px);
+        grid-template-rows: none;
         gap: 4rem;
+        padding: 0 4rem;
     }
 }
 
@@ -252,7 +252,9 @@ header {
         position: absolute;
         height: 100%;
         width: 100%;
-        animation: bubbles-move-x 3s linear infinite;
+        animation-name: bubbles-move-x;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
         animation-delay: calc(var(--beer-bubble-delay) * 1ms);
         animation-duration: calc(var(--beer-bubble-duration) * 1ms);
         left: -20px;
@@ -268,7 +270,9 @@ header {
         height: 20px;
         background-color: rgba(255, 255, 255, 0.2);
         border-radius: 50%;
-        animation: bubbles-fade-out 3s linear infinite;
+        animation-name: bubbles-fade-out;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
         animation-delay: calc(var(--beer-bubble-delay) * 1ms);
         animation-duration: calc(var(--beer-bubble-duration) * 1ms);
         top: calc(var(--beer-bubble-x) * 1px);
@@ -280,16 +284,19 @@ header {
 
         &__liquid {
             border-radius: vars.$ui-corners vars.$ui-corners 0 0;
+            width: 100%;
+            height: calc(var(--bar-percentage) * 1%);
         }
 
         &__bubble-container {
             height: calc(var(--beer-tap-chart-height) - 2rem);
             width: 100%;
-            animation: bubbles-move-y 3s linear infinite;
+            animation-name: bubbles-move-y;
             will-change: height;
             transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
             left: 0;
             bottom: -20px;
+            top: initial;
         }
 
         &__bubble {

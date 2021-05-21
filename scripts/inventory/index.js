@@ -50,7 +50,7 @@ async function init() {
 
     setInterval(function () {
         updateBeerTapStatus(data.taps);
-    }, 2000);
+    }, 5000);
 }
 
 async function getData() {
@@ -74,7 +74,7 @@ async function getData() {
         // updateBeerTapStatus(data.taps);
 
         // Call getQueue again, to wait for the next update to the queue
-        await setTimeout(await getData, 1000);
+        await setTimeout(await getData, 5000);
     }
 }
 
