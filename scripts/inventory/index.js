@@ -104,11 +104,11 @@ function showBeerTapStatus(beerTapObject) {
     xAxis.append(xAxisElement);
 
     templateClone
-        .querySelector(".beer-tap__liquid")
+        .querySelector(".beer-tap")
         .style.setProperty("--bar-percentage", percentage.toFixed(2));
 
     templateClone
-        .querySelector(".beer-tap__liquid")
+        .querySelector(".beer-tap")
         .setAttribute("data-beer", beerTapObject.beer);
 
     const beerWithBubbles = makeBeerBubbles(templateClone);
@@ -118,7 +118,6 @@ function showBeerTapStatus(beerTapObject) {
 
 function updateBeerTapStatus(beerTaps) {
     console.log(beerTaps);
-    console.log("hello");
 
     beerTaps.forEach((tap) => {
         const percentage = (tap.level / tap.capacity) * 100;

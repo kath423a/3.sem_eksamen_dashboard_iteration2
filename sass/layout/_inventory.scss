@@ -9,7 +9,7 @@ $bar-chart-border-color: #c7c7c7;
 $bar-background-color: #f4f4f4;
 $bar-x-axis-color: #999999;
 
-$breakpoint-medium: 1000px;
+$breakpoint-medium: 1100px;
 
 :root {
     --spacing: #{$spacing / 3};
@@ -153,7 +153,6 @@ header {
         grid-area: x;
         display: grid;
         gap: 4rem;
-        justify-content: space-between;
         margin-right: 1rem;
     }
 
@@ -192,6 +191,7 @@ header {
 
         &__x-axis {
             margin-top: 1rem;
+            margin-right: 0;
         }
 
         &__x-axis-name {
@@ -223,9 +223,10 @@ header {
 
     @media (min-width: $breakpoint-medium) {
         grid-template-columns: repeat(var(--beers), 100px);
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
         grid-template-rows: none;
-        gap: 4rem;
-        padding: 0 4rem;
+        padding: 0 2rem;
+        justify-content: space-between;
     }
 }
 
@@ -236,6 +237,18 @@ header {
     display: flex;
     align-items: flex-end;
     position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: "";
+        position: absolute;
+        background-color: $bar-background-color;
+        width: calc(100% - var(--bar-percentage) * 1%);
+        height: 100%;
+        top: 0;
+        right: 0;
+        z-index: 1;
+    }
 
     &__liquid {
         width: calc(var(--bar-percentage) * 1%);
@@ -243,7 +256,6 @@ header {
         background-color: $bar-color;
         border-radius: 0 vars.$ui-corners vars.$ui-corners 0;
         overflow: hidden;
-        position: relative;
         will-change: width;
         transition: width 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
     }
@@ -281,6 +293,11 @@ header {
 
     @media (min-width: $breakpoint-medium) {
         border-radius: vars.$ui-corners vars.$ui-corners 0 0;
+
+        &::before {
+            width: 100%;
+            height: calc(100% - var(--bar-percentage) * 1%);
+        }
 
         &__liquid {
             border-radius: vars.$ui-corners vars.$ui-corners 0 0;
