@@ -37,10 +37,11 @@ async function getData() {
 
   console.log(data);
 
-  displayQueue();
+  displayQueueNumber();
+  displayDay();
 }
 
-function displayQueue() {
+function displayQueueNumber() {
   console.log("queue");
 
   document.querySelector(".queue_num_wrapper").innerHTML = "";
@@ -50,4 +51,10 @@ function displayQueue() {
   clone.querySelector(".queue_number").textContent = data.queue.length;
 
   document.querySelector(".queue_num_wrapper").appendChild(clone);
+}
+
+function displayDay() {
+  let today = new Date(data.timestamp);
+  today.getDate();
+  console.log(today.getDate());
 }
