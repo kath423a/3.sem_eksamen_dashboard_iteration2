@@ -4,6 +4,7 @@ import "../../sass/index.scss";
 
 window.addEventListener("DOMContentLoaded", start);
 
+let data;
 let allOrders = [];
 
 const Order = {
@@ -17,8 +18,13 @@ function start() {
   console.log("lets gooooo");
 
   loadJSON();
+
   // Add event-listeners to filter and sort buttons
-  //registerButtons();
+  registerButtons();
+}
+
+function registerButtons() {
+  document.querySelectorAll("[data-order]").forEach((button) => button.addEventListener("click", selectFilter));
 }
 
 //Get the array
@@ -27,6 +33,8 @@ function loadJSON() {
     .then((response) => response.json())
     .then((jsonData) => {
       // when loaded, prepare objects
+      data = jsonData;
+      console.log(jsonData);
       prepareObjects(jsonData.queue);
     });
 
@@ -38,6 +46,9 @@ function prepareObjects(jsonData) {
     const order = Object.create(Order);
 
     console.log(jsonObject);
+
+    //Get the correct timesyntax
+    //order.newTime = order.jsonObject.startTime.getHours();
 
     order.orderid = jsonObject.id;
     order.time = jsonObject.startTime;
@@ -65,7 +76,11 @@ function displayOrder(order) {
   clone.querySelector(".time").textContent = order.time;
   //clone.querySelector(".total").textContent = order.total;
 
-  //clone.querySelector("#details_popup").addEventListener("click", () => showPopup(student));
-
   document.querySelector(".js_orders_list").appendChild(clone);
+}
+
+function selectFilter() {
+  console.log(this.dataset.order);
+  document.querySelector(".js_orders_list").innerHTML = "";
+  prepareObjects(data[this.dataset.order]);
 }
