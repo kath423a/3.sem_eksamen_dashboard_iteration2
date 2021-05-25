@@ -1,0 +1,26 @@
+@use "../abstracts/vars";
+@use "../layout/inventory";
+
+:root {
+  --spacing: #{inventory.$spacing / 3};
+  --spacing--small: #{inventory.$spacing--small / 3};
+  --spacing--xsmall: #{inventory.$spacing--xsmall / 3};
+  --beer-tap-chart-height: 400px;
+}
+.statistics-grid {
+  display: grid;
+  padding: var(--spacing);
+  gap: inventory.$spacing / 3 * 2;
+
+  @media (min-width: inventory.$breakpoint-medium) {
+    grid-template-areas:
+      "queue seved orders"
+      "revenue revenue revenue";
+  }
+
+  .queue_number {
+    font-size: 7rem;
+    text-align: center;
+    font-weight: 800;
+  }
+}
