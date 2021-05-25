@@ -10,12 +10,16 @@ let settings = {
         ),
         beerTapChart: document.querySelector(".js-beer-tap-chart"),
         beerTapXAxis: document.querySelector(".js-beer-tap-x-axis"),
+        bartenderStatusList: document.querySelector(
+            ".js-bartender-status-list"
+        ),
     },
     templates: {
         beerStock: document.querySelector(".t-beer-stock").content,
         beerTankBar: document.querySelector(".t-beer-tap").content,
         beerBubble: document.querySelector(".t-beer-bubble").content,
         chartXAxisItem: document.querySelector(".t-chart-x-axis-item").content,
+        bartender: document.querySelector(".t-bartender").content,
     },
     beerColors: {
         "Ruined Childhood": "#75b2ff",
@@ -48,6 +52,7 @@ async function init() {
 
     prepareBeerStockStatusObjects(data.storage);
     prepareBeerTapChartObjects(data.taps);
+    prepareBartenderStatusObjects(data.bartenders);
 
     setInterval(function () {
         updateBeerTapStatus(data.taps);
@@ -71,6 +76,8 @@ async function getData() {
         // updateData(data);
 
         data = json;
+
+        console.log(data);
 
         // updateBeerTapStatus(data.taps);
 
@@ -132,6 +139,25 @@ function showBeerTapStatus(beerTapObject) {
         .setAttribute("data-beer", beerTapObject.beer);
 
     xAxis.append(templateClone);
+}
+
+function prepareBartenderStatusObjects(bartenders) {
+    // Resets the list
+    settings.hooks.beerStockStatusList.innerHTML = "";
+
+    // Show updated list
+    bartenders.forEach(showBartenderStatus);
+}
+
+function showBartenderStatus(bartenderObject) {
+    const templateClone = settings.templates.bartender.cloneNode(true);
+    const bartenderStatusList = settings.hooks.bartenderStatusList;
+
+    templateClone.querySelector(
+        ".bartender__name"
+    ).textContent = `${bartenderObject.name} ${bartenderObject.status} ${bartenderObject.statusDetail}`;
+
+    bartenderStatusList.append(templateClone);
 }
 
 function updateBeerTapStatus(beerTaps) {
@@ -243,15 +269,10 @@ function generateBeerBubbles(beerTapBar, numberOfBubbles) {
 
 function getRandomInteger(min, max, range = null) {
     if (range) {
-        // Return af random integer with steps / range
-        // E.g.
-        // min: 10
-        // max: 100
-        // random numbers: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+        // Return random integer with steps / range
         const steps = (max - min) / range + 1;
         return Math.floor(Math.random() * steps) * range + min;
-    } else {
-        // Return a random integer between min max parameters including min max
-        return Math.floor(Math.random() * (max - min + 1) + min);
     }
+    // Return a random integer between min max parameters including min max
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
