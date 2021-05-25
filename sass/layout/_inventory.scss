@@ -52,6 +52,7 @@ header {
         grid-template-areas:
             "beer-tank beer-tank beer-tank"
             "beer-stock beer-stock bartender-status";
+        grid-template-columns: 66vh 33vh;
     }
 }
 
@@ -156,10 +157,32 @@ header {
         margin-right: 1rem;
     }
 
+    &__x-axis-item {
+        // display: flex;
+        // flex-direction: column;
+        // justify-content: center;
+        text-align: center;
+    }
+
     &__x-axis-name {
         font-family: "Poppins", sans-serif;
         font-weight: 400;
         color: $bar-x-axis-color;
+        text-transform: none;
+        font-size: 1rem;
+    }
+
+    &__x-axis-percent {
+        padding: 0.5rem 1.5rem;
+        background-color: hsl(var(--bar-percentage), 100%, 40%);
+        border-radius: 2rem;
+        color: vars.$ui_bg_color;
+        font-family: "Poppins", sans-serif;
+        margin: 0 auto;
+        display: inline-block;
+        width: 85px;
+        text-align: center;
+        margin-bottom: 0.5rem;
     }
 
     &__y-axis {
@@ -297,12 +320,21 @@ header {
         &::before {
             width: 100%;
             height: calc(100% - var(--bar-percentage) * 1%);
+            transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+            will-change: height;
+        }
+
+        &__wave {
+            height: 50px;
+            width: 100%;
+            animation: waves ease-in-out 5s infinite;
         }
 
         &__liquid {
             border-radius: vars.$ui-corners vars.$ui-corners 0 0;
             width: 100%;
             height: calc(var(--bar-percentage) * 1%);
+            transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
         }
 
         &__bubble-container {
@@ -341,5 +373,58 @@ header {
     }
     100% {
         background-color: rgba(255, 255, 255, 0);
+    }
+}
+
+@keyframes waves {
+    0%,
+    100% {
+        clip-path: polygon(
+            0 8%,
+            7% 6%,
+            14% 5%,
+            21% 5%,
+            28% 6%,
+            34% 8%,
+            40% 12%,
+            46% 17%,
+            50% 20%,
+            54% 23%,
+            60% 25%,
+            66% 26%,
+            70% 26%,
+            77% 25%,
+            83% 23%,
+            89% 21%,
+            95% 19%,
+            100% 17%,
+            100% 100%,
+            0% 100%
+        );
+    }
+
+    50% {
+        clip-path: polygon(
+            0 15%,
+            9% 21%,
+            14% 23%,
+            18% 25%,
+            21% 26%,
+            30% 28%,
+            32% 28%,
+            40% 27%,
+            46% 26%,
+            52% 23%,
+            57% 19%,
+            62% 15%,
+            68% 11%,
+            73% 8%,
+            79% 6%,
+            86% 5%,
+            93% 5%,
+            100% 6%,
+            100% 100%,
+            0% 100%
+        );
     }
 }

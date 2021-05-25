@@ -15,6 +15,7 @@ let settings = {
         beerStock: document.querySelector(".t-beer-stock").content,
         beerTankBar: document.querySelector(".t-beer-tap").content,
         beerBubble: document.querySelector(".t-beer-bubble").content,
+        chartXAxisItem: document.querySelector(".t-chart-x-axis-item").content,
     },
     beerColors: {
         "Ruined Childhood": "#75b2ff",
@@ -88,20 +89,15 @@ function prepareBeerTapChartObjects(beerTaps) {
 
     // Show updated chart
     beerTaps.forEach((beerTap) => {
+        showBeerTapLiquid(beerTap);
         showBeerTapStatus(beerTap);
     });
 }
 
-function showBeerTapStatus(beerTapObject) {
+function showBeerTapLiquid(beerTapObject) {
     const beerTapChart = settings.hooks.beerTapChart;
     const templateClone = settings.templates.beerTankBar.cloneNode(true);
     const percentage = (beerTapObject.level / beerTapObject.capacity) * 100;
-    const xAxisElement = document.createElement("li");
-    xAxisElement.classList.add("chart__x-axis-name");
-    xAxisElement.innerHTML = beerTapObject.beer;
-
-    const xAxis = settings.hooks.beerTapXAxis;
-    xAxis.append(xAxisElement);
 
     templateClone
         .querySelector(".beer-tap")
@@ -116,15 +112,45 @@ function showBeerTapStatus(beerTapObject) {
     beerTapChart.append(beerWithBubbles);
 }
 
+function showBeerTapStatus(beerTapObject) {
+    const templateClone = settings.templates.chartXAxisItem.cloneNode(true);
+    const percentage = (beerTapObject.level / beerTapObject.capacity) * 100;
+    const xAxis = settings.hooks.beerTapXAxis;
+
+    templateClone
+        .querySelector(".chart__x-axis-item")
+        .style.setProperty("--bar-percentage", parseInt(percentage));
+
+    templateClone.querySelector(".chart__x-axis-name").textContent =
+        beerTapObject.beer;
+    templateClone.querySelector(
+        ".chart__x-axis-percent"
+    ).textContent = `${parseInt(percentage)}%`;
+
+    templateClone
+        .querySelector(".chart__x-axis-item")
+        .setAttribute("data-beer", beerTapObject.beer);
+
+    xAxis.append(templateClone);
+}
+
 function updateBeerTapStatus(beerTaps) {
     console.log(beerTaps);
 
     beerTaps.forEach((tap) => {
         const percentage = (tap.level / tap.capacity) * 100;
 
-        document
-            .querySelector(`[data-beer="${tap.beer}"]`)
-            .style.setProperty("--bar-percentage", percentage);
+        const dataHooks = document.querySelectorAll(
+            `[data-beer="${tap.beer}"]`
+        );
+
+        dataHooks.forEach((hook) =>
+            hook.style.setProperty("--bar-percentage", parseInt(percentage))
+        );
+
+        document.querySelector(
+            `.chart__x-axis-item[data-beer="${tap.beer}"] .chart__x-axis-percent`
+        ).textContent = `${parseInt(percentage)}%`;
     });
 }
 
