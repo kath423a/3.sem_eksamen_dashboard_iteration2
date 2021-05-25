@@ -11,14 +11,25 @@
     flex-grow: 0.3;
     background-color: #fbfbfb;
     margin-left: 70px;
-    text-align: center;
+    text-align: left;
+    margin-top: 10px;
+
+    h2 {
+      margin-bottom: 10px;
+    }
   }
 
   .order_info {
     flex-grow: 2;
     background-color: #fbfbfb;
     box-shadow: -8px 0 10px -6px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    text-align: left;
+    margin-top: 10px;
+
+    h2 {
+      margin-left: 30px;
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -46,6 +57,7 @@
   box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   text-align: left;
+  margin-top: 10px;
 
   h4,
   p {
