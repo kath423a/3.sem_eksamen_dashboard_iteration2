@@ -6,6 +6,7 @@ window.addEventListener("DOMContentLoaded", start);
 
 let data;
 let allOrders = [];
+let filter = "queue";
 
 const Order = {
   orderid: 0,
@@ -35,13 +36,15 @@ function loadJSON() {
       // when loaded, prepare objects
       data = jsonData;
       console.log(jsonData);
-      prepareObjects(jsonData.queue);
-    });
+      prepareObjects(jsonData[filter]);
 
-  //buildList();
+      setTimeout(loadJSON, 5000);
+    });
 }
 
 function prepareObjects(jsonData) {
+  const orders = [];
+
   jsonData.forEach((jsonObject) => {
     const order = Object.create(Order);
 
@@ -54,9 +57,10 @@ function prepareObjects(jsonData) {
     order.time = jsonObject.startTime;
     //order.total =
 
+    orders.push(order);
     allOrders.push(order);
   });
-  displayList(allOrders);
+  displayList(orders);
 }
 
 function displayList(orders) {
@@ -81,6 +85,10 @@ function displayOrder(order) {
 
 function selectFilter() {
   console.log(this.dataset.order);
+
+  filter = this.dataset.order;
+  console.log("filter is: ", filter);
+
   document.querySelector(".js_orders_list").innerHTML = "";
   prepareObjects(data[this.dataset.order]);
 }
