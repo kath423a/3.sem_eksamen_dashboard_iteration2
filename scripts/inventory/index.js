@@ -54,9 +54,9 @@ async function init() {
     prepareBeerTapChartObjects(data.taps);
     prepareBartenderStatusObjects(data.bartenders);
 
-    setInterval(function () {
-        updateBeerTapStatus(data.taps);
-    }, 5000);
+    // setInterval(function () {
+    //     updateBeerTapStatus(data.taps);
+    // }, 5000);
 }
 
 async function getData() {
@@ -218,7 +218,6 @@ function makeBeerBubbles(beerTapBar) {
     } = settings.beerBubbles;
 
     const randomAmountOfBubbles = getRandomInteger(minBubbles, maxBubbles);
-    console.log(randomAmountOfBubbles);
 
     const beerTapBarWithBubbles = generateBeerBubbles(
         beerTapBar,
