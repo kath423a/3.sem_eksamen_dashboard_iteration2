@@ -68,10 +68,30 @@
 
           <section class="inventory-section served">
             <h3 class="inventory-section__title">Served today</h3>
+            <div class="served_num_wrapper"></div>
           </section>
 
           <section class="inventory-section orders">
             <h3 class="inventory-section__title">Orders per employee</h3>
+            <div class="bartenders_wrapper">
+              <ul>
+                <li class="bartender Jonas">
+                  <img src="/images/employee-default.png" alt="bartender" class="bartender__image" />
+                  <h3 class="bartender_name">Jonas</h3>
+                  <div class="order_num_wrapper"></div>
+                </li>
+                <li class="bartender Peter">
+                  <img src="/images/employee-default.png" alt="bartender" class="bartender__image" />
+                  <h3 class="bartender_name">Peter</h3>
+                  <div class="order_num_wrapper"></div>
+                </li>
+                <li class="bartender Dannie">
+                  <img src="/images/employee-default.png" alt="bartender" class="bartender__image" />
+                  <h3 class="bartender_name">Dannie</h3>
+                  <div class="order_num_wrapper"></div>
+                </li>
+              </ul>
+            </div>
           </section>
 
           <section class="inventory-section revenue">
@@ -86,45 +106,14 @@
     </template>
 
     <template class="served_template">
-      <li class="beer-stock">
-        <div class="beer-stock__image-container">
-          <svg class="beer-stock__icon" width="52" height="65" viewBox="0 0 52 65" fill="#75B2FF" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0)">
-              <path
-                d="M25.0588 0.738434C32.5572 0.858034 38.948 1.20643 45.1724 2.97963C45.8907 3.18146 46.5972 3.42276 47.2888 3.70243C51.1264 5.26243 51.9688 8.13283 50.3568 12.0224C49.3052 14.7408 49.3238 17.7568 50.4088 20.462C51.1332 22.2999 51.1332 24.3442 50.4088 26.182C49.3688 29.1616 49.5404 32.3024 50.2476 35.3236C50.7 37.2632 50.9808 39.0572 50.1436 40.9396C49.9088 41.5906 49.8063 42.2818 49.842 42.9728C49.8108 46.02 49.8108 49.0672 49.842 52.1092C49.842 54.054 48.9788 55.5256 47.6944 56.9348C43.8152 61.1884 38.896 63.1332 33.3268 63.83C26.3536 64.6984 19.4896 64.4228 12.714 62.3896C8.77763 61.2092 6.01643 58.4896 3.44763 55.5724C2.68843 54.7092 2.40763 53.2532 2.29323 52.0312C2.11123 49.7484 2.35043 47.4344 2.19963 45.1464C2.08003 43.2328 1.56003 41.3764 1.37283 39.4888C1.21767 38.3476 1.26166 37.1882 1.50283 36.062C2.51683 32.1724 2.75083 28.366 1.34683 24.4816C1.00434 23.33 1.03529 22.0994 1.43523 20.9664C2.55843 17.7216 2.78203 14.56 1.39363 11.3724C0.12483 8.46563 1.20123 5.31443 4.09243 4.01443C8.32003 2.11643 12.818 1.58603 17.3316 1.15963C20.28 0.878834 23.1972 0.832034 25.0588 0.738434Z"
-              />
-              <path
-                d="M48.7448 5.4035C50.4764 6.4435 50.5128 7.6759 48.7708 8.6535C47.4219 9.40672 45.9866 9.99342 44.4964 10.4007C38.4228 12.0543 32.1984 12.4807 25.2564 12.4807C19.4168 12.4235 12.922 12.0439 6.6248 10.1251C5.34413 9.74077 4.12012 9.18821 2.9848 8.4819C1.6432 7.6343 1.6016 6.5111 2.9848 5.7155C4.44828 4.84575 6.0225 4.17758 7.6648 3.7291C16.0056 1.4879 24.5492 1.3007 33.0876 1.9663C37.2476 2.2939 41.4076 3.2351 45.5312 4.0463C46.6717 4.31291 47.7584 4.77188 48.7448 5.4035Z"
-              />
-              <path
-                d="M25.2389 12.0001C32.1793 12.0001 38.3929 11.5071 44.4456 9.5041C45.9325 9.0213 47.3653 8.32358 48.7126 7.4262C50.4516 6.2531 50.4152 4.768 48.6866 3.52626C47.7034 2.75955 46.6184 2.20032 45.4786 1.87268C41.3569 0.924211 37.2249 -0.205214 33.0565 -0.623288C24.5433 -1.37832 16.0145 -1.15368 7.67257 1.49828C6.03312 2.03645 4.46162 2.83824 3.00067 3.88193C1.64582 4.83664 1.68735 6.18446 3.00067 7.20157C4.13402 8.04912 5.35592 8.71218 6.63437 9.17338C12.9259 11.4759 19.4094 11.9314 25.2389 12.0001Z"
-                stroke="white"
-                stroke-miterlimit="10"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0">
-                <rect width="52" height="65" fill="white" />
-              </clipPath>
-            </defs>
-          </svg>
-          <span class="beer-stock__amount"></span>
-        </div>
-        <h3 class="beer-stock__name"></h3>
-      </li>
+      <p class="served_number"></p>
     </template>
 
     <template class="orders_template">
-      <li class="beer-tap">
-        <div class="beer-tap__liquid"></div>
-      </li>
+      <p class="orders_number"></p>
     </template>
 
-    <template class="revenue_template">
-      <div class="beer-tap__bubble-container">
-        <div class="beer-tap__bubble"></div>
-      </div>
-    </template>
+    <template class="revenue_template"> </template>
 
     <script src="./scripts/statistics/index.js" type="module" defer></script>
   </body>
