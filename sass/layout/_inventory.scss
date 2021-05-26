@@ -83,13 +83,13 @@ header {
 
 .beer-stock-status-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: $spacing--xsmall;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-column-gap: $spacing--xsmall;
+    grid-row-gap: $spacing;
     list-style: none;
 }
 
 .beer-stock {
-    max-width: 52px;
     display: flex;
     flex-direction: column;
 
@@ -98,6 +98,7 @@ header {
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-bottom: 0.25rem;
     }
 
     &__icon {
@@ -108,6 +109,8 @@ header {
     &__amount {
         color: #fff;
         position: absolute;
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
     }
 
     &__name {
@@ -115,6 +118,7 @@ header {
         color: #999999;
         font-size: 1rem;
         text-transform: none;
+        text-align: center;
     }
 }
 
@@ -128,15 +132,27 @@ header {
     gap: $spacing--small;
     align-items: center;
 
-    &__status {
-        height: 1em;
-        width: 1em;
-        background-color: green;
-        border-radius: 50%;
-        margin-left: auto;
+    &__name {
+        text-transform: none;
+        color: vars.$ui_color_dark;
+    }
 
-        &--break {
-            background-color: red;
+    &__task {
+        color: $bar-x-axis-color;
+        text-transform: none;
+    }
+
+    &__status {
+        padding: 0.2em 1em;
+        border-radius: 2em;
+        background-color: red;
+        color: vars.$ui_bg_color;
+        margin-left: auto;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.8rem;
+
+        &.is-ready {
+            background-color: green;
         }
     }
 }
@@ -173,14 +189,15 @@ header {
     }
 
     &__x-axis-percent {
-        padding: 0.5rem 1.5rem;
+        padding: 0.2em 1em;
+        border-radius: 2em;
+        font-size: 0.8rem;
         background-color: hsl(var(--bar-percentage), 100%, 40%);
-        border-radius: 2rem;
         color: vars.$ui_bg_color;
         font-family: "Poppins", sans-serif;
         margin: 0 auto;
         display: inline-block;
-        width: 85px;
+        width: 55px;
         text-align: center;
         margin-bottom: 0.5rem;
     }
@@ -192,6 +209,7 @@ header {
         flex-direction: row-reverse;
         justify-content: space-between;
         align-items: center;
+        margin-top: 1rem;
     }
 
     &__y-axis-name {
@@ -210,6 +228,7 @@ header {
         &__y-axis {
             margin-right: 1rem;
             flex-direction: column;
+            margin-top: 0;
         }
 
         &__x-axis {

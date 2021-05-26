@@ -78,6 +78,8 @@
                 </nav>
             </header>
             <main>
+                <h1>Inventory status</h1>
+                <span>Last updated 2 seconds ago</span>
                 <div class="inventory-grid">
                     <section
                         class="
@@ -131,7 +133,11 @@
         <template class="t-bartender">
             <li class="bartender">
                 <img src="#" alt="" class="bartender__image" />
-                <h3 class="bartender__name"></h3>
+                <h3>
+                    <span class="bartender__name"></span>
+                    <span class="bartender__task"></span>
+                </h3>
+
                 <span class="bartender__status"></span>
             </li>
         </template>

@@ -43,20 +43,59 @@ let settings = {
         maxDelay: 15000,
         rangeDelay: 100,
     },
+    bartender: {
+        tasks: {
+            waiting: {
+                text: "is waiting for new customers",
+                showOrderId: false,
+            },
+            startServing: {
+                text: "is serving order",
+                showOrderId: true,
+            },
+            reserveTap: {
+                text: "has reserved a tap",
+                showOrderId: false,
+            },
+            pourBeer: {
+                text: "is pouring beer for order",
+                showOrderId: true,
+            },
+            releaseTap: {
+                text: "is releasing a tap",
+                showOrderId: false,
+            },
+            receivePayment: {
+                text: "is receiving payment for order",
+                showOrderId: true,
+            },
+            endServing: {
+                text: "has ended serving for order",
+                showOrderId: true,
+            },
+            replaceKeg: {
+                text: "is replacing an empty keg",
+                showOrderId: false,
+            },
+        },
+        status: {
+            WORKING: "Busy",
+            READY: "Available",
+        },
+    },
 };
 
 let data = {};
 
 async function init() {
-    await getData();
+    const data = await getData();
 
-    prepareBeerStockStatusObjects(data.storage);
-    prepareBeerTapChartObjects(data.taps);
-    prepareBartenderStatusObjects(data.bartenders);
+    console.log(data);
 
-    // setInterval(function () {
-    //     updateBeerTapStatus(data.taps);
-    // }, 5000);
+    buildView(data);
+
+    // Call getQueue again, to wait for the next update to the queue
+    setTimeout(init, 5000);
 }
 
 async function getData() {
@@ -73,22 +112,17 @@ async function getData() {
         await getData();
     } else {
         const json = await response.json();
-        // updateData(data);
 
         data = json;
 
-        console.log(data);
-
-        // updateBeerTapStatus(data.taps);
-
-        // Call getQueue again, to wait for the next update to the queue
-        await setTimeout(await getData, 5000);
+        return json;
     }
 }
 
 function prepareBeerTapChartObjects(beerTaps) {
-    // Resets the chart
+    // Resets the chart & xAxis
     settings.hooks.beerTapChart.innerHTML = "";
+    settings.hooks.beerTapXAxis.innerHTML = "";
 
     // Set amount of beers available from the bar
     settings.hooks.beerTapChart.style.setProperty("--beers", beerTaps.length);
@@ -143,7 +177,7 @@ function showBeerTapStatus(beerTapObject) {
 
 function prepareBartenderStatusObjects(bartenders) {
     // Resets the list
-    settings.hooks.beerStockStatusList.innerHTML = "";
+    settings.hooks.bartenderStatusList.innerHTML = "";
 
     // Show updated list
     bartenders.forEach(showBartenderStatus);
@@ -152,32 +186,38 @@ function prepareBartenderStatusObjects(bartenders) {
 function showBartenderStatus(bartenderObject) {
     const templateClone = settings.templates.bartender.cloneNode(true);
     const bartenderStatusList = settings.hooks.bartenderStatusList;
+    const task = settings.bartender.tasks[bartenderObject.statusDetail].text;
+    const status = settings.bartender.status[bartenderObject.status];
+    const orderId = bartenderObject.servingCustomer;
+    const name = bartenderObject.name;
+    const showOrderId =
+        settings.bartender.tasks[bartenderObject.statusDetail].showOrderId;
 
-    templateClone.querySelector(
-        ".bartender__name"
-    ).textContent = `${bartenderObject.name} ${bartenderObject.status} ${bartenderObject.statusDetail}`;
+    templateClone.querySelector(".bartender__name").textContent = name;
+    templateClone.querySelector(".bartender__task").textContent = "lol";
+
+    if (showOrderId) {
+        templateClone.querySelector(
+            ".bartender__task"
+        ).textContent = ` ${task} #${orderId}`;
+    } else {
+        templateClone.querySelector(
+            ".bartender__task"
+        ).textContent = ` ${task}`;
+    }
+
+    templateClone.querySelector(".bartender__image").src =
+        "images/employee-default.png";
+
+    templateClone.querySelector(".bartender__status").textContent = status;
+
+    if (bartenderObject.status === "READY") {
+        templateClone
+            .querySelector(".bartender__status")
+            .classList.add("is-ready");
+    }
 
     bartenderStatusList.append(templateClone);
-}
-
-function updateBeerTapStatus(beerTaps) {
-    console.log(beerTaps);
-
-    beerTaps.forEach((tap) => {
-        const percentage = (tap.level / tap.capacity) * 100;
-
-        const dataHooks = document.querySelectorAll(
-            `[data-beer="${tap.beer}"]`
-        );
-
-        dataHooks.forEach((hook) =>
-            hook.style.setProperty("--bar-percentage", parseInt(percentage))
-        );
-
-        document.querySelector(
-            `.chart__x-axis-item[data-beer="${tap.beer}"] .chart__x-axis-percent`
-        ).textContent = `${parseInt(percentage)}%`;
-    });
 }
 
 function prepareBeerStockStatusObjects(beersInStock) {
@@ -216,6 +256,8 @@ function makeBeerBubbles(beerTapBar) {
         maxDelay,
         rangeDelay,
     } = settings.beerBubbles;
+
+    // const percentage = (beerTapBar.level / beerTapObject.capacity) * 100;
 
     const randomAmountOfBubbles = getRandomInteger(minBubbles, maxBubbles);
 
@@ -274,4 +316,10 @@ function getRandomInteger(min, max, range = null) {
     }
     // Return a random integer between min max parameters including min max
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function buildView(data) {
+    prepareBeerStockStatusObjects(data.storage);
+    prepareBeerTapChartObjects(data.taps);
+    prepareBartenderStatusObjects(data.bartenders);
 }
