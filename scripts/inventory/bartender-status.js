@@ -1,8 +1,12 @@
 import { settings } from "../modules/settings";
+import { sortBy } from "../modules/helpers";
 
 export function prepareBartenderStatusObjects(bartenders) {
     // Resets the list
     settings.hooks.bartenderStatusList.innerHTML = "";
+
+    // Sort bartenders A - Z
+    bartenders.sort(sortBy("name"));
 
     // Show updated list
     bartenders.forEach(showBartenderStatus);

@@ -10,6 +10,7 @@ $bar-background-color: #f4f4f4;
 $bar-x-axis-color: #999999;
 
 $breakpoint-medium: 1100px;
+$breakpoint-large: 1250px;
 
 :root {
     --spacing: #{$spacing / 3};
@@ -132,6 +133,9 @@ header {
     &__icon {
         --keg-color: purple;
         fill: var(--keg-color);
+        width: 100%;
+        height: auto;
+        max-width: 80px;
     }
 
     &__amount {
@@ -214,7 +218,7 @@ header {
         font-size: 1.2rem;
     }
 
-    @media (min-width: $breakpoint-medium) {
+    @media (min-width: $breakpoint-large) {
         grid-template-areas:
             "y chart"
             "z x";
@@ -254,7 +258,7 @@ header {
 .beer-bar {
     height: 100%;
     display: grid;
-    grid-template-rows: auto 80px;
+    grid-template-rows: auto 100px;
     gap: 1rem;
 
     &__liquid-container {
@@ -318,7 +322,8 @@ header {
     will-change: height;
     transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
     bottom: -20px;
-    height: calc(var(--beer-tap-chart-height) - 2rem);
+    // height: calc(var(--beer-tap-chart-height) - 2rem);
+    height: calc(var(--bar-percentage) * 1%);
     left: 0;
 
     &__bubble {

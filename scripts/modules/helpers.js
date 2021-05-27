@@ -30,3 +30,9 @@ export async function getData() {
         return json;
     }
 }
+
+export function sortBy(field) {
+    return function (a, b) {
+        return (a[field] > b[field]) - (a[field] < b[field]);
+    };
+}

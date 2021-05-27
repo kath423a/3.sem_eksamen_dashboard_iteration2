@@ -1,5 +1,6 @@
 import { settings } from "../modules/settings";
 import { makeBeerBubbles } from "./beer-bubbles";
+import { sortBy } from "../modules/helpers";
 
 export function prepareBeerTapChartObjects(beerTaps) {
     // Resets the chart & xAxis
@@ -7,6 +8,9 @@ export function prepareBeerTapChartObjects(beerTaps) {
 
     // Set amount of beers available from the bar
     settings.hooks.beerTapChart.style.setProperty("--beers", beerTaps.length);
+
+    // Sort beers from A - Z
+    beerTaps.sort(sortBy("id"));
 
     // Show updated chart
     beerTaps.forEach((beerTap) => {
@@ -39,26 +43,4 @@ function showBeerTapLiquid(beerTapObject) {
     const beerWithBubbles = makeBeerBubbles(templateClone);
 
     beerTapChart.append(beerWithBubbles);
-}
-
-function showBeerTapStatus(beerTapObject) {
-    const templateClone = settings.templates.chartXAxisItem.cloneNode(true);
-    const percentage = (beerTapObject.level / beerTapObject.capacity) * 100;
-    const xAxis = settings.hooks.beerTapXAxis;
-
-    templateClone
-        .querySelector(".chart__x-axis-item")
-        .style.setProperty("--bar-percentage", parseInt(percentage));
-
-    templateClone.querySelector(".chart__x-axis-name").textContent =
-        beerTapObject.beer;
-    templateClone.querySelector(
-        ".chart__x-axis-percent"
-    ).textContent = `${parseInt(percentage)}%`;
-
-    templateClone
-        .querySelector(".chart__x-axis-item")
-        .setAttribute("data-beer", beerTapObject.beer);
-
-    xAxis.append(templateClone);
 }

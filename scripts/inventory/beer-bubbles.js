@@ -5,8 +5,6 @@ export function makeBeerBubbles(beerTapBar) {
     // Destructoring
     const { minBubbles, maxBubbles } = settings.beerBubbles;
 
-    // const percentage = (beerTapBar.level / beerTapObject.capacity) * 100;
-
     const randomAmountOfBubbles = getRandomInteger(minBubbles, maxBubbles);
 
     const beerTapBarWithBubbles = generateBeerBubbles(
@@ -27,6 +25,11 @@ function generateBeerBubbles(beerTapBar, numberOfBubbles) {
         maxDelay,
         rangeDelay,
     } = settings.beerBubbles;
+
+    console.log(beerTapBar);
+
+    const liquidPercentage = (beerTapBar.level / beerTapBar.capacity) * 100;
+    console.log(liquidPercentage);
 
     // for number of bubbles... make a bubble
     for (let index = 1; index <= numberOfBubbles; index++) {
