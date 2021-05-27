@@ -18,9 +18,16 @@
       "revenue revenue revenue";
   }
 
-  .queue_number {
+  .queue_number,
+  .served_number {
     font-size: 7rem;
     text-align: center;
     font-weight: 800;
+  }
+  .order_num_wrapper {
+    margin-left: auto;
+  }
+  .bartender_name {
+    font-weight: 400;
   }
 }
