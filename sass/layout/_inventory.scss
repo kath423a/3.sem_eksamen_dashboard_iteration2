@@ -35,11 +35,39 @@ header {
     }
 }
 
+.page-header {
+    grid-area: page-header;
+}
+
+.page-content {
+    grid-area: page-content;
+}
+
+.page-info {
+    grid-area: page-info;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 $spacing;
+    background-color: vars.$ui_bg_color;
+    box-shadow: vars.$ui-shadow;
+
+    &__status {
+        font-family: "Poppins", sans-serif;
+    }
+}
+
 .inventory-dashboard-grid {
     display: grid;
+    grid-template-rows: 70px auto;
 
+    grid-template-areas: "page-info" "page-content";
     @media (min-width: $breakpoint-medium) {
-        grid-template-columns: 70px 1fr;
+        grid-template-areas:
+            "page-header page-info"
+            "page-header page-content";
+        grid-template-columns: 70px auto;
+        grid-template-rows: 70px auto;
     }
 }
 
@@ -50,9 +78,9 @@ header {
 
     @media (min-width: $breakpoint-medium) {
         grid-template-areas:
-            "beer-tank beer-tank beer-tank"
-            "beer-stock beer-stock bartender-status";
-        grid-template-columns: 66vh 33vh;
+            "beer-tank beer-tank"
+            "beer-stock bartender-status";
+        grid-template-columns: 1fr 1fr;
     }
 }
 
@@ -123,14 +151,21 @@ header {
 }
 
 .bartender-status-list {
-    display: grid;
+    display: inline-grid;
     gap: $spacing--xsmall;
 }
 
 .bartender {
     display: flex;
-    gap: $spacing--small;
+    gap: $spacing--xsmall;
     align-items: center;
+
+    &__image {
+        width: 48px;
+        border-radius: 50%;
+        border: 3px solid vars.$bg_color;
+        box-shadow: vars.$ui-shadow;
+    }
 
     &__name {
         text-transform: none;
@@ -140,6 +175,7 @@ header {
     &__task {
         color: $bar-x-axis-color;
         text-transform: none;
+        font-weight: 400;
     }
 
     &__status {
@@ -160,56 +196,15 @@ header {
 .chart {
     display: grid;
     grid-template-areas:
-        "x chart"
-        "z y";
-    grid-template-columns: 120px 1fr;
-    grid-template-rows: 1fr auto;
-
-    &__x-axis {
-        list-style: none;
-        grid-area: x;
-        display: grid;
-        gap: 4rem;
-        margin-right: 1rem;
-    }
-
-    &__x-axis-item {
-        // display: flex;
-        // flex-direction: column;
-        // justify-content: center;
-        text-align: center;
-    }
-
-    &__x-axis-name {
-        font-family: "Poppins", sans-serif;
-        font-weight: 400;
-        color: $bar-x-axis-color;
-        text-transform: none;
-        font-size: 1rem;
-    }
-
-    &__x-axis-percent {
-        padding: 0.2em 1em;
-        border-radius: 2em;
-        font-size: 0.8rem;
-        background-color: hsl(var(--bar-percentage), 100%, 40%);
-        color: vars.$ui_bg_color;
-        font-family: "Poppins", sans-serif;
-        margin: 0 auto;
-        display: inline-block;
-        width: 55px;
-        text-align: center;
-        margin-bottom: 0.5rem;
-    }
+        "chart"
+        "x";
+    gap: 1rem;
 
     &__y-axis {
         list-style: none;
         grid-area: y;
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: space-between;
-        align-items: center;
         margin-top: 1rem;
+        display: none;
     }
 
     &__y-axis-name {
@@ -224,20 +219,15 @@ header {
             "y chart"
             "z x";
         grid-template-columns: auto 1fr;
+        grid-template-rows: 1fr auto;
 
         &__y-axis {
-            margin-right: 1rem;
+            display: flex;
             flex-direction: column;
-            margin-top: 0;
-        }
-
-        &__x-axis {
-            margin-top: 1rem;
-            margin-right: 0;
-        }
-
-        &__x-axis-name {
-            text-align: center;
+            justify-content: space-between;
+            margin: 0;
+            height: calc(100% - 100px);
+            padding-right: $spacing--xsmall;
         }
     }
 }
@@ -248,76 +238,88 @@ header {
     list-style: none;
     display: grid;
     align-items: flex-end;
-    border-bottom: 1px solid $bar-chart-border-color;
-    border-left: 1px solid $bar-chart-border-color;
-    border-bottom-left-radius: vars.$ui-corners;
+    // border-bottom: 1px solid $bar-chart-border-color;
+    // border-left: 1px solid $bar-chart-border-color;
+    // border-bottom-left-radius: vars.$ui-corners;
     grid-area: chart;
-
-    @media (min-width: $breakpoint-medium) {
-        height: 400px;
-    }
-}
-
-.beer-tap-chart,
-.chart__x-axis {
     gap: 2rem;
-    grid-template-rows: repeat(var(--beers), 60px);
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 
     @media (min-width: $breakpoint-medium) {
-        grid-template-columns: repeat(var(--beers), 100px);
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
         grid-template-rows: none;
-        padding: 0 2rem;
         justify-content: space-between;
     }
 }
 
-.beer-tap {
-    background-color: $bar-background-color;
+.beer-bar {
     height: 100%;
-    border-radius: 0 vars.$ui-corners vars.$ui-corners 0;
-    display: flex;
-    align-items: flex-end;
-    position: relative;
-    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 80px;
+    gap: 1rem;
 
-    &::before {
-        content: "";
-        position: absolute;
-        background-color: $bar-background-color;
-        width: calc(100% - var(--bar-percentage) * 1%);
-        height: 100%;
-        top: 0;
-        right: 0;
-        z-index: 1;
-    }
-
-    &__liquid {
-        width: calc(var(--bar-percentage) * 1%);
-        height: 100%;
-        background-color: $bar-color;
-        border-radius: 0 vars.$ui-corners vars.$ui-corners 0;
+    &__liquid-container {
+        position: relative;
         overflow: hidden;
-        will-change: width;
-        transition: width 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-    }
-
-    &__bubble-container {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        animation-name: bubbles-move-x;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-        animation-delay: calc(var(--beer-bubble-delay) * 1ms);
-        animation-duration: calc(var(--beer-bubble-duration) * 1ms);
-        left: -20px;
-        top: 0;
+        background-color: $bar-background-color;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        // background-color: rgba(255, 0, 255, 0.2);
+        border-radius: vars.$ui-corners;
+        min-height: 200px;
     }
+
+    &__liquid {
+        width: 100%;
+        height: calc(var(--bar-percentage) * 1%);
+        background-color: $bar-color;
+        overflow: hidden;
+        will-change: height;
+        transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    }
+
+    &__information {
+        text-align: center;
+    }
+
+    &__name {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        color: $bar-x-axis-color;
+        text-transform: none;
+        font-size: 1rem;
+    }
+
+    &__percent {
+        padding: 0.2em 1em;
+        border-radius: 2em;
+        font-size: 0.8rem;
+        background-color: hsl(var(--bar-percentage), 100%, 40%);
+        color: vars.$ui_bg_color;
+        font-family: "Poppins", sans-serif;
+        margin: 0 auto;
+        display: inline-block;
+        width: 55px;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.beer-bubble {
+    position: absolute;
+    width: 100%;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-delay: calc(var(--beer-bubble-delay) * 1ms);
+    animation-duration: calc(var(--beer-bubble-duration) * 1ms);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    animation-name: bubbles-move-y;
+    will-change: height;
+    transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    bottom: -20px;
+    height: calc(var(--beer-tap-chart-height) - 2rem);
+    left: 0;
 
     &__bubble {
         width: 20px;
@@ -329,60 +331,15 @@ header {
         animation-iteration-count: infinite;
         animation-delay: calc(var(--beer-bubble-delay) * 1ms);
         animation-duration: calc(var(--beer-bubble-duration) * 1ms);
-        top: calc(var(--beer-bubble-x) * 1px);
         position: absolute;
-    }
-
-    @media (min-width: $breakpoint-medium) {
-        border-radius: vars.$ui-corners vars.$ui-corners 0 0;
-
-        &::before {
-            width: 100%;
-            height: calc(100% - var(--bar-percentage) * 1%);
-            transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-            will-change: height;
-        }
-
-        &__wave {
-            height: 50px;
-            width: 100%;
-            animation: waves ease-in-out 5s infinite;
-        }
-
-        &__liquid {
-            border-radius: vars.$ui-corners vars.$ui-corners 0 0;
-            width: 100%;
-            height: calc(var(--bar-percentage) * 1%);
-            transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-        }
-
-        &__bubble-container {
-            height: calc(var(--beer-tap-chart-height) - 2rem);
-            width: 100%;
-            animation-name: bubbles-move-y;
-            will-change: height;
-            transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-            left: 0;
-            bottom: -20px;
-            top: initial;
-        }
-
-        &__bubble {
-            top: initial;
-            left: calc(var(--beer-bubble-x) * 1px);
-        }
+        left: calc(var(--beer-bubble-x) * 1px);
+        bottom: 0;
     }
 }
 
 @keyframes bubbles-move-y {
     100% {
         transform: translateY(-100%);
-    }
-}
-
-@keyframes bubbles-move-x {
-    100% {
-        transform: translateX(100%);
     }
 }
 
