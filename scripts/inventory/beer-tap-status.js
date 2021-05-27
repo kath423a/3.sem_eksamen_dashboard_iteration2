@@ -3,11 +3,13 @@ import { makeBeerBubbles } from "./beer-bubbles";
 import { sortBy } from "../modules/helpers";
 
 export function prepareBeerTapChartObjects(beerTaps) {
-    // Resets the chart & xAxis
-    settings.hooks.beerTapChart.innerHTML = "";
+    const chart = settings.hooks.beerTapChart;
+
+    // Resets the chart
+    chart.innerHTML = "";
 
     // Set amount of beers available from the bar
-    settings.hooks.beerTapChart.style.setProperty("--beers", beerTaps.length);
+    chart.style.setProperty("--beers", beerTaps.length);
 
     // Sort beers from A - Z
     beerTaps.sort(sortBy("id"));
@@ -20,27 +22,36 @@ export function prepareBeerTapChartObjects(beerTaps) {
 
 function showBeerTapLiquid(beerTapObject) {
     const beerTapChart = settings.hooks.beerTapChart;
-    const templateClone = settings.templates.beerBar.cloneNode(true);
-    const percentage = parseInt(
-        (beerTapObject.level / beerTapObject.capacity) * 100
-    );
+    const template = settings.templates.beerBar.cloneNode(true);
+    const { beer, level, capacity } = beerTapObject;
+    const percentage = parseInt((level / capacity) * 100);
 
-    templateClone
+    template
         .querySelector(".beer-bar")
         .style.setProperty("--bar-percentage", percentage);
 
-    templateClone
-        .querySelector(".beer-bar")
-        .setAttribute("data-beer", beerTapObject.beer);
+    template.querySelector(".beer-bar").setAttribute("data-beer", beer);
 
-    templateClone.querySelector(".beer-bar__name").textContent =
-        beerTapObject.beer;
+    template.querySelector(".beer-bar__name").textContent = beer;
 
-    templateClone.querySelector(
-        ".beer-bar__percent"
-    ).textContent = `${percentage}%`;
+    template.querySelector(".beer-bar__percent").textContent = `${percentage}%`;
 
-    const beerWithBubbles = makeBeerBubbles(templateClone);
+    const beerWithBubbles = makeBeerBubbles(template);
 
     beerTapChart.append(beerWithBubbles);
+}
+
+export function updateBeerTaps(data) {
+    const beerTabs = settings.hooks.beerTapChart.querySelectorAll(".beer-bar");
+
+    beerTabs.forEach((tab, index) => {
+        const { level, capacity, beer } = data[index];
+        const percentage = parseInt((level / capacity) * 100);
+
+        tab.setAttribute("data-beer", beer);
+        tab.style.setProperty("--bar-percentage", percentage);
+
+        tab.querySelector(".beer-bar__name").textContent = beer;
+        tab.querySelector(".beer-bar__percent").textContent = `${percentage}%`;
+    });
 }

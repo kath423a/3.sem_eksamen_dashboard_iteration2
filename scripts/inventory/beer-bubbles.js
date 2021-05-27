@@ -33,7 +33,7 @@ function generateBeerBubbles(beerTapBar, numberOfBubbles) {
 
     // for number of bubbles... make a bubble
     for (let index = 1; index <= numberOfBubbles; index++) {
-        const templateClone = settings.templates.beerBubble.cloneNode(true);
+        const template = settings.templates.beerBubble.cloneNode(true);
         const delay = getRandomInteger(minDelay, maxDelay, rangeDelay);
         const duration = getRandomInteger(
             minDuration,
@@ -41,17 +41,17 @@ function generateBeerBubbles(beerTapBar, numberOfBubbles) {
             rangeDuration
         );
 
-        templateClone
+        template
             .querySelector(".beer-bubble")
             .style.setProperty("--beer-bubble-delay", delay);
-        templateClone
+        template
             .querySelector(".beer-bubble")
             .style.setProperty("--beer-bubble-duration", duration);
-        templateClone
+        template
             .querySelector(".beer-bubble")
             .style.setProperty("--beer-bubble-x", getRandomInteger(1, 100));
 
-        beerTapBar.querySelector(".beer-bar__liquid").append(templateClone);
+        beerTapBar.querySelector(".beer-bar__liquid").append(template);
     }
 
     return beerTapBar;

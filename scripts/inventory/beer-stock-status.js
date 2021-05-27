@@ -2,7 +2,8 @@ import { settings } from "../modules/settings";
 
 export function prepareBeerStockStatusObjects(beersInStock) {
     // Resets the list
-    settings.hooks.beerStockStatusList.innerHTML = "";
+    const list = settings.hooks.beerStockStatusList;
+    list.innerHTML = "";
 
     // Show updated list
     beersInStock.forEach((beer) => {
@@ -11,15 +12,16 @@ export function prepareBeerStockStatusObjects(beersInStock) {
 }
 
 function showBeerStockStatus(beerObject) {
-    const templateClone = settings.templates.beerStock.cloneNode(true);
+    const list = settings.hooks.beerStockStatusList;
+    const template = settings.templates.beerStock.cloneNode(true);
+    const color = settings.beerColors[beerObject.name];
+    const { name, amount } = beerObject;
 
-    templateClone
+    template
         .querySelector(".beer-stock__icon")
-        .style.setProperty("--keg-color", settings.beerColors[beerObject.name]);
-    templateClone.querySelector(".beer-stock__amount").innerHTML =
-        beerObject.amount;
-    templateClone.querySelector(".beer-stock__name").innerHTML =
-        beerObject.name;
+        .style.setProperty("--keg-color", color);
+    template.querySelector(".beer-stock__amount").innerHTML = amount;
+    template.querySelector(".beer-stock__name").innerHTML = name;
 
-    settings.hooks.beerStockStatusList.append(templateClone);
+    list.append(template);
 }

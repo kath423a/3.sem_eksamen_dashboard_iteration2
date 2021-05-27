@@ -3,7 +3,8 @@ import { sortBy } from "../modules/helpers";
 
 export function prepareBartenderStatusObjects(bartenders) {
     // Resets the list
-    settings.hooks.bartenderStatusList.innerHTML = "";
+    const list = settings.hooks.bartenderStatusList;
+    list.innerHTML = "";
 
     // Sort bartenders A - Z
     bartenders.sort(sortBy("name"));
@@ -13,38 +14,35 @@ export function prepareBartenderStatusObjects(bartenders) {
 }
 
 function showBartenderStatus(bartenderObject) {
-    const templateClone = settings.templates.bartender.cloneNode(true);
-    const bartenderStatusList = settings.hooks.bartenderStatusList;
-    const task = settings.bartender.tasks[bartenderObject.statusDetail].text;
-    const status = settings.bartender.status[bartenderObject.status];
-    const orderId = bartenderObject.servingCustomer;
-    const name = bartenderObject.name;
-    const showOrderId =
-        settings.bartender.tasks[bartenderObject.statusDetail].showOrderId;
+    const template = settings.templates.bartender.cloneNode(true);
+    const list = settings.hooks.bartenderStatusList;
 
-    templateClone.querySelector(".bartender__name").textContent = name;
+    const {
+        name,
+        status,
+        statusDetail,
+        servingCustomer: orderId,
+    } = bartenderObject;
+
+    const task = settings.bartender.tasks[statusDetail].text;
+    const statusName = settings.bartender.status[status];
+    const showOrderId = settings.bartender.tasks[statusDetail].showOrderId;
 
     if (showOrderId) {
-        templateClone.querySelector(
+        template.querySelector(
             ".bartender__task"
         ).textContent = ` ${task} #${orderId}`;
     } else {
-        templateClone.querySelector(
-            ".bartender__task"
-        ).textContent = ` ${task}`;
+        template.querySelector(".bartender__task").textContent = ` ${task}`;
     }
 
-    templateClone.querySelector(
-        ".bartender__image"
-    ).src = `bartenders/${name}.jpg`;
-
-    templateClone.querySelector(".bartender__status").textContent = status;
-
-    if (bartenderObject.status === "READY") {
-        templateClone
-            .querySelector(".bartender__status")
-            .classList.add("is-ready");
+    if (status === "READY") {
+        template.querySelector(".bartender__status").classList.add("is-ready");
     }
 
-    bartenderStatusList.append(templateClone);
+    template.querySelector(".bartender__name").textContent = name;
+    template.querySelector(".bartender__image").src = `bartenders/${name}.jpg`;
+    template.querySelector(".bartender__status").textContent = statusName;
+
+    list.append(template);
 }

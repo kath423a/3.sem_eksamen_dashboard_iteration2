@@ -1,6 +1,6 @@
 import "../../sass/index.scss";
 import { prepareBartenderStatusObjects } from "./bartender-status";
-import { prepareBeerTapChartObjects } from "./beer-tap-status";
+import { prepareBeerTapChartObjects, updateBeerTaps } from "./beer-tap-status";
 import { prepareBeerStockStatusObjects } from "./beer-stock-status";
 import { getData } from "../modules/helpers";
 
@@ -13,8 +13,7 @@ async function init() {
 
     buildView(data);
 
-    // Call getQueue again, to wait for the next update to the queue
-    // setTimeout(init, 5000);
+    updateView();
 }
 
 function buildView(data) {
@@ -23,4 +22,15 @@ function buildView(data) {
     prepareBeerStockStatusObjects(storage);
     prepareBeerTapChartObjects(taps);
     prepareBartenderStatusObjects(bartenders);
+}
+
+async function updateView() {
+    const data = await getData();
+
+    const { storage, taps, bartenders } = data;
+
+    updateBeerTaps(taps);
+
+    // Call getQueue again, to wait for the next update to the queue
+    setTimeout(updateView, 5000);
 }
