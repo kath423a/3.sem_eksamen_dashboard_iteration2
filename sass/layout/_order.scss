@@ -12,7 +12,8 @@
     background-color: #fbfbfb;
     margin-left: 70px;
     text-align: left;
-    margin-top: 10px;
+    margin-top: 20px;
+    box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
 
     h2 {
       margin-bottom: 10px;
@@ -22,9 +23,9 @@
   .order_info {
     flex-grow: 2;
     background-color: #fbfbfb;
-    box-shadow: -8px 0 10px -6px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
     text-align: left;
-    margin-top: 10px;
+    margin-top: 20px;
 
     h2 {
       margin-left: 30px;
@@ -34,34 +35,57 @@
 }
 
 .order_status_tabs {
-  width: 300px;
-  height: 31px;
-  background: #fbfbfb;
-  box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
+  //   width: 100%;
+  //   height: 31px;
+  //   background: #fbfbfb;
+  //   box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
+  //   border-radius: 5px;
+  //   display: flex;
+  background-color: white;
+  box-shadow: 0.5px 0.5px 2px #86868644;
   border-radius: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 3px 3px;
+  margin-top: 35px;
+  margin-bottom: 15px;
 
   button {
-    background: #343331;
-    border-radius: 5px;
-    color: white;
+    // background: #fbfbfb;
+    // border-radius: 5px;
+    // color: #a5a5a5;
+    // border: none;
+    // width: 100%;
+    // height: 24px;
+    // text-transform: initial;
+
+    color: grey;
+    text-transform: none;
+    font-weight: 100;
+    background-color: transparent;
     border: none;
-    width: 67px;
-    height: 24px;
+    height: 25px;
+    font-size: 12px;
   }
 }
 
 .orders_pop {
-  width: 300px;
+  width: 100%;
   height: 99px;
   background: #fbfbfb;
   box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   text-align: left;
   margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
 
   h4,
   p {
     margin-left: 10px;
+    margin-top: 20px;
   }
 }
 
@@ -73,14 +97,34 @@
 .orders_pop_long {
   display: flex;
   justify-content: space-between;
-  width: 945px;
+  width: 100%;
   height: 99px;
   background: #ffffff;
   box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  margin-top: 10px;
 
   p {
     margin-right: 30px;
+    align-self: center;
+  }
+
+  .beer_name_price_column {
+    display: flex;
+    max-width: 250px;
+
+    .beer_name_price_column_inner {
+      flex-direction: row;
+      align-self: center;
+
+      .beer_price {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  .quantity {
+    margin-left: -60px;
   }
 }
 
@@ -96,5 +140,47 @@
     border: none;
     width: 198px;
     height: 34px;
+  }
+}
+
+// MEDIA QUARIES
+
+@media (max-width: 800px) {
+  #order_dashboard_wrapper {
+    .inner_wrapper {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .order_status_tabs {
+      width: 100%;
+    }
+
+    .orders_pop {
+      width: 100%;
+    }
+
+    .order_list {
+      flex-grow: 1;
+      background-color: #fbfbfb;
+      margin-left: initial;
+      text-align: left;
+      margin-top: 20px;
+      box-shadow: -8px 0 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    .order_info {
+      flex-grow: 1;
+      background-color: #fbfbfb;
+      box-shadow: -8px 0 10px -6px rgba(0, 0, 0, 0.1);
+      //box-shadow: 2px 4px 7px rgb(0 0 0 / 10%);
+      text-align: left;
+      margin-top: 20px;
+
+      h2 {
+        margin-left: 10px;
+        margin-bottom: 10px;
+      }
+    }
   }
 }

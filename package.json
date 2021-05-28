@@ -11,6 +11,7 @@
     "vite": "^2.2.3"
   },
   "dependencies": {
+    "dayjs": "^1.10.5"
     "chart.js": "^3.3.0"
   }
 }
