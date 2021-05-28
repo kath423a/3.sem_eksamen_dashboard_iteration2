@@ -1,3 +1,5 @@
+@use "../abstracts/vars";
+
 body {
   height: 100%;
   margin: 0;
@@ -53,7 +55,7 @@ body {
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: vars.$breakpoint-medium - 1) {
   #menubar {
     display: flex;
     flex-direction: row;

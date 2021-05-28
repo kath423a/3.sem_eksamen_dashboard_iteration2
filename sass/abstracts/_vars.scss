@@ -19,3 +19,28 @@ $ui_bg_color: #fff;
 // Cosmetics
 $ui-corners: 5px;
 $ui-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
+
+$spacing: 3rem;
+$spacing--small: 2rem;
+$spacing--xsmall: 1rem;
+$flow-space: 1rem;
+$bar-color: #df8d03;
+$bar-chart-border-color: #c7c7c7;
+$bar-background-color: #f4f4f4;
+$bar-x-axis-color: #999999;
+
+$breakpoint-medium: 1100px;
+$breakpoint-large: 1250px;
+
+:root {
+  --spacing: #{$spacing / 3};
+  --spacing--small: #{$spacing--small / 3};
+  --spacing--xsmall: #{$spacing--xsmall / 3};
+  --beer-tap-chart-height: 400px;
+}
+
+@media (min-width: $breakpoint-medium) {
+  :root {
+    --spacing: #{$spacing};
+  }
+}

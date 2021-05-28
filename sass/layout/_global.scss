@@ -1,0 +1,8 @@
+@use "../abstracts/vars";
+
+.board {
+  background-color: vars.$ui_bg_color;
+  box-shadow: vars.$ui-shadow;
+  border-radius: vars.$ui-corners;
+  padding: var(--spacing);
+}
