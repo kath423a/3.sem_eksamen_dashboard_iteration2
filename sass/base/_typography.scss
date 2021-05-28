@@ -2,33 +2,34 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Train+One&display=swap");
 
 h1 {
-    font-family: "Train One", cursive;
-    color: vars.$ui_color_dark;
-    text-transform: uppercase;
+  font-family: "Train One", cursive;
+  color: vars.$ui_color_dark;
+  text-transform: uppercase;
 }
 
 h2 {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    color: vars.$ui_color_dark;
-    text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: vars.$ui_color_dark;
+  text-transform: uppercase;
 }
 
 h3 {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    color: vars.$ui_color_dark;
-    text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: vars.$ui_color_dark;
+  text-transform: uppercase;
 }
 
-p {
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
-    color: vars.$ui_color_dark;
+p,
+li {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  color: vars.$ui_color_dark;
 }
 button {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    color: white;
-    text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
 }

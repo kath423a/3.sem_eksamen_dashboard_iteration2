@@ -1,4 +1,5 @@
 import "../../sass/index.scss";
+// import { selectChart, revenueResults } from "./chart";
 
 ("use strict");
 
@@ -11,9 +12,20 @@ let employeesStatus = {
   Jonas: [0],
   Dannie: [0],
 };
+let revenueResults = {
+  8: 1600,
+  10: 2000,
+  12: 2800,
+  14: 1400,
+  16: 1000,
+  18: 4000,
+  20: 6000,
+  22: 4800,
+};
 
 async function init() {
   getData();
+  createChart();
 }
 
 async function getData() {
@@ -46,16 +58,41 @@ async function getData() {
 
   displayNumber("queue");
   resetStorage();
+  getChartPoints();
+}
+
+function createChart() {
+  const container = document.querySelector(".revenue_time");
+  Object.keys(revenueResults).forEach(function (key) {
+    console.log(key, revenueResults[key]);
+    const li = document.createElement("li");
+    li.textContent = key;
+    li.classList.add(`${key}`);
+    container.append(li);
+  });
+}
+function getChartPoints() {
+  let points = "";
+  let revenues = Object.values(revenueResults);
+  revenues.forEach((value, i) => {
+    points += i * 130 + "," + (value - 1000) + " ";
+  });
+  console.log(revenueResults);
+  console.log(points);
+  const line = document.querySelector("#line");
+  line.setAttribute("points", points);
+  line.style.strokeDashoffset = 0;
 }
 
 function getDailyOrders() {
   if (data.serving.length > 0) {
     let newestCustomer = data.serving.slice(-1)[0].id;
-    console.log(newestCustomer, "im the newest customer");
+    // console.log(newestCustomer, "im the newest customer");
     if (newestCustomer > newestOrder[0]) {
       newestOrder.unshift(newestCustomer);
-      console.log("new order:", newestOrder[0]);
+      // console.log("new order:", newestOrder[0]);
       newestOrder.pop();
+      getOrderPrice(newestCustomer);
       if (localStorage.servedCount) {
         localStorage.servedCount = Number(localStorage.servedCount) + 1;
       } else {
@@ -63,17 +100,42 @@ function getDailyOrders() {
       }
     }
   }
-  console.log(localStorage.servedCount);
+  // console.log(localStorage.servedCount);
   displayNumber("served");
+}
+
+function getOrderPrice(newestCustomer) {
+  let findOrder = data.serving.find((x) => x.id === newestCustomer).order;
+  console.log(findOrder);
+  let findPrice = findOrder.length * 40;
+  console.log(findPrice);
+  if (localStorage.dailyRevenue) {
+    localStorage.dailyRevenue = Number(localStorage.dailyRevenue) + findPrice;
+  } else {
+    localStorage.dailyRevenue = 0;
+  }
+  let time = new Date(data.timestamp);
+  console.log(time.getMinutes());
+  console.log(localStorage.getItem("dailyRevenue"));
+
+  if ([time.getHours()] in revenueResults) {
+    let hourlyRevenue = localStorage.getItem("dailyRevenue");
+    revenueResults[time.getHours()] = hourlyRevenue;
+  }
+
+  if (time.getMinutes() == "00") {
+    localStorage.dailyRevenue = 0;
+    console.log(localStorage);
+  }
 }
 
 function getBartenderOrders() {
   data.bartenders.forEach((person) => {
-    console.log(`${person.name} serving ${person.servingCustomer}`);
+    // console.log(`${person.name} serving ${person.servingCustomer}`);
     let epmloyeeStatus = employeesStatus[person.name].slice(-1)[0];
     let serving = person.servingCustomer;
-    console.log(serving);
-    console.log(epmloyeeStatus);
+    // console.log(serving);
+    // console.log(epmloyeeStatus);
     if (serving > epmloyeeStatus) {
       employeesStatus[person.name].unshift(serving);
       employeesStatus[person.name].pop();
@@ -81,13 +143,13 @@ function getBartenderOrders() {
       displayBartenderOrders(person);
     }
 
-    console.log(employeesStatus);
-    console.log(localStorage);
+    // console.log(employeesStatus);
+    // console.log(localStorage);
   });
 }
 
 function changeCount(person) {
-  console.log(person.name, "finished an order!");
+  // console.log(person.name, "finished an order!");
 
   if (person.name == "Peter") {
     if (localStorage.PeterCount) {
@@ -144,3 +206,5 @@ function displayBartenderOrders(person) {
   }
   document.querySelector(`.${person.name} .order_num_wrapper`).appendChild(clone);
 }
+
+function displayChart() {}

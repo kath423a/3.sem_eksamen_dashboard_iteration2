@@ -13,10 +13,57 @@
   padding: var(--spacing);
   gap: math.div(vars.$spacing, 3) * 2;
 
-  @media (min-width: vars.$breakpoint-medium) {
+  @media (min-width: vars.$breakpoint-small) {
     grid-template-areas:
       "queue seved orders"
       "revenue revenue revenue";
+    .revenue {
+      grid-area: revenue;
+    }
+  }
+
+  .revenue_box {
+    width: 100%;
+    height: 200px;
+
+    display: grid;
+    grid-template-columns: 50px auto auto;
+    grid-template-rows: auto auto 30px;
+    grid-template-areas:
+      "revenue_price chart_box chart_box"
+      "revenue_price chart_box chart_box"
+      ". revenue_time revenue_time";
+    .revenue_time {
+      display: flex;
+      justify-content: space-between;
+      list-style-type: none;
+      width: 100%;
+      align-self: flex-end;
+      grid-area: revenue_time;
+    }
+    .revenue_price {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      list-style-type: none;
+      height: 100%;
+      grid-area: revenue_price;
+    }
+    .chart_box {
+      grid-area: chart_box;
+      border-bottom: 1px solid vars.$ui_color_dark;
+      border-left: 1px solid vars.$ui_color_dark;
+      #curvechart {
+        width: 100%;
+        height: 100%;
+      }
+      #line {
+        stroke-width: 1;
+        stroke: purple;
+        fill: none;
+        stroke-dasharray: 1;
+      }
+    }
   }
 
   .queue_number,
