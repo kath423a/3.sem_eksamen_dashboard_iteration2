@@ -30,6 +30,13 @@ function start() {
 
 function registerButtons() {
   document.querySelectorAll("[data-order]").forEach((button) => button.addEventListener("click", selectFilter));
+  document.querySelector(".accept_order").addEventListener("click", () => {
+    const alertMessage = document.querySelector(".alert_message");
+    alertMessage.classList.remove("hidden");
+    setTimeout(function () {
+      alertMessage.classList.add("hidden");
+    }, 5000);
+  });
 }
 
 //Get the array
