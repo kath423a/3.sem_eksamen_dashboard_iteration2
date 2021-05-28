@@ -75,7 +75,7 @@ function getChartPoints() {
   let points = "";
   let revenues = Object.values(revenueResults);
   revenues.forEach((value, i) => {
-    points += i * 130 + "," + (value - 1000) + " ";
+    points += i * 130 + "," + value / 50 + " ";
   });
   console.log(revenueResults);
   console.log(points);
