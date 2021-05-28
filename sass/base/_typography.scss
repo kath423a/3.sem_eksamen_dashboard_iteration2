@@ -24,7 +24,9 @@ h3 {
   text-transform: uppercase;
 }
 
-p {
+
+p,
+li {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   color: vars.$ui_color_dark;
