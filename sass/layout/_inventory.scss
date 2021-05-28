@@ -9,7 +9,8 @@ $bar-chart-border-color: #c7c7c7;
 $bar-background-color: #f4f4f4;
 $bar-x-axis-color: #999999;
 
-$breakpoint-medium: 1000px;
+$breakpoint-medium: 1100px;
+$breakpoint-large: 1250px;
 
 :root {
   --spacing: #{$spacing / 3};
@@ -24,12 +25,40 @@ $breakpoint-medium: 1000px;
   }
 }
 
-.inventory-dashboard-grid {
-  display: grid;
+.page-header {
+    grid-area: page-header;
+}
 
-  @media (min-width: $breakpoint-medium) {
-    grid-template-columns: 70px 1fr;
-  }
+.page-content {
+    grid-area: page-content;
+}
+
+.page-info {
+    grid-area: page-info;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 $spacing;
+    background-color: vars.$ui_bg_color;
+    box-shadow: vars.$ui-shadow;
+
+    &__status {
+        font-family: "Poppins", sans-serif;
+    }
+}
+
+.inventory-dashboard-grid {
+    display: grid;
+    grid-template-rows: 70px auto;
+    grid-template-areas: "page-info" "page-content";
+    
+    @media (min-width: $breakpoint-medium) {
+        grid-template-areas:
+            "page-header page-info"
+            "page-header page-content";
+        grid-template-columns: 70px auto;
+        grid-template-rows: 70px auto;
+    }
 }
 
 .inventory-grid {
@@ -37,11 +66,12 @@ $breakpoint-medium: 1000px;
   padding: var(--spacing);
   gap: $spacing / 3 * 2;
 
-  @media (min-width: $breakpoint-medium) {
-    grid-template-areas:
-      "beer-tank beer-tank beer-tank"
-      "beer-stock beer-stock bartender-status";
-  }
+    @media (min-width: $breakpoint-medium) {
+        grid-template-areas:
+            "beer-tank beer-tank"
+            "beer-stock bartender-status";
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .inventory-section {
@@ -70,177 +100,246 @@ $breakpoint-medium: 1000px;
 }
 
 .beer-stock-status-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: $spacing--xsmall;
-  list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-column-gap: $spacing--xsmall;
+    grid-row-gap: $spacing;
+    list-style: none;
 }
 
 .beer-stock {
-  max-width: 52px;
-  display: flex;
-  flex-direction: column;
-
-  &__image-container {
-    position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    flex-direction: column;
 
-  &__icon {
-    --keg-color: purple;
-    fill: var(--keg-color);
-  }
+    &__image-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0.25rem;
+    }
 
-  &__amount {
-    color: #fff;
-    position: absolute;
-  }
+    &__icon {
+        --keg-color: purple;
+        fill: var(--keg-color);
+        width: 100%;
+        height: auto;
+        max-width: 80px;
+    }
 
-  &__name {
-    font-weight: 300;
-    color: #999999;
-    font-size: 1rem;
-    text-transform: none;
-  }
+    &__amount {
+        color: #fff;
+        position: absolute;
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+    }
+
+    &__name {
+        font-weight: 300;
+        color: #999999;
+        font-size: 1rem;
+        text-transform: none;
+        text-align: center;
+    }
 }
 
 .bartender-status-list {
-  display: grid;
-  gap: $spacing--xsmall;
+    display: inline-grid;
+    gap: $spacing--xsmall;
 }
 
 .bartender {
-  display: flex;
-  gap: $spacing--small;
-  align-items: center;
+    display: flex;
+    gap: $spacing--xsmall;
+    align-items: center;
 
-  &__status {
-    height: 1em;
-    width: 1em;
-    background-color: green;
-    border-radius: 50%;
-    margin-left: auto;
+    &__image {
+        width: 48px;
+        border-radius: 50%;
+        border: 3px solid vars.$bg_color;
+        box-shadow: vars.$ui-shadow;
+    }
 
-    &--break {
-      background-color: red;
+    &__name {
+        text-transform: none;
+        color: vars.$ui_color_dark;
+    }
+
+    &__task {
+        color: $bar-x-axis-color;
+        text-transform: none;
+        font-weight: 400;
+    }
+
+    &__status {
+        padding: 0.2em 1em;
+        border-radius: 2em;
+        background-color: red;
+        color: vars.$ui_bg_color;
+        margin-left: auto;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.8rem;
+
+        &.is-ready {
+            background-color: green;
+        }
     }
   }
 }
 
 .chart {
-  display: grid;
-  grid-template-areas:
-    "y chart"
-    "z x";
-  grid-template-columns: auto 1fr;
-  grid-template-rows: 1fr auto;
-
-  &__x-axis {
-    list-style: none;
-    grid-area: x;
     display: grid;
-    padding: 0 4rem;
-    gap: 4rem;
-    grid-template-columns: repeat(var(--beers), 100px);
-    justify-content: space-between;
-    margin-top: 1rem;
-  }
+    grid-template-areas:
+        "chart"
+        "x";
+    gap: 1rem;
 
-  &__x-axis-name {
-    text-align: center;
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    color: $bar-x-axis-color;
-  }
+    &__y-axis {
+        list-style: none;
+        grid-area: y;
+        margin-top: 1rem;
+        display: none;
+    }
 
-  &__y-axis {
-    list-style: none;
-    grid-area: y;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    margin-right: 1rem;
-  }
+    &__y-axis-name {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        color: vars.$ui_color_dark;
+        font-size: 1.2rem;
+    }
 
-  &__y-axis-name {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    color: vars.$ui_color_dark;
-    font-size: 1.2rem;
-  }
+    @media (min-width: $breakpoint-large) {
+        grid-template-areas:
+            "y chart"
+            "z x";
+        grid-template-columns: auto 1fr;
+        grid-template-rows: 1fr auto;
+
+        &__y-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 0;
+            height: calc(100% - 100px);
+            padding-right: $spacing--xsmall;
+        }
+    }
 }
 
 .beer-tap-chart {
-  padding: 0 4rem;
-  width: 100%;
-  height: 400px;
-  list-style: none;
-  display: grid;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 4rem;
-  // grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
-  grid-template-columns: repeat(var(--beers), 100px);
-  border-bottom: 1px solid $bar-chart-border-color;
-  border-left: 1px solid $bar-chart-border-color;
-  border-bottom-left-radius: vars.$ui-corners;
-  grid-area: chart;
+    padding: 0;
+    width: 100%;
+    list-style: none;
+    display: grid;
+    align-items: flex-end;
+    // border-bottom: 1px solid $bar-chart-border-color;
+    // border-left: 1px solid $bar-chart-border-color;
+    // border-bottom-left-radius: vars.$ui-corners;
+    grid-area: chart;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+    @media (min-width: $breakpoint-medium) {
+        grid-template-rows: none;
+        justify-content: space-between;
+    }
 }
 
-.beer-tap {
-  background-color: $bar-background-color;
-  height: 100%;
-  border-radius: vars.$ui-corners vars.$ui-corners 0 0;
-  display: flex;
-  align-items: flex-end;
-  position: relative;
+.beer-bar {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 100px;
+    gap: 1rem;
 
-  &__liquid {
-    height: calc(var(--bar-percentage) * 1%);
-    background-color: $bar-color;
-    border-radius: vars.$ui-corners vars.$ui-corners 0 0;
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    will-change: height;
-    transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-  }
+    &__liquid-container {
+        position: relative;
+        overflow: hidden;
+        background-color: $bar-background-color;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        border-radius: vars.$ui-corners;
+        min-height: 200px;
+    }
 
-  &__bubble-container {
+    &__liquid {
+        width: 100%;
+        height: calc(var(--bar-percentage) * 1%);
+        background-color: $bar-color;
+        overflow: hidden;
+        will-change: height;
+        transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    }
+
+    &__information {
+        text-align: center;
+    }
+
+    &__name {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        color: $bar-x-axis-color;
+        text-transform: none;
+        font-size: 1rem;
+    }
+
+    &__percent {
+        padding: 0.2em 1em;
+        border-radius: 2em;
+        font-size: 0.8rem;
+        background-color: hsl(var(--bar-percentage), 100%, 40%);
+        color: vars.$ui_bg_color;
+        font-family: "Poppins", sans-serif;
+        margin: 0 auto;
+        display: inline-block;
+        width: 55px;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.beer-bubble {
     position: absolute;
-    height: calc(var(--beer-tap-chart-height) - 2rem);
     width: 100%;
-    animation: bubbles-move 3s linear infinite;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
     animation-delay: calc(var(--beer-bubble-delay) * 1ms);
-    animation-duration: calc(var(--beer-bubble-duration) * 1ms);
-    left: 0;
-    bottom: -20px;
+    animation-duration: calc(
+        var(--beer-bubble-duration) / 100 * var(--bar-percentage) * 1ms
+    );
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    // background-color: rgba(255, 0, 255, 0.2);
-  }
+    animation-name: bubbles-move-y;
+    will-change: height;
+    transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    bottom: -20px;
+    // height: calc(var(--beer-tap-chart-height) - 2rem);
+    height: calc(var(--bar-percentage) * 1%);
+    left: 0;
 
-  &__bubble {
-    width: 20px;
-    height: 20px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    animation: bubbles-fade-out 3s linear infinite;
-    animation-delay: calc(var(--beer-bubble-delay) * 1ms);
-    animation-duration: calc(var(--beer-bubble-duration) * 1ms);
-    left: calc(var(--beer-bubble-x) * 1px);
-    position: absolute;
-  }
+    &__bubble {
+        width: 20px;
+        height: 20px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        animation-name: bubbles-fade-out;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-delay: calc(var(--beer-bubble-delay) * 1ms);
+        animation-duration: calc(
+            var(--beer-bubble-duration) / 100 * var(--bar-percentage) * 1ms
+        );
+        position: absolute;
+        left: calc(var(--beer-bubble-x) * 1px);
+        bottom: 0;
+    }
 }
 
-@keyframes bubbles-move {
-  100% {
-    transform: translateY(-100%);
-  }
+@keyframes bubbles-move-y {
+    100% {
+        transform: translateY(-100%);
+    }
 }
 
 @keyframes bubbles-fade-out {
@@ -250,4 +349,57 @@ $breakpoint-medium: 1000px;
   100% {
     background-color: rgba(255, 255, 255, 0);
   }
+}
+
+@keyframes waves {
+    0%,
+    100% {
+        clip-path: polygon(
+            0 8%,
+            7% 6%,
+            14% 5%,
+            21% 5%,
+            28% 6%,
+            34% 8%,
+            40% 12%,
+            46% 17%,
+            50% 20%,
+            54% 23%,
+            60% 25%,
+            66% 26%,
+            70% 26%,
+            77% 25%,
+            83% 23%,
+            89% 21%,
+            95% 19%,
+            100% 17%,
+            100% 100%,
+            0% 100%
+        );
+    }
+
+    50% {
+        clip-path: polygon(
+            0 15%,
+            9% 21%,
+            14% 23%,
+            18% 25%,
+            21% 26%,
+            30% 28%,
+            32% 28%,
+            40% 27%,
+            46% 26%,
+            52% 23%,
+            57% 19%,
+            62% 15%,
+            68% 11%,
+            73% 8%,
+            79% 6%,
+            86% 5%,
+            93% 5%,
+            100% 6%,
+            100% 100%,
+            0% 100%
+        );
+    }
 }
