@@ -138,3 +138,18 @@
     height: 34px;
   }
 }
+
+.hidden {
+  display: none;
+}
+
+.alert_button {
+  display: flex;
+  flex-direction: column;
+
+  .alert_message {
+    color: tomato;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.7rem;
+  }
+}
