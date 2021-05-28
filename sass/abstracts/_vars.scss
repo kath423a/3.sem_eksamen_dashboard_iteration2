@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // beer-colors:
 $yellow: #ffda58;
 $brown: #553333;
@@ -33,9 +35,9 @@ $breakpoint-medium: 1100px;
 $breakpoint-large: 1250px;
 
 :root {
-  --spacing: #{$spacing / 3};
-  --spacing--small: #{$spacing--small / 3};
-  --spacing--xsmall: #{$spacing--xsmall / 3};
+  --spacing: #{math.div($spacing, 3)};
+  --spacing--small: #{math.div($spacing--small, 3)};
+  --spacing--xsmall: #{math.div($spacing--xsmall, 3)};
   --beer-tap-chart-height: 400px;
 }
 

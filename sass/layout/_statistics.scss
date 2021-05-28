@@ -1,15 +1,17 @@
+@use "sass:math";
+
 @use "../abstracts/vars";
 
 :root {
-  --spacing: #{vars.$spacing / 3};
-  --spacing--small: #{vars.$spacing--small / 3};
-  --spacing--xsmall: #{vars.$spacing--xsmall / 3};
+  --spacing: #{math.div(vars.$spacing, 3)};
+  --spacing--small: #{math.div(vars.$spacing--small, 3)};
+  --spacing--xsmall: #{math.div(vars.$spacing--xsmall, 3)};
   --beer-tap-chart-height: 400px;
 }
 .statistics-grid {
   display: grid;
   padding: var(--spacing);
-  gap: vars.$spacing / 3 * 2;
+  gap: math.div(vars.$spacing, 3) * 2;
 
   @media (min-width: vars.$breakpoint-medium) {
     grid-template-areas:
