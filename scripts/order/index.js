@@ -1,5 +1,7 @@
 import "../../sass/index.scss";
 import dayjs from "dayjs";
+import { settings } from "../modules/settings";
+import { getRandomInteger } from "../modules/helpers";
 
 window.addEventListener("DOMContentLoaded", start);
 
@@ -28,6 +30,13 @@ function start() {
 
 function registerButtons() {
   document.querySelectorAll("[data-order]").forEach((button) => button.addEventListener("click", selectFilter));
+  document.querySelector(".accept_order").addEventListener("click", () => {
+    const alertMessage = document.querySelector(".alert_message");
+    alertMessage.classList.remove("hidden");
+    setTimeout(function () {
+      alertMessage.classList.add("hidden");
+    }, 5000);
+  });
 }
 
 //Get the array
@@ -104,12 +113,12 @@ function selectFilter() {
 }
 
 function showSingleOrder(order) {
+  const randomCustomerName = getRandomCustomerName();
   console.log("Showing data to the order view");
 
   document.querySelector(".order_status_info .order_id").textContent = ` #${order.orderid}`;
   document.querySelector(".order_status_info .time").textContent = order.time;
-
-  console.log(order);
+  document.querySelector(".order_status_info .customer_name").textContent = randomCustomerName;
 
   displayBeers(order.items);
 }
@@ -144,8 +153,6 @@ function displayBeers(beers) {
   //build a new list
   sortedBeers.forEach(showBeer);
   showPrice(price);
-
-  console.log(price);
 }
 
 function showPrice(price) {
@@ -155,8 +162,6 @@ function showPrice(price) {
 function showBeer(beer) {
   //create clone
   const clone = document.querySelector("#beer_orders").content.cloneNode(true);
-
-  console.log(beer);
 
   //set clone data
   clone.querySelector(".beer_image").src = `/images/${beer.name}.png`;
@@ -168,4 +173,13 @@ function showBeer(beer) {
   document.querySelector(".js_beer_list").appendChild(clone);
 }
 
-// Change color on button on click
+function getRandomCustomerName() {
+  const customers = settings.randomCustomers;
+  const customerAmount = customers.length;
+  console.log(customerAmount);
+
+  const randomNumber = getRandomInteger(1, customerAmount);
+  const randomCustomer = customers[randomNumber - 1];
+
+  return randomCustomer;
+}

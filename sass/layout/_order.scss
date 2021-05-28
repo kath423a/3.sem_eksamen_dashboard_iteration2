@@ -2,140 +2,154 @@
 @use "../abstracts/vars";
 
 .order-grid {
-    display: grid;
-    padding: var(--spacing);
-    gap: math.div(vars.$spacing, 3) * 2;
+  display: grid;
+  padding: var(--spacing);
+  gap: math.div(vars.$spacing, 3) * 2;
 
-    @media (min-width: vars.$breakpoint-medium) {
-        grid-template-areas: "orderlist orderinfo orderinfo orderinfo";
-        grid-template-columns: 350px auto;
-    }
+  @media (min-width: 680px) {
+    grid-template-columns: 250px auto;
+  }
+
+  @media (min-width: vars.$breakpoint-medium) {
+    grid-template-columns: 400px auto;
+  }
 }
 
 .order-dashboard-grid {
-    display: grid;
-    grid-template-rows: 70px auto 70px;
-    grid-template-areas: "page-info" "page-content";
+  display: grid;
+  grid-template-rows: 70px auto 70px;
+  grid-template-areas: "page-info" "page-content";
 
-    @media (min-width: vars.$breakpoint-medium) {
-        grid-template-areas:
-            "page-header page-info"
-            "page-header page-content";
-        grid-template-columns: 70px auto;
-        grid-template-rows: 70px auto;
-    }
+  @media (min-width: vars.$breakpoint-medium) {
+    grid-template-areas:
+      "page-header page-info"
+      "page-header page-content";
+    grid-template-columns: 70px auto;
+    grid-template-rows: 70px auto;
+  }
 }
 
 #order_list {
-    grid-area: orderlist;
-    background-color: #fbfbfb;
-    text-align: left;
+  background-color: #fbfbfb;
+  text-align: left;
 }
 
 #order_info {
-    grid-area: orderinfo;
-    background-color: #fbfbfb;
-    text-align: left;
+  background-color: #fbfbfb;
+  text-align: left;
 }
 
 .order_status_tabs {
-    background-color: white;
-    box-shadow: 0.5px 0.5px 2px #86868644;
-    border-radius: 5px;
-    display: flex;
+  background-color: white;
+  box-shadow: 0.5px 0.5px 2px #86868644;
+  border-radius: 5px;
+  display: flex;
 
-    padding: 3px 3px;
-    margin-top: 35px;
-    margin-bottom: 15px;
+  padding: 3px 3px;
+  margin-top: 35px;
+  margin-bottom: 15px;
 
-    button {
-        color: grey;
-        text-transform: none;
-        font-weight: 100;
-        background-color: transparent;
-        border: none;
-        height: 25px;
-        font-size: 12px;
-        flex-grow: 1;
+  button {
+    color: grey;
+    text-transform: none;
+    font-weight: 100;
+    background-color: transparent;
+    border: none;
+    height: 25px;
+    font-size: 12px;
+    flex-grow: 1;
 
-        &.is_active {
-            background-color: vars.$ui_color_dark;
-            border-radius: 5px;
-            color: vars.$ui_color_light;
-        }
+    &.is_active {
+      background-color: vars.$ui_color_dark;
+      border-radius: 5px;
+      color: vars.$ui_color_light;
     }
+  }
 }
 
 .orders_pop {
-    width: 100%;
-    height: 99px;
-    background: #fbfbfb;
-    box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    text-align: left;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
+  width: 100%;
+  height: 99px;
+  background: #fbfbfb;
+  box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  text-align: left;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
 
-    h4,
-    p {
-        margin-left: 10px;
-        margin-top: 20px;
-    }
+  h4,
+  p {
+    margin-left: 10px;
+    margin-top: 20px;
+  }
 }
 
 .order_status_info {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .orders_pop_long {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 99px;
+  background: #ffffff;
+  box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-top: 10px;
+
+  p {
+    margin-right: 30px;
+    align-self: center;
+  }
+
+  .beer_name_price_column {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 99px;
-    background: #ffffff;
-    box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    margin-top: 10px;
+    max-width: 250px;
 
-    p {
-        margin-right: 30px;
-        align-self: center;
+    .beer_name_price_column_inner {
+      flex-direction: row;
+      align-self: center;
+
+      .beer_price {
+        font-size: 0.7rem;
+      }
     }
+  }
 
-    .beer_name_price_column {
-        display: flex;
-        max-width: 250px;
-
-        .beer_name_price_column_inner {
-            flex-direction: row;
-            align-self: center;
-
-            .beer_price {
-                font-size: 0.7rem;
-            }
-        }
-    }
-
-    .quantity {
-        margin-left: -60px;
-    }
+  .quantity {
+    margin-left: -60px;
+  }
 }
 
 .bottom_info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
 
-    button {
-        background: #343331;
-        border-radius: 5px;
-        color: white;
-        border: none;
-        width: 198px;
-        height: 34px;
-    }
+  button {
+    background: #343331;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    width: 198px;
+    height: 34px;
+  }
 }
 
-// MEDIA QUARIES
+.hidden {
+  display: none;
+}
+
+.alert_button {
+  display: flex;
+  flex-direction: column;
+
+  .alert_message {
+    color: tomato;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.7rem;
+  }
+}

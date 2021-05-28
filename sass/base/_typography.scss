@@ -1,6 +1,9 @@
 @use "../abstracts/vars";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Train+One&display=swap");
 
+body {
+  font-family: "Poppins", sans-serif;
+}
 h1 {
   font-family: "Train One", cursive;
   color: vars.$ui_color_dark;
@@ -20,6 +23,7 @@ h3 {
   color: vars.$ui_color_dark;
   text-transform: uppercase;
 }
+
 
 p,
 li {
