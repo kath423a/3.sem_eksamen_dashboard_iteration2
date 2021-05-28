@@ -8,13 +8,11 @@
     </head>
     <body>
         <div class="inventory-dashboard-grid">
-            <header>
+            <header class="page-header">
                 <nav>
                     <ul id="menubar">
                         <li class="logo">
-                            <a href="index.html"
-                                ><img src="public/logo.svg"
-                            /></a>
+                            <a href="index.html"><img src="/logo.svg" /></a>
                         </li>
                         <li>
                             <a href="index.html">
@@ -79,7 +77,14 @@
                     </ul>
                 </nav>
             </header>
-            <main>
+            <aside class="page-info">
+                <h1>Inventory status</h1>
+                <p class="server-status js-server-status">
+                    Updated 2 seconds ago
+                    <span class="server-status__icon"></span>
+                </p>
+            </aside>
+            <main class="page-content">
                 <div class="inventory-grid">
                     <section
                         class="
@@ -87,9 +92,7 @@
                             inventory-section--beer-tank-status
                         "
                     >
-                        <h2 class="inventory-section__title">
-                            Beer Tank Status
-                        </h2>
+                        <h2 class="inventory-section__title">Beer Taps</h2>
 
                         <div class="chart">
                             <ul class="chart__y-axis">
@@ -105,7 +108,7 @@
                     <section
                         class="inventory-section inventory-section--beer-stock"
                     >
-                        <h2 class="inventory-section__title">Beer Stock</h2>
+                        <h2 class="inventory-section__title">Beer Kegs</h2>
                         <ul
                             class="
                                 beer-stock-status-list
@@ -126,41 +129,7 @@
                                 bartender-status-list
                                 js-bartender-status-list
                             "
-                        >
-                            <!-- Dummy - Remove later -->
-                            <li class="bartender">
-                                <img
-                                    src="/images/employee-default.png"
-                                    alt=""
-                                    class="bartender__image"
-                                />
-                                <h3 class="bartender__name">Peter</h3>
-                                <span
-                                    class="
-                                        bartender__status
-                                        bartender__status--break
-                                    "
-                                ></span>
-                            </li>
-                            <li class="bartender">
-                                <img
-                                    src="/images/employee-default.png"
-                                    alt=""
-                                    class="bartender__image"
-                                />
-                                <h3 class="bartender__name">Dannie</h3>
-                                <span class="bartender__status"></span>
-                            </li>
-                            <li class="bartender">
-                                <img
-                                    src="/images/employee-default.png"
-                                    alt=""
-                                    class="bartender__image"
-                                />
-                                <h3 class="bartender__name">Jonas</h3>
-                                <span class="bartender__status"></span>
-                            </li>
-                        </ul>
+                        ></ul>
                     </section>
                 </div>
             </main>
@@ -169,7 +138,11 @@
         <template class="t-bartender">
             <li class="bartender">
                 <img src="#" alt="" class="bartender__image" />
-                <h3 class="bartender__name"></h3>
+                <h3>
+                    <span class="bartender__name"></span>
+                    <span class="bartender__task"></span>
+                </h3>
+
                 <span class="bartender__status"></span>
             </li>
         </template>
@@ -210,15 +183,21 @@
             </li>
         </template>
 
-        <template class="t-beer-tap">
-            <li class="beer-tap">
-                <div class="beer-tap__liquid"></div>
+        <template class="t-beer-bar">
+            <li class="beer-bar">
+                <div class="beer-bar__liquid-container">
+                    <div class="beer-bar__liquid"></div>
+                </div>
+                <div class="beer-bar__information">
+                    <span class="beer-bar__percent"></span>
+                    <h3 class="beer-bar__name"></h3>
+                </div>
             </li>
         </template>
 
         <template class="t-beer-bubble">
-            <div class="beer-tap__bubble-container">
-                <div class="beer-tap__bubble"></div>
+            <div class="beer-bubble">
+                <div class="beer-bubble__bubble"></div>
             </div>
         </template>
 
