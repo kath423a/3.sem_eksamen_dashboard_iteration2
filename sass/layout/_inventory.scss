@@ -12,253 +12,242 @@ $bar-x-axis-color: #999999;
 $breakpoint-medium: 1000px;
 
 :root {
-    --spacing: #{$spacing / 3};
-    --spacing--small: #{$spacing--small / 3};
-    --spacing--xsmall: #{$spacing--xsmall / 3};
-    --beer-tap-chart-height: 400px;
+  --spacing: #{$spacing / 3};
+  --spacing--small: #{$spacing--small / 3};
+  --spacing--xsmall: #{$spacing--xsmall / 3};
+  --beer-tap-chart-height: 400px;
 }
 
 @media (min-width: $breakpoint-medium) {
-    :root {
-        --spacing: #{$spacing};
-    }
-}
-
-/* Remove later */
-header {
-    display: none;
-}
-
-@media (min-width: $breakpoint-medium) {
-    header {
-        display: initial;
-    }
+  :root {
+    --spacing: #{$spacing};
+  }
 }
 
 .inventory-dashboard-grid {
-    display: grid;
+  display: grid;
 
-    @media (min-width: $breakpoint-medium) {
-        grid-template-columns: 70px 1fr;
-    }
+  @media (min-width: $breakpoint-medium) {
+    grid-template-columns: 70px 1fr;
+  }
 }
 
 .inventory-grid {
-    display: grid;
-    padding: var(--spacing);
-    gap: $spacing / 3 * 2;
+  display: grid;
+  padding: var(--spacing);
+  gap: $spacing / 3 * 2;
 
-    @media (min-width: $breakpoint-medium) {
-        grid-template-areas:
-            "beer-tank beer-tank beer-tank"
-            "beer-stock beer-stock bartender-status";
-    }
+  @media (min-width: $breakpoint-medium) {
+    grid-template-areas:
+      "beer-tank beer-tank beer-tank"
+      "beer-stock beer-stock bartender-status";
+  }
 }
 
 .inventory-section {
-    background-color: vars.$ui_bg_color;
-    box-shadow: vars.$ui-shadow;
-    border-radius: vars.$ui-corners;
-    padding: var(--spacing);
+  background-color: vars.$ui_bg_color;
+  box-shadow: vars.$ui-shadow;
+  border-radius: vars.$ui-corners;
+  padding: var(--spacing);
 
-    &__title {
-        margin-bottom: var(--spacing--small);
+  &__title {
+    margin-bottom: var(--spacing--small);
+  }
+
+  @media (min-width: $breakpoint-medium) {
+    &--beer-tank-status {
+      grid-area: beer-tank;
     }
 
-    @media (min-width: $breakpoint-medium) {
-        &--beer-tank-status {
-            grid-area: beer-tank;
-        }
-
-        &--beer-stock {
-            grid-area: beer-stock;
-        }
-
-        &--bartender-status {
-            grid-area: bartender-status;
-        }
+    &--beer-stock {
+      grid-area: beer-stock;
     }
+
+    &--bartender-status {
+      grid-area: bartender-status;
+    }
+  }
 }
 
 .beer-stock-status-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: $spacing--xsmall;
-    list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: $spacing--xsmall;
+  list-style: none;
 }
 
 .beer-stock {
-    max-width: 52px;
+  max-width: 52px;
+  display: flex;
+  flex-direction: column;
+
+  &__image-container {
+    position: relative;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
-    &__image-container {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  &__icon {
+    --keg-color: purple;
+    fill: var(--keg-color);
+  }
 
-    &__icon {
-        --keg-color: purple;
-        fill: var(--keg-color);
-    }
+  &__amount {
+    color: #fff;
+    position: absolute;
+  }
 
-    &__amount {
-        color: #fff;
-        position: absolute;
-    }
-
-    &__name {
-        font-weight: 300;
-        color: #999999;
-        font-size: 1rem;
-        text-transform: none;
-    }
+  &__name {
+    font-weight: 300;
+    color: #999999;
+    font-size: 1rem;
+    text-transform: none;
+  }
 }
 
 .bartender-status-list {
-    display: grid;
-    gap: $spacing--xsmall;
+  display: grid;
+  gap: $spacing--xsmall;
 }
 
 .bartender {
-    display: flex;
-    gap: $spacing--small;
-    align-items: center;
+  display: flex;
+  gap: $spacing--small;
+  align-items: center;
 
-    &__status {
-        height: 1em;
-        width: 1em;
-        background-color: green;
-        border-radius: 50%;
-        margin-left: auto;
+  &__status {
+    height: 1em;
+    width: 1em;
+    background-color: green;
+    border-radius: 50%;
+    margin-left: auto;
 
-        &--break {
-            background-color: red;
-        }
+    &--break {
+      background-color: red;
     }
+  }
 }
 
 .chart {
+  display: grid;
+  grid-template-areas:
+    "y chart"
+    "z x";
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+
+  &__x-axis {
+    list-style: none;
+    grid-area: x;
     display: grid;
-    grid-template-areas:
-        "y chart"
-        "z x";
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr auto;
+    padding: 0 4rem;
+    gap: 4rem;
+    grid-template-columns: repeat(var(--beers), 100px);
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
 
-    &__x-axis {
-        list-style: none;
-        grid-area: x;
-        display: grid;
-        padding: 0 4rem;
-        gap: 4rem;
-        grid-template-columns: repeat(var(--beers), 100px);
-        justify-content: space-between;
-        margin-top: 1rem;
-    }
+  &__x-axis-name {
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    color: $bar-x-axis-color;
+  }
 
-    &__x-axis-name {
-        text-align: center;
-        font-family: "Poppins", sans-serif;
-        font-weight: 400;
-        color: $bar-x-axis-color;
-    }
+  &__y-axis {
+    list-style: none;
+    grid-area: y;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 1rem;
+  }
 
-    &__y-axis {
-        list-style: none;
-        grid-area: y;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        margin-right: 1rem;
-    }
-
-    &__y-axis-name {
-        font-family: "Poppins", sans-serif;
-        font-weight: 400;
-        color: vars.$ui_color_dark;
-        font-size: 1.2rem;
-    }
+  &__y-axis-name {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    color: vars.$ui_color_dark;
+    font-size: 1.2rem;
+  }
 }
 
 .beer-tap-chart {
-    padding: 0 4rem;
-    width: 100%;
-    height: 400px;
-    list-style: none;
-    display: grid;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 4rem;
-    // grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
-    grid-template-columns: repeat(var(--beers), 100px);
-    border-bottom: 1px solid $bar-chart-border-color;
-    border-left: 1px solid $bar-chart-border-color;
-    border-bottom-left-radius: vars.$ui-corners;
-    grid-area: chart;
+  padding: 0 4rem;
+  width: 100%;
+  height: 400px;
+  list-style: none;
+  display: grid;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4rem;
+  // grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  grid-template-columns: repeat(var(--beers), 100px);
+  border-bottom: 1px solid $bar-chart-border-color;
+  border-left: 1px solid $bar-chart-border-color;
+  border-bottom-left-radius: vars.$ui-corners;
+  grid-area: chart;
 }
 
 .beer-tap {
-    background-color: $bar-background-color;
-    height: 100%;
+  background-color: $bar-background-color;
+  height: 100%;
+  border-radius: vars.$ui-corners vars.$ui-corners 0 0;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+
+  &__liquid {
+    height: calc(var(--bar-percentage) * 1%);
+    background-color: $bar-color;
     border-radius: vars.$ui-corners vars.$ui-corners 0 0;
-    display: flex;
-    align-items: flex-end;
+    width: 100%;
+    overflow: hidden;
     position: relative;
+    will-change: height;
+    transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  }
 
-    &__liquid {
-        height: calc(var(--bar-percentage) * 1%);
-        background-color: $bar-color;
-        border-radius: vars.$ui-corners vars.$ui-corners 0 0;
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        will-change: height;
-        transition: height 2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-    }
+  &__bubble-container {
+    position: absolute;
+    height: calc(var(--beer-tap-chart-height) - 2rem);
+    width: 100%;
+    animation: bubbles-move 3s linear infinite;
+    animation-delay: calc(var(--beer-bubble-delay) * 1ms);
+    animation-duration: calc(var(--beer-bubble-duration) * 1ms);
+    left: 0;
+    bottom: -20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    // background-color: rgba(255, 0, 255, 0.2);
+  }
 
-    &__bubble-container {
-        position: absolute;
-        height: calc(var(--beer-tap-chart-height) - 2rem);
-        width: 100%;
-        animation: bubbles-move 3s linear infinite;
-        animation-delay: calc(var(--beer-bubble-delay) * 1ms);
-        animation-duration: calc(var(--beer-bubble-duration) * 1ms);
-        left: 0;
-        bottom: -20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        // background-color: rgba(255, 0, 255, 0.2);
-    }
-
-    &__bubble {
-        width: 20px;
-        height: 20px;
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        animation: bubbles-fade-out 3s linear infinite;
-        animation-delay: calc(var(--beer-bubble-delay) * 1ms);
-        animation-duration: calc(var(--beer-bubble-duration) * 1ms);
-        left: calc(var(--beer-bubble-x) * 1px);
-        position: absolute;
-    }
+  &__bubble {
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: bubbles-fade-out 3s linear infinite;
+    animation-delay: calc(var(--beer-bubble-delay) * 1ms);
+    animation-duration: calc(var(--beer-bubble-duration) * 1ms);
+    left: calc(var(--beer-bubble-x) * 1px);
+    position: absolute;
+  }
 }
 
 @keyframes bubbles-move {
-    100% {
-        transform: translateY(-100%);
-    }
+  100% {
+    transform: translateY(-100%);
+  }
 }
 
 @keyframes bubbles-fade-out {
-    0% {
-        background-color: rgba(255, 255, 255, 0.2);
-    }
-    100% {
-        background-color: rgba(255, 255, 255, 0);
-    }
+  0% {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0);
+  }
 }
