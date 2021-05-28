@@ -1,93 +1,80 @@
 @use "../abstracts/vars";
 
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 #menubar {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 70px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #ffffff;
-  overflow-x: hidden;
-  padding: 20px 10px;
-  filter: drop-shadow(2px 4px 7px rgba(0, 0, 0, 0.1));
-  list-style: none;
-  margin: 0;
-  gap: 1rem;
-
-  li {
-    padding: 10px 10px;
-    border: 1px solid #f4f4f4;
-    border-radius: 50%;
-    text-align: center;
-    background-color: #f4f4f4;
-  }
-
-  li:hover {
-    cursor: pointer;
-  }
-
-  li.logo {
-    padding: 0;
-    border: none;
-    border-radius: none;
-    background-color: #ffffff;
-    text-align: center;
-    margin-bottom: 150px;
-
-    img {
-      width: 100%;
-    }
-  }
-
-  a {
     display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    flex-direction: column;
+    height: 100%;
+    width: 70px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    padding: 20px 10px;
+    filter: drop-shadow(2px 4px 7px rgba(0, 0, 0, 0.1));
+    list-style: none;
+    margin: 0;
+    gap: 1rem;
+
+    li {
+        padding: 10px 10px;
+        border: 1px solid #f4f4f4;
+        border-radius: 50%;
+        text-align: center;
+        background-color: #f4f4f4;
+    }
+
+    li:hover {
+        cursor: pointer;
+    }
+
+    a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 @media (max-width: vars.$breakpoint-medium - 1) {
-  #menubar {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: initial;
-    bottom: 0;
-    top: initial;
-    padding: 10px 20px;
-    justify-content: space-between;
+    #menubar {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: initial;
+        bottom: 0;
+        top: initial;
+        padding: 10px 20px;
+        justify-content: space-between;
 
-    li {
-      padding: 10px 10px;
-      border: 1px solid #f4f4f4;
-      border-radius: 50%;
-      text-align: center;
-      background-color: #f4f4f4;
-      align-self: center;
+        li {
+            padding: 10px 10px;
+            border: 1px solid #f4f4f4;
+            border-radius: 50%;
+            text-align: center;
+            background-color: #f4f4f4;
+            align-self: center;
+        }
+
+        li.logo {
+            padding: 0;
+            border: none;
+            border-radius: none;
+            background-color: #ffffff;
+            text-align: center;
+            margin-bottom: initial;
+            align-self: flex-start;
+
+            img {
+                width: auto;
+                height: 46px;
+            }
+        }
     }
-
-    li.logo {
-      padding: 0;
-      border: none;
-      border-radius: none;
-      background-color: #ffffff;
-      text-align: center;
-      margin-bottom: initial;
-      align-self: flex-start;
-
-      img {
-        width: auto;
-        height: 46px;
-      }
-    }
-  }
 }
