@@ -1,3 +1,5 @@
+@use "../abstracts/vars";
+
 #order_dashboard_wrapper {
   display: flex;
   flex-flow: row wrap;
@@ -35,32 +37,16 @@
 }
 
 .order_status_tabs {
-  //   width: 100%;
-  //   height: 31px;
-  //   background: #fbfbfb;
-  //   box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
-  //   border-radius: 5px;
-  //   display: flex;
   background-color: white;
   box-shadow: 0.5px 0.5px 2px #86868644;
   border-radius: 5px;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-evenly;
+
   padding: 3px 3px;
   margin-top: 35px;
   margin-bottom: 15px;
 
   button {
-    // background: #fbfbfb;
-    // border-radius: 5px;
-    // color: #a5a5a5;
-    // border: none;
-    // width: 100%;
-    // height: 24px;
-    // text-transform: initial;
-
     color: grey;
     text-transform: none;
     font-weight: 100;
@@ -68,6 +54,13 @@
     border: none;
     height: 25px;
     font-size: 12px;
+    flex-grow: 1;
+
+    &.is_active {
+      background-color: vars.$ui_color_dark;
+      border-radius: 5px;
+      color: vars.$ui_color_light;
+    }
   }
 }
 

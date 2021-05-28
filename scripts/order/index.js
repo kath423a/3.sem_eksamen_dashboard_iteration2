@@ -94,8 +94,10 @@ function selectFilter() {
   console.log("filter is: ", filter);
 
   document.querySelectorAll(".order_status_tabs button").forEach((button) => {
-    button.classList.remove("chosen_desc");
+    button.classList.remove("is_active");
   });
+
+  this.classList.add("is_active");
 
   document.querySelector(".js_orders_list").innerHTML = "";
   prepareObjects(data[this.dataset.order]);
