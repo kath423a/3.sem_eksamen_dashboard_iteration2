@@ -4,6 +4,11 @@
 
 .page-content {
     grid-area: page-content;
+
+    @media (min-width: 680px) {
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+    }
 }
 
 .page-info {

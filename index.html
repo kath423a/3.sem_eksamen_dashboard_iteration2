@@ -4,7 +4,37 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Dashboard</title>
+        <title>FooBar - Dashboard</title>
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+        <link
+            rel="mask-icon"
+            href="/favicon/safari-pinned-tab.svg"
+            color="#ff912d"
+        />
+        <link rel="shortcut icon" href="/favicon/favicon.ico" />
+        <meta name="msapplication-TileColor" content="#ff912d" />
+        <meta
+            name="msapplication-config"
+            content="/favicon/browserconfig.xml"
+        />
+        <meta name="theme-color" content="#ffffff" />
     </head>
     <body>
         <div class="order-dashboard-grid">
@@ -88,7 +118,7 @@
                 <div class="order-grid">
                     <section id="order_list" class="board">
                         <div class="inner_wrapper">
-                            <h2>ORDER LIST</h2>
+                            <h2>Orders</h2>
                             <div class="order_status_tabs">
                                 <button
                                     class="button_new is_active"
@@ -104,23 +134,30 @@
                                 </button>
                                 <button class="button_done">Done</button>
                             </div>
-                            <div class="js_orders_list"></div>
+                            <div class="orders js_orders_list"></div>
                         </div>
                     </section>
 
                     <section id="order_info" class="board">
-                        <h2>ORDER INFO</h2>
-                        <div class="inner_wrapper">
+                        <h2>ORDER DETAILS</h2>
+                        <p class="message">Please choose an order to show</p>
+                        <div class="inner_wrapper hidden">
                             <div class="order_status_info">
-                                <p>Order id:<span class="order_id"></span></p>
-                                <p>Time: <span class="time"></span></p>
-                                <p>
-                                    Customer:
+                                <p>Order <span class="order_id"></span></p>
+                                <p class="text-with-icon">
+                                    <img src="/icons/clock.svg" alt="Clock" />
+                                    <span class="time"></span>
+                                </p>
+                                <p class="text-with-icon">
+                                    <img
+                                        src="/icons/person.svg"
+                                        alt="Customer"
+                                    />
                                     <span class="customer_name"></span>
                                 </p>
                             </div>
 
-                            <div class="js_beer_list"></div>
+                            <div class="beer_list js_beer_list"></div>
 
                             <div class="bottom_info">
                                 <div class="alert_button">
@@ -146,11 +183,14 @@
         <template id="order_item">
             <div class="orders_pop">
                 <div class="order_info_short">
-                    <h4>Order id: <span class="order_id"></span></h4>
-                    <p>
-                        Time: <span class="time"></span> Total:
-                        <span class="total"></span>,-
-                    </p>
+                    <h4>Order <span class="order_id"></span></h4>
+                    <div class="summary">
+                        <p class="text-with-icon">
+                            <img src="/icons/clock.svg" alt="Clock" />
+                            <span class="time"></span>
+                        </p>
+                        <p>Total: <span class="total"></span>,-</p>
+                    </div>
                 </div>
             </div>
         </template>
