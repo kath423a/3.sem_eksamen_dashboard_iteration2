@@ -16,6 +16,7 @@ const Order = {
     quantity: 0,
     image: "",
     items: [],
+    customer: null,
 };
 
 //Get the order data
@@ -67,7 +68,7 @@ function prepareObjects(jsonData) {
         order.orderid = jsonObject.id;
         order.time = correctTime;
         order.items = jsonObject.order;
-        //order.total =
+        order.customer = getRandomCustomerName();
 
         orders.push(order);
         allOrders.push(order);
@@ -127,7 +128,6 @@ function selectFilter() {
 }
 
 function showSingleOrder(order) {
-    const randomCustomerName = getRandomCustomerName();
     console.log("Showing data to the order view");
 
     document.querySelector("#order_info .message").classList.add("hidden");
@@ -140,7 +140,7 @@ function showSingleOrder(order) {
     ).textContent = ` #${order.orderid}`;
     document.querySelector(".order_status_info .time").textContent = order.time;
     document.querySelector(".order_status_info .customer_name").textContent =
-        randomCustomerName;
+        order.customer;
 
     displayBeers(order.items);
 }
