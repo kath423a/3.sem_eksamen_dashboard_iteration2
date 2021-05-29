@@ -4,14 +4,19 @@
 
 .page-content {
     grid-area: page-content;
+
+    @media (min-width: 680px) {
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+    }
 }
 
 .page-info {
     grid-area: page-info;
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
     align-items: center;
-    padding: 0 vars.$spacing;
+    padding: 0 var(--spacing);
     background-color: vars.$ui_bg_color;
     box-shadow: vars.$ui-shadow;
 
