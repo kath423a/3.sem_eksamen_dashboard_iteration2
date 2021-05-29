@@ -35,7 +35,7 @@
     grid-template-rows: 70px 1fr 70px;
 
     @media (min-width: vars.$breakpoint-medium) {
-        grid-template-columns: 200px 1fr;
+        grid-template-columns: auto 1fr;
         grid-template-rows: initial;
         gap: calc(var(--spacing) * 2);
     }
@@ -43,7 +43,10 @@
 
 #order_list {
     text-align: left;
-    padding: var(--spacing);
+
+    .order_list_header {
+        padding: var(--spacing) var(--spacing) 0 var(--spacing);
+    }
 
     @media (min-width: 680px) {
         .inner_wrapper {
@@ -133,6 +136,9 @@
 }
 
 .orders {
+    gap: var(--spacing);
+    padding: var(--spacing);
+
     .message {
         margin: auto;
         padding: 3rem 0;
@@ -143,7 +149,6 @@
 .beer_list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 
     @media (min-width: 680px) {
         max-height: 100%;
@@ -201,10 +206,10 @@
 
 .bottom_info {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 1rem;
-    justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     margin-top: auto;
 
     button {
