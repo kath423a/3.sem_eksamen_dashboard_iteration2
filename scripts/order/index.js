@@ -51,7 +51,7 @@ function loadJSON() {
             console.log(jsonData);
             prepareObjects(jsonData[filter]);
 
-            setTimeout(loadJSON, 5000);
+            // setTimeout(loadJSON, 5000);
         });
 }
 
@@ -104,6 +104,8 @@ function displayOrder(order) {
     clone
         .querySelector(".orders_pop")
         .addEventListener("click", () => showSingleOrder(order));
+
+    clone.querySelector(".orders_pop").classList.add("backInLeft");
 
     document.querySelector(".js_orders_list").appendChild(clone);
 }
@@ -205,3 +207,16 @@ function getRandomCustomerName() {
 
     return randomCustomer;
 }
+
+// function newOrder() {
+//   let clone = document.querySelector("#order_item").content.cloneNode(true);
+
+//   //set clone data
+//   clone.querySelector(".order_id").textContent = `#9000`;
+//   clone.querySelector(".time").textContent = "12:50:12";
+//   clone.querySelector(".total").textContent = "200";
+
+//   clone.querySelector(".orders_pop").classList.add("backInLeft");
+
+//   document.querySelector(".js_orders_list").appendChild(clone);
+// }
