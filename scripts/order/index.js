@@ -6,9 +6,9 @@ import { getRandomInteger } from "../modules/helpers";
 window.addEventListener("DOMContentLoaded", start);
 
 let data;
-let allOrders = [];
 let filter = "queue";
 let activeOrders = [];
+let doneOrders = [];
 
 const Order = {
     orderid: 0,
@@ -72,42 +72,46 @@ function prepareObjects(jsonData) {
         order.customer = getRandomCustomerName();
 
         orders.push(order);
-        allOrders.push(order);
     });
-
-    // // If there is 1 or more orders
-    // if (orders.length >= 1) {
-    //     // Show the order(s)
-    //     displayList(orders);
-    // } else {
-    //     // Show the no orders
-    //     displayNoOrdersMessage();
-    // }
 
     displayList(orders);
 }
 
-function displayNoOrdersMessage() {
+function toggleNoOrdersMessage(state) {
+    if (state === "hide") {
+        const message = document.querySelector(".js_orders_list .message");
+
+        if (message) {
+            message.remove();
+        }
+
+        return;
+    }
+
     const orderList = document.querySelector(".js_orders_list");
-    // const message = orderList.querySelector(".message");
-    // message.textContent = `No ${filter} orders`;
-    // message.classList.remove("is-hidden");
     orderList.innerHTML = `<p class="message">No ${filter} orders</p>`;
 }
 
 function displayList(orders) {
     const orderList = document.querySelector(".js_orders_list");
 
-    // const noOrdersMessage = document.querySelector(".js_orders_list .message");
-    // noOrdersMessage.classList.add("is-hidden");
-
     const newOrders = addNewOrders(orders);
     console.log("newOrders: ", newOrders);
     const oldOrders = removeOldOrders(orders);
     console.log("oldOrders", oldOrders);
 
+    console.log("doneOrders", doneOrders);
+
     if (newOrders.length >= 1) {
         newOrders.forEach(displayOrder);
+    }
+
+    console.log("activeOrders", activeOrders);
+
+    if (activeOrders.length >= 1) {
+        toggleNoOrdersMessage("hide");
+    } else {
+        toggleNoOrdersMessage("show");
     }
 
     if (oldOrders.length >= 1) {
@@ -131,8 +135,6 @@ function removeOrder(order) {
         });
     }
 }
-
-function removeOrderFromActiveOrders(order) {}
 
 function addNewOrders(orders) {
     // console.clear();
@@ -164,16 +166,23 @@ function addNewOrders(orders) {
 function removeOldOrders(orders) {
     const oldOrders = [];
 
-    activeOrders.forEach((activeOrder) => {
+    // Make a clone of active orders
+    const activeOrdersClone = [...activeOrders];
+
+    activeOrdersClone.forEach((activeOrder) => {
         const orderExists = orders.findIndex(
             (item) => item.orderid === activeOrder.orderid
         );
 
-        console.log(orderExists);
-
         if (orderExists === -1) {
-            console.log(activeOrder);
             oldOrders.push(activeOrder);
+            doneOrders.push(activeOrder);
+
+            const index = activeOrders.findIndex(
+                (item) => item.orderid === activeOrder.orderid
+            );
+
+            activeOrders.splice(index, 1);
         }
     });
 
@@ -202,8 +211,6 @@ function displayOrder(order) {
 }
 
 function selectFilter() {
-    console.log(this.dataset.order);
-
     filter = this.dataset.order;
     console.log("filter is: ", filter);
 
@@ -215,7 +222,16 @@ function selectFilter() {
 
     document.querySelector(".js_orders_list").innerHTML = "";
     activeOrders = [];
-    prepareObjects(data[this.dataset.order]);
+
+    if (filter === "done") {
+        console.log(doneOrders);
+        displayList(doneOrders);
+        return;
+    } else {
+        console.log(data[filter]);
+
+        prepareObjects(data[filter]);
+    }
 }
 
 function showSingleOrder(order) {

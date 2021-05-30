@@ -112,13 +112,6 @@
                 </nav>
             </header>
 
-            <!-- <aside class="page-info">
-                <p class="server-status js-server-status">
-                    Updated 2 seconds ago
-                    <span class="server-status__icon"></span>
-                </p>
-            </aside> -->
-
             <main class="page-content">
                 <div class="order-grid">
                     <section id="order_list">
@@ -138,11 +131,16 @@
                                     >
                                         Doing
                                     </button>
-                                    <button class="button_done">Done</button>
+                                    <button
+                                        class="button_done"
+                                        data-order="done"
+                                    >
+                                        Done
+                                    </button>
                                 </div>
                             </div>
                             <div class="orders js_orders_list">
-                                <!-- <p class="message"></p> -->
+                                <p class="message is-hidden"></p>
                             </div>
                         </div>
                     </section>
