@@ -24,7 +24,7 @@
 
   .revenue_box {
     width: 100%;
-    height: 200px;
+    height: 340px;
 
     display: grid;
     grid-template-columns: 70px auto auto;
@@ -40,19 +40,31 @@
       width: 100%;
       align-self: flex-end;
       grid-area: revenue_time;
+      li {
+        width: 20px;
+        text-align: center;
+      }
     }
     .revenue_price {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      align-items: flex-end;
       list-style-type: none;
       height: 100%;
       grid-area: revenue_price;
+      li {
+        padding-right: 5px;
+      }
     }
     .chart_box {
       grid-area: chart_box;
       border-bottom: 1px solid vars.$ui_color_dark;
       border-left: 1px solid vars.$ui_color_dark;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
       #curvechart {
         width: 100%;
         height: 100%;
@@ -62,8 +74,13 @@
         stroke: vars.$dark_green;
         fill: none;
         stroke-dasharray: 1;
-        transform: scaleY(-1) translateY(-130px);
+        transform: scaleY(-1) translateY(-300px);
       }
+      // .point {
+      //   width: 10px;
+      //   height: 5px;
+      //   background: tomato;
+      // }
     }
   }
 
