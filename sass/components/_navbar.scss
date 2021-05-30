@@ -1,34 +1,20 @@
 @use "../abstracts/vars";
 
-body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
 #menubar {
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: 70px;
-    position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #ffffff;
     overflow-x: hidden;
-    padding: 20px 10px;
-    filter: drop-shadow(2px 4px 7px rgba(0, 0, 0, 0.1));
+    padding: 1.5rem;
     list-style: none;
     margin: 0;
-    gap: 1rem;
+    gap: 1.5rem;
+    width: 200px;
 
     li {
-        padding: 10px 10px;
-        border: 1px solid #f4f4f4;
-        border-radius: 50%;
-        text-align: center;
-        background-color: #f4f4f4;
     }
 
     li:hover {
@@ -37,8 +23,43 @@ body {
 
     a {
         display: flex;
-        justify-content: center;
         align-items: center;
+        text-decoration: none;
+        gap: 1rem;
+
+        .icon {
+            padding: 10px 10px;
+            border: 1px solid #f4f4f4;
+            border-radius: 50%;
+            text-align: center;
+            background-color: #f4f4f4;
+            display: flex;
+
+            svg {
+                fill: vars.$icon-color-default;
+            }
+        }
+
+        .text {
+            @media (max-width: 499px) {
+                position: absolute;
+                left: -10000px;
+                top: auto;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+            }
+        }
+
+        &.is-active {
+            .icon {
+                background-color: vars.$dark;
+
+                svg {
+                    fill: #fff;
+                }
+            }
+        }
     }
 }
 
@@ -50,17 +71,11 @@ body {
         height: initial;
         bottom: 0;
         top: initial;
-        padding: 10px 20px;
+        padding: 12px 1rem;
         justify-content: space-between;
-
-        li {
-            padding: 10px 10px;
-            border: 1px solid #f4f4f4;
-            border-radius: 50%;
-            text-align: center;
-            background-color: #f4f4f4;
-            align-self: center;
-        }
+        position: fixed;
+        filter: drop-shadow(2px 4px 7px rgba(0, 0, 0, 0.1));
+        background-color: #ffffff;
 
         li.logo {
             padding: 0;
