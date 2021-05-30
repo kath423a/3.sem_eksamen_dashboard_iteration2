@@ -59,9 +59,10 @@
       }
       #line {
         stroke-width: 1;
-        stroke: purple;
+        stroke: vars.$dark_green;
         fill: none;
         stroke-dasharray: 1;
+        transform: scaleY(-1) translateY(-130px);
       }
     }
   }
