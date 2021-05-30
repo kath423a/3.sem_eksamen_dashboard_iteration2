@@ -1,5 +1,4 @@
 import "../../sass/index.scss";
-// import { selectChart, revenueResults } from "./chart";
 
 ("use strict");
 
@@ -75,7 +74,7 @@ function getChartPoints() {
   let points = "";
   let revenues = Object.values(revenueResults);
   revenues.forEach((value, i) => {
-    points += i * 130 + "," + value / 50 + " ";
+    points += i * 130 + "," + value / 100 + " ";
   });
   console.log(revenueResults);
   console.log(points);

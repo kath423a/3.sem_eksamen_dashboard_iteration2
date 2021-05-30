@@ -27,7 +27,7 @@
     height: 200px;
 
     display: grid;
-    grid-template-columns: 50px auto auto;
+    grid-template-columns: 70px auto auto;
     grid-template-rows: auto auto 30px;
     grid-template-areas:
       "revenue_price chart_box chart_box"
