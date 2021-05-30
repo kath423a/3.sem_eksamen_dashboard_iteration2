@@ -8,6 +8,7 @@ window.addEventListener("DOMContentLoaded", start);
 let data;
 let allOrders = [];
 let filter = "queue";
+let activeOrders = [];
 
 const Order = {
     orderid: 0,
@@ -52,7 +53,7 @@ function loadJSON() {
             console.log(jsonData);
             prepareObjects(jsonData[filter]);
 
-            // setTimeout(loadJSON, 5000);
+            setTimeout(loadJSON, 5000);
         });
 }
 
@@ -73,23 +74,110 @@ function prepareObjects(jsonData) {
         orders.push(order);
         allOrders.push(order);
     });
+
+    // // If there is 1 or more orders
+    // if (orders.length >= 1) {
+    //     // Show the order(s)
+    //     displayList(orders);
+    // } else {
+    //     // Show the no orders
+    //     displayNoOrdersMessage();
+    // }
+
     displayList(orders);
 }
 
-function displayList(orders) {
-    //clear the list
+function displayNoOrdersMessage() {
     const orderList = document.querySelector(".js_orders_list");
-    orderList.innerHTML = "";
+    // const message = orderList.querySelector(".message");
+    // message.textContent = `No ${filter} orders`;
+    // message.classList.remove("is-hidden");
+    orderList.innerHTML = `<p class="message">No ${filter} orders</p>`;
+}
 
-    // If there is at least one order - Show the order
-    if (orders.length >= 1) {
-        //build a new list
-        orders.forEach(displayOrder);
-        console.log("There is orders");
-    } else {
-        // Else show a message
-        orderList.innerHTML = `<p class="message">No ${filter} orders</p>`;
+function displayList(orders) {
+    const orderList = document.querySelector(".js_orders_list");
+
+    // const noOrdersMessage = document.querySelector(".js_orders_list .message");
+    // noOrdersMessage.classList.add("is-hidden");
+
+    const newOrders = addNewOrders(orders);
+    console.log("newOrders: ", newOrders);
+    const oldOrders = removeOldOrders(orders);
+    console.log("oldOrders", oldOrders);
+
+    if (newOrders.length >= 1) {
+        newOrders.forEach(displayOrder);
     }
+
+    if (oldOrders.length >= 1) {
+        oldOrders.forEach(removeOrder);
+    }
+}
+
+function removeOrder(order) {
+    const id = order.orderid;
+
+    const element = document.querySelector(
+        `.orders_pop[data-order-id="${id}"]`
+    );
+
+    if (element) {
+        element.classList.remove("backInLeft");
+        element.classList.add("backOutRight");
+
+        element.addEventListener("animationend", () => {
+            element.remove();
+        });
+    }
+}
+
+function removeOrderFromActiveOrders(order) {}
+
+function addNewOrders(orders) {
+    // console.clear();
+
+    const newOrders = [];
+
+    console.table(activeOrders, ["orderid"]);
+
+    orders.forEach((order) => {
+        const orderExists = activeOrders.findIndex(
+            (item) => item.orderid === order.orderid
+        );
+
+        console.log(orderExists);
+
+        // If order exist - add order
+        if (orderExists === -1) {
+            console.log("new order, adding order #", order.orderid);
+            newOrders.push(order);
+            activeOrders.push(order);
+
+            return;
+        }
+    });
+
+    return newOrders;
+}
+
+function removeOldOrders(orders) {
+    const oldOrders = [];
+
+    activeOrders.forEach((activeOrder) => {
+        const orderExists = orders.findIndex(
+            (item) => item.orderid === activeOrder.orderid
+        );
+
+        console.log(orderExists);
+
+        if (orderExists === -1) {
+            console.log(activeOrder);
+            oldOrders.push(activeOrder);
+        }
+    });
+
+    return oldOrders;
 }
 
 function displayOrder(order) {
@@ -100,13 +188,15 @@ function displayOrder(order) {
     clone.querySelector(".order_id").textContent = ` #${order.orderid}`;
     clone.querySelector(".time").textContent = order.time;
     clone.querySelector(".total").textContent = order.items.length * 40;
-    console.log(order);
 
     clone
         .querySelector(".orders_pop")
         .addEventListener("click", () => showSingleOrder(order));
 
     clone.querySelector(".orders_pop").classList.add("backInLeft");
+    clone
+        .querySelector(".orders_pop")
+        .setAttribute("data-order-id", order.orderid);
 
     document.querySelector(".js_orders_list").appendChild(clone);
 }
@@ -124,6 +214,7 @@ function selectFilter() {
     this.classList.add("is_active");
 
     document.querySelector(".js_orders_list").innerHTML = "";
+    activeOrders = [];
     prepareObjects(data[this.dataset.order]);
 }
 
@@ -200,23 +291,9 @@ function showBeer(beer) {
 function getRandomCustomerName() {
     const customers = settings.randomCustomers;
     const customerAmount = customers.length;
-    console.log(customerAmount);
 
     const randomNumber = getRandomInteger(1, customerAmount);
     const randomCustomer = customers[randomNumber - 1];
 
     return randomCustomer;
 }
-
-// function newOrder() {
-//   let clone = document.querySelector("#order_item").content.cloneNode(true);
-
-//   //set clone data
-//   clone.querySelector(".order_id").textContent = `#9000`;
-//   clone.querySelector(".time").textContent = "12:50:12";
-//   clone.querySelector(".total").textContent = "200";
-
-//   clone.querySelector(".orders_pop").classList.add("backInLeft");
-
-//   document.querySelector(".js_orders_list").appendChild(clone);
-// }
