@@ -22,7 +22,7 @@ export function prepareBeerTapChartObjects(beerTaps) {
 
 function showBeerTapLiquid(beerTapObject) {
     const beerTapChart = settings.hooks.beerTapChart;
-    const template = settings.templates.beerBar.cloneNode(true);
+    const template = settings.templates.beerBar.content.cloneNode(true);
     const { beer, level, capacity } = beerTapObject;
     const percentage = parseInt((level / capacity) * 100);
 
