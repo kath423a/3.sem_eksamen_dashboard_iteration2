@@ -78,11 +78,11 @@
         stroke-dasharray: 1;
         transform: scaleY(-1) translateY(-300px);
       }
-      // .point {
-      //   width: 10px;
-      //   height: 5px;
-      //   background: tomato;
-      // }
+      span {
+        color: tomato;
+        text-align: center;
+        margin: auto;
+      }
     }
   }
 

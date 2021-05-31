@@ -124,7 +124,7 @@ function getOrderPrice(newestCustomer) {
     revenue.pop();
 
     localStorage.setItem("hourlyRevenue", JSON.stringify(revenue));
-
+    console.log(revenueResults);
     // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
   }
 
@@ -136,12 +136,25 @@ function getOrderPrice(newestCustomer) {
 
 function getChartPoints() {
   let points = "";
+  console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
+  if (JSON.parse(localStorage.getItem("hourlyRevenue")) === null) {
+    console.log("please wait for next hourly interval to start collecting data");
+  } else {
+    if (document.querySelector(".chart_box span").classList.contains("hidden")) {
+      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue"))[0]);
+      revenues.forEach((value, i) => {
+        points += i * 130 + "," + value / 100 + " ";
+      });
+    } else {
+      document.querySelector(".chart_box span").classList.add("hidden");
+      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue"))[0]);
+      revenues.forEach((value, i) => {
+        points += i * 130 + "," + value / 100 + " ";
+      });
+    }
+  }
 
-  let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue"))[0]);
-  revenues.forEach((value, i) => {
-    points += i * 130 + "," + value / 100 + " ";
-  });
-  console.log(revenueResults);
+  // console.log(revenueResults);
   console.log(points);
   const line = document.querySelector("#line");
   line.setAttribute("points", points);
