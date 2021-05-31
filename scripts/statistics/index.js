@@ -141,8 +141,8 @@ function getChartPoints() {
   revenues.forEach((value, i) => {
     points += i * 130 + "," + value / 100 + " ";
   });
-  // console.log(revenueResults);
-  // console.log(points);
+  console.log(revenueResults);
+  console.log(points);
   const line = document.querySelector("#line");
   line.setAttribute("points", points);
   line.style.strokeDashoffset = 0;

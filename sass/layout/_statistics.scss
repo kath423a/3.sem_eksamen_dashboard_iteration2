@@ -67,7 +67,9 @@
       align-items: flex-end;
       #curvechart {
         width: 100%;
-        height: 100%;
+        // height: 100%;
+        height: 310px;
+        position: relative;
       }
       #line {
         stroke-width: 1;
