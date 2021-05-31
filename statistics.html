@@ -123,66 +123,51 @@
                         <div class="served_num_wrapper"></div>
                     </section>
 
-                    <section class="inventory-section orders">
-                        <h3 class="inventory-section__title">
-                            Orders per employee
-                        </h3>
-                        <div class="bartenders_wrapper">
-                            <ul>
-                                <li class="bartender Dannie">
-                                    <img
-                                        src="/images/employee-default.png"
-                                        alt="bartender"
-                                        class="bartender__image"
-                                    />
-                                    <h3 class="bartender_name">Dannie</h3>
-                                    <div class="order_num_wrapper"></div>
-                                </li>
-                                <li class="bartender Jonas">
-                                    <img
-                                        src="/images/employee-default.png"
-                                        alt="bartender"
-                                        class="bartender__image"
-                                    />
-                                    <h3 class="bartender_name">Jonas</h3>
-                                    <div class="order_num_wrapper"></div>
-                                </li>
-                                <li class="bartender Peter">
-                                    <img
-                                        src="/images/employee-default.png"
-                                        alt="bartender"
-                                        class="bartender__image"
-                                    />
-                                    <h3 class="bartender_name">Peter</h3>
-                                    <div class="order_num_wrapper"></div>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
 
-                    <section class="inventory-section revenue">
-                        <h3 class="inventory-section__title">Revenue today</h3>
-                        <div class="revenue_box">
-                            <ul class="revenue_price">
-                                <li>900,-</li>
-                                <li>500,-</li>
-                                <li>100,-</li>
-                            </ul>
-                            <ul class="revenue_time"></ul>
-                            <div class="chart_box">
-                                <svg id="curvechart" preserveAspectRatio="none">
-                                    <polyline
-                                        id="line"
-                                        pathLength="1"
-                                        points=""
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </main>
+          <section class="inventory-section orders">
+            <h3 class="inventory-section__title">Orders per employee</h3>
+            <div class="bartenders_wrapper">
+              <ul>
+                <li class="bartender Dannie">
+                  <img src="/bartenders/dannie.jpg" alt="bartender" class="bartender__image" />
+                  <h3 class="bartender_name">Dannie</h3>
+                  <div class="order_num_wrapper"></div>
+                </li>
+                <li class="bartender Jonas">
+                  <img src="/bartenders/jonas.jpg" alt="bartender" class="bartender__image" />
+                  <h3 class="bartender_name">Jonas</h3>
+                  <div class="order_num_wrapper"></div>
+                </li>
+                <li class="bartender Peter">
+                  <img src="/bartenders/peter.jpg" alt="bartender" class="bartender__image" />
+                  <h3 class="bartender_name">Peter</h3>
+                  <div class="order_num_wrapper"></div>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="inventory-section revenue">
+            <h3 class="inventory-section__title">Revenue today</h3>
+
+            <div class="revenue_box">
+              <ul class="revenue_price">
+                <li>30.000,-</li>
+                <li>20.000,-</li>
+                <li>10.000,-</li>
+                <li>0,-</li>
+              </ul>
+              <ul class="revenue_time"></ul>
+              <div class="chart_box">
+                <svg id="curvechart">
+                  <polyline id="line" pathLength="1" points="" />
+                </svg>
+              </div>
+            </div>
+          </section>
         </div>
+              </main>
+    </div>
 
         <template class="queue_template">
             <p class="queue_number"></p>

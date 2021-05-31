@@ -1,5 +1,4 @@
 import "../../sass/index.scss";
-// import { selectChart, revenueResults } from "./chart";
 
 ("use strict");
 
@@ -13,14 +12,14 @@ let employeesStatus = {
   Dannie: [0],
 };
 let revenueResults = {
-  8: 1600,
-  10: 2000,
-  12: 2800,
-  14: 1400,
-  16: 1000,
-  18: 4000,
-  20: 6000,
-  22: 4800,
+  8: 0,
+  10: 0,
+  12: 0,
+  14: 0,
+  16: 0,
+  18: 0,
+  20: 0,
+  22: 0,
 };
 
 async function init() {
@@ -54,11 +53,10 @@ async function getData() {
     await setTimeout(await getData, 1000);
   } // TAK NIKLAS<3
 
-  console.log(data);
+  // console.log(data);
 
   displayNumber("queue");
   resetStorage();
-  getChartPoints();
 }
 
 function createChart() {
@@ -69,19 +67,10 @@ function createChart() {
     li.textContent = key;
     li.classList.add(`${key}`);
     container.append(li);
+    const point = document.createElement("div");
+    point.classList.add("point", `${key}`);
+    document.querySelector(".chart_box").append(point);
   });
-}
-function getChartPoints() {
-  let points = "";
-  let revenues = Object.values(revenueResults);
-  revenues.forEach((value, i) => {
-    points += i * 130 + "," + (value - 1000) + " ";
-  });
-  console.log(revenueResults);
-  console.log(points);
-  const line = document.querySelector("#line");
-  line.setAttribute("points", points);
-  line.style.strokeDashoffset = 0;
 }
 
 function getDailyOrders() {
@@ -102,6 +91,7 @@ function getDailyOrders() {
   }
   // console.log(localStorage.servedCount);
   displayNumber("served");
+  getChartPoints();
 }
 
 function getOrderPrice(newestCustomer) {
@@ -114,19 +104,48 @@ function getOrderPrice(newestCustomer) {
   } else {
     localStorage.dailyRevenue = 0;
   }
+
   let time = new Date(data.timestamp);
   console.log(time.getMinutes());
-  console.log(localStorage.getItem("dailyRevenue"));
+  console.log(parseInt(localStorage.getItem("dailyRevenue")));
 
   if ([time.getHours()] in revenueResults) {
-    let hourlyRevenue = localStorage.getItem("dailyRevenue");
+    let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
     revenueResults[time.getHours()] = hourlyRevenue;
+    // console.log(revenueResults);
+
+    // let revenue = JSON.parse(localStorage.getItem("hourlyRevenue")) || [];
+    let revenue = [JSON.parse(localStorage.getItem("hourlyRevenue"))];
+
+    // console.log(localStorage.getItem("hourlyRevenue"));
+    console.log(revenue);
+
+    revenue.unshift(revenueResults);
+    revenue.pop();
+
+    localStorage.setItem("hourlyRevenue", JSON.stringify(revenue));
+
+    // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
   }
 
-  if (time.getMinutes() == "00") {
-    localStorage.dailyRevenue = 0;
-    console.log(localStorage);
-  }
+  // if (time.getMinutes() == "00") {
+  //   localStorage.dailyRevenue = 0;
+  //   // console.log(localStorage);
+  // }
+}
+
+function getChartPoints() {
+  let points = "";
+
+  let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue"))[0]);
+  revenues.forEach((value, i) => {
+    points += i * 130 + "," + value / 100 + " ";
+  });
+  // console.log(revenueResults);
+  // console.log(points);
+  const line = document.querySelector("#line");
+  line.setAttribute("points", points);
+  line.style.strokeDashoffset = 0;
 }
 
 function getBartenderOrders() {
@@ -206,5 +225,3 @@ function displayBartenderOrders(person) {
   }
   document.querySelector(`.${person.name} .order_num_wrapper`).appendChild(clone);
 }
-
-function displayChart() {}
