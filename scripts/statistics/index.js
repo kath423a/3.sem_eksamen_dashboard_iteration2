@@ -112,31 +112,36 @@ function getOrderPrice(newestCustomer) {
   if ([time.getHours()] in revenueResults) {
     let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
     revenueResults[time.getHours()] = hourlyRevenue;
-    console.log(revenueResults);
+    // console.log(revenueResults);
 
-    let revenue = JSON.parse(localStorage.getItem("hourlyRevenue")) || [];
+    // let revenue = JSON.parse(localStorage.getItem("hourlyRevenue")) || [];
+    let revenue = [JSON.parse(localStorage.getItem("hourlyRevenue"))];
+
+    // console.log(localStorage.getItem("hourlyRevenue"));
+    console.log(revenue);
 
     revenue.unshift(revenueResults);
     revenue.pop();
 
     localStorage.setItem("hourlyRevenue", JSON.stringify(revenue));
 
-    console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
+    // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
   }
 
-  if (time.getMinutes() == "00") {
-    localStorage.dailyRevenue = 0;
-    console.log(localStorage);
-  }
+  // if (time.getMinutes() == "00") {
+  //   localStorage.dailyRevenue = 0;
+  //   // console.log(localStorage);
+  // }
 }
 
 function getChartPoints() {
   let points = "";
+
   let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue"))[0]);
   revenues.forEach((value, i) => {
     points += i * 130 + "," + value / 100 + " ";
   });
-  console.log(revenueResults);
+  // console.log(revenueResults);
   // console.log(points);
   const line = document.querySelector("#line");
   line.setAttribute("points", points);
