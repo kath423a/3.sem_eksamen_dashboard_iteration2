@@ -37,19 +37,19 @@ $bar-chart-border-color: #c7c7c7;
 $bar-background-color: #f4f4f4;
 $bar-x-axis-color: #999999;
 
-$breakpoint-small: 768px;
+$breakpoint-small: 1024px;
 $breakpoint-medium: 1100px;
 $breakpoint-large: 1250px;
 
 :root {
-    --spacing: #{math.div($spacing, 3)};
-    --spacing--small: #{math.div($spacing--small, 3)};
-    --spacing--xsmall: #{math.div($spacing--xsmall, 3)};
-    --beer-tap-chart-height: 400px;
+  --spacing: #{math.div($spacing, 3)};
+  --spacing--small: #{math.div($spacing--small, 3)};
+  --spacing--xsmall: #{math.div($spacing--xsmall, 3)};
+  --beer-tap-chart-height: 400px;
 }
 
 @media (min-width: $breakpoint-medium) {
-    :root {
-        --spacing: #{$spacing};
-    }
+  :root {
+    --spacing: #{$spacing};
+  }
 }
