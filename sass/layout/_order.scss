@@ -337,6 +337,7 @@
     animation-name: backOutRight;
     animation-duration: 1s;
     animation-fill-mode: both;
+    min-height: initial;
 }
 
 @keyframes hideElement {
