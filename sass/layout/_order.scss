@@ -10,6 +10,9 @@
     box-shadow: vars.$ui-shadow;
     position: relative;
 
+    @media (min-width: 680px) {
+        z-index: 1;
+    }
     @media (min-width: vars.$breakpoint-medium) {
         flex-direction: column;
         padding: calc(var(--spacing) * 2);
@@ -106,7 +109,7 @@
 
 @media (min-width: 680px) {
     #order_info {
-        position: initial;
+        position: relative;
         height: initial;
 
         &.is-hidden {
