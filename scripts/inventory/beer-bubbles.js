@@ -33,7 +33,7 @@ function generateBeerBubbles(beerTapBar, numberOfBubbles) {
 
     // for number of bubbles... make a bubble
     for (let index = 1; index <= numberOfBubbles; index++) {
-        const template = settings.templates.beerBubble.cloneNode(true);
+        const template = settings.templates.beerBubble.content.cloneNode(true);
         const delay = getRandomInteger(minDelay, maxDelay, rangeDelay);
         const duration = getRandomInteger(
             minDuration,

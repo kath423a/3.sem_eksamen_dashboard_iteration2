@@ -14,7 +14,7 @@ export function prepareBartenderStatusObjects(bartenders) {
 }
 
 function showBartenderStatus(bartenderObject) {
-    const template = settings.templates.bartender.cloneNode(true);
+    const template = settings.templates.bartender.content.cloneNode(true);
     const list = settings.hooks.bartenderStatusList;
 
     const {

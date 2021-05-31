@@ -13,7 +13,7 @@ export function prepareBeerStockStatusObjects(beersInStock) {
 
 function showBeerStockStatus(beerObject) {
     const list = settings.hooks.beerStockStatusList;
-    const template = settings.templates.beerStock.cloneNode(true);
+    const template = settings.templates.beerStock.content.cloneNode(true);
     const color = settings.beerColors[beerObject.name];
     const { name, amount } = beerObject;
 
