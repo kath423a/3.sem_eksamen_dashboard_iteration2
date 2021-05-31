@@ -12,6 +12,9 @@ $dark_green: #3ccb75;
 $light_green: #ace365;
 $orange: #ff912d;
 
+$light: #fff;
+$dark: #343331;
+
 // ui-colors:
 $bg_color: #fbfbfb;
 $ui_color_dark: #343331;
@@ -21,6 +24,9 @@ $ui_bg_color: #fff;
 // Cosmetics
 $ui-corners: 5px;
 $ui-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
+
+// Icons
+$icon-color-default: $dark;
 
 $spacing: 3rem;
 $spacing--small: 2rem;
@@ -36,14 +42,14 @@ $breakpoint-medium: 1100px;
 $breakpoint-large: 1250px;
 
 :root {
-  --spacing: #{math.div($spacing, 3)};
-  --spacing--small: #{math.div($spacing--small, 3)};
-  --spacing--xsmall: #{math.div($spacing--xsmall, 3)};
-  --beer-tap-chart-height: 400px;
+    --spacing: #{math.div($spacing, 3)};
+    --spacing--small: #{math.div($spacing--small, 3)};
+    --spacing--xsmall: #{math.div($spacing--xsmall, 3)};
+    --beer-tap-chart-height: 400px;
 }
 
 @media (min-width: $breakpoint-medium) {
-  :root {
-    --spacing: #{$spacing};
-  }
+    :root {
+        --spacing: #{$spacing};
+    }
 }

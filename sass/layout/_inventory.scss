@@ -3,20 +3,9 @@
 @use "../abstracts/vars";
 
 .page-content {
-    grid-area: page-content;
-}
-
-.page-info {
-    grid-area: page-info;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 vars.$spacing;
-    background-color: vars.$ui_bg_color;
-    box-shadow: vars.$ui-shadow;
-
-    &__status {
-        font-family: "Poppins", sans-serif;
+    @media (min-width: 680px) {
+        max-height: 100vh;
+        overflow-y: auto;
     }
 }
 
@@ -370,11 +359,5 @@
             100% 100%,
             0% 100%
         );
-    }
-}
-
-@media (min-width: vars.$breakpoint-medium) {
-    .page-header {
-        grid-area: page-header;
     }
 }
