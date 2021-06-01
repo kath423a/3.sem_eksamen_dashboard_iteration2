@@ -315,7 +315,15 @@ function showBeer(beer) {
     clone.querySelector(".quantity").textContent = `${beer.quantity}x`;
     clone.querySelector(".price").textContent = beer.price * beer.quantity;
 
+    const ordersPopLong = clone.querySelector(".orders_pop_long");
+
+    ordersPopLong.addEventListener("click", toggleOrderItemStatus);
+
     document.querySelector(".js_beer_list").appendChild(clone);
+
+    function toggleOrderItemStatus() {
+        ordersPopLong.classList.toggle("is-done");
+    }
 }
 
 function getRandomCustomerName() {

@@ -232,6 +232,32 @@
     height: 99px;
     background: #ffffff;
     border-radius: 5px;
+    cursor: pointer;
+    transition: filter ease-in-out 0.3s;
+    position: relative;
+
+    &::before {
+        content: "";
+        height: 1px;
+        background-color: vars.$ui_color_dark;
+        width: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        position: absolute;
+        opacity: 0;
+        transition: opacity ease-in-out 0.3s, width ease-in-out 0.3s;
+    }
+    &.is-done {
+        filter: grayscale(1);
+
+        &::before {
+            opacity: 1;
+            width: 100%;
+        }
+    }
 
     p {
         align-self: center;
