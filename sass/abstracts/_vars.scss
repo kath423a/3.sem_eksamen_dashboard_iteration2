@@ -28,6 +28,11 @@ $ui-shadow: 2px 4px 7px rgba(0, 0, 0, 0.1);
 // Icons
 $icon-color-default: $dark;
 
+// States
+$error-background-color: $red;
+$danger-background-color: $orange;
+$success-background-color: $dark_green;
+
 $spacing: 3rem;
 $spacing--small: 2rem;
 $spacing--xsmall: 1rem;
@@ -42,14 +47,14 @@ $breakpoint-medium: 1100px;
 $breakpoint-large: 1250px;
 
 :root {
-  --spacing: #{math.div($spacing, 3)};
-  --spacing--small: #{math.div($spacing--small, 3)};
-  --spacing--xsmall: #{math.div($spacing--xsmall, 3)};
-  --beer-tap-chart-height: 400px;
+    --spacing: #{math.div($spacing, 3)};
+    --spacing--small: #{math.div($spacing--small, 3)};
+    --spacing--xsmall: #{math.div($spacing--xsmall, 3)};
+    --beer-tap-chart-height: 400px;
 }
 
 @media (min-width: $breakpoint-medium) {
-  :root {
-    --spacing: #{$spacing};
-  }
+    :root {
+        --spacing: #{$spacing};
+    }
 }
