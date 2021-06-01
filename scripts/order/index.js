@@ -64,7 +64,7 @@ function loadJSON() {
             console.log(jsonData);
             prepareObjects(jsonData[filter]);
 
-            setTimeout(loadJSON, 5000);
+            // setTimeout(loadJSON, 5000);
         });
 }
 
