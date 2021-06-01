@@ -13,16 +13,30 @@ let employeesStatus = {
 };
 let revenueResults = {
   8: 0,
+  9: 0,
   10: 0,
+  11: 0,
   12: 0,
+  13: 0,
   14: 0,
+  15: 0,
   16: 0,
+  17: 0,
   18: 0,
+  19: 0,
   20: 0,
+  21: 0,
   22: 0,
 };
 
 async function init() {
+
+  const localStorageHourlyRevenue = JSON.parse(localStorage.getItem("hourlyRevenue"));
+
+  if (!localStorageHourlyRevenue) {
+    JSON.parse(localStorage.setItem("hourlyRevenue")) = revenueResults;
+  }
+  
   getData();
   createChart();
 }
@@ -104,52 +118,59 @@ function getOrderPrice(newestCustomer) {
   } else {
     localStorage.dailyRevenue = 0;
   }
+  getHourlyRevenue();
+}
 
+function getHourlyRevenue() {
   let time = new Date(data.timestamp);
   console.log(time.getMinutes());
   console.log(parseInt(localStorage.getItem("dailyRevenue")));
-
-  if ([time.getHours()] in revenueResults) {
+  const hour = time.getHours();
+  if (hour in revenueResults) {
     let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
-    revenueResults[time.getHours()] = hourlyRevenue;
+    revenueResults[hour] = hourlyRevenue;
     // console.log(revenueResults);
 
-    // let revenue = JSON.parse(localStorage.getItem("hourlyRevenue")) || [];
-    let revenue = [JSON.parse(localStorage.getItem("hourlyRevenue"))];
+    let revenue = JSON.parse(localStorage.getItem("hourlyRevenue")) || revenueResults;
+    console.log(revenueResults);
+    // let revenue = [JSON.parse(localStorage.getItem("hourlyRevenue"))];
 
-    // console.log(localStorage.getItem("hourlyRevenue"));
-    console.log(revenue);
+    revenue[hour] = revenueResults[hour];
 
-    revenue.unshift(revenueResults);
-    revenue.pop();
+    console.log("time", time.getHours());
+
+    // revenue.unshift(revenueResults);
+    // revenue.pop();
 
     localStorage.setItem("hourlyRevenue", JSON.stringify(revenue));
     console.log(revenueResults);
+    console.log(localStorage);
     // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
   }
 
-  // if (time.getMinutes() == "00") {
-  //   localStorage.dailyRevenue = 0;
-  //   // console.log(localStorage);
-  // }
+  if (time.getMinutes() == "00") {
+    localStorage.dailyRevenue = 0;
+    // console.log(localStorage);
+  }
 }
 
 function getChartPoints() {
+
   let points = "";
   console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
-  if (JSON.parse(localStorage.getItem("hourlyRevenue")) === null) {
+  if (!JSON.parse(localStorage.getItem("hourlyRevenue"))) {
     console.log("please wait for next hourly interval to start collecting data");
   } else {
     if (document.querySelector(".chart_box span").classList.contains("hidden")) {
-      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue"))[0]);
+      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue")));
       revenues.forEach((value, i) => {
-        points += i * 130 + "," + value / 100 + " ";
+        points += i * 65 + "," + value / 100 + " ";
       });
     } else {
       document.querySelector(".chart_box span").classList.add("hidden");
-      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue"))[0]);
+      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue")));
       revenues.forEach((value, i) => {
-        points += i * 130 + "," + value / 100 + " ";
+        points += i * 65 + "," + value / 100 + " ";
       });
     }
   }
