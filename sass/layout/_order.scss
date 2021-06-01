@@ -10,6 +10,9 @@
     box-shadow: vars.$ui-shadow;
     position: relative;
 
+    @media (min-width: 680px) {
+        z-index: 1;
+    }
     @media (min-width: vars.$breakpoint-medium) {
         flex-direction: column;
         padding: calc(var(--spacing) * 2);
@@ -65,6 +68,15 @@
     background-color: vars.$ui_bg_color;
     padding: var(--spacing);
     box-shadow: vars.$ui-shadow;
+    position: fixed;
+    height: calc(100vh - 70px);
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    &.is-hidden {
+        display: none;
+    }
 
     .message {
         margin: auto;
@@ -80,9 +92,31 @@
             display: none;
         }
     }
+
+    .close-button {
+        position: absolute;
+
+        top: var(--spacing);
+        right: var(--spacing);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        border: 0;
+        padding: 6px;
+    }
 }
 
 @media (min-width: 680px) {
+    #order_info {
+        position: relative;
+        height: initial;
+
+        &.is-hidden {
+            display: flex;
+        }
+    }
+
     #order_info,
     #order_list {
         max-height: 100%;
@@ -131,6 +165,7 @@
     justify-content: space-between;
     cursor: pointer;
     height: 113px;
+    min-height: 113px;
 
     .order_info_short {
         padding: var(--spacing);
@@ -302,6 +337,7 @@
     animation-name: backOutRight;
     animation-duration: 1s;
     animation-fill-mode: both;
+    min-height: initial;
 }
 
 @keyframes hideElement {

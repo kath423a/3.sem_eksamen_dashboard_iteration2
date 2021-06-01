@@ -41,6 +41,17 @@ function registerButtons() {
             alertMessage.classList.add("hidden");
         }, 5000);
     });
+
+    const orderInfo = document.querySelector("#order_info");
+    const message = document.querySelector("#order_info .message");
+    const closeButton = document.querySelector(".js-close-button");
+    closeButton.addEventListener("click", () => {
+        orderInfo.classList.add("is-hidden");
+        message.classList.remove("hidden");
+        document
+            .querySelector("#order_info .inner_wrapper")
+            .classList.add("hidden");
+    });
 }
 
 //Get the array
@@ -236,6 +247,9 @@ function selectFilter() {
 
 function showSingleOrder(order) {
     console.log("Showing data to the order view");
+
+    const orderInfo = document.querySelector("#order_info");
+    orderInfo.classList.remove("is-hidden");
 
     document.querySelector("#order_info .message").classList.add("hidden");
     document
