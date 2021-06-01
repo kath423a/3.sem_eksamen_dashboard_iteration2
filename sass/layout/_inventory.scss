@@ -86,7 +86,7 @@
         fill: var(--keg-color);
         width: 100%;
         height: auto;
-        max-width: 80px;
+        max-width: 50px;
     }
 
     &__amount {
@@ -106,7 +106,7 @@
 }
 
 .bartender-status-list {
-    display: inline-grid;
+    display: grid;
     gap: vars.$spacing--xsmall;
 }
 
@@ -136,14 +136,14 @@
     &__status {
         padding: 0.2em 1em;
         border-radius: 2em;
-        background-color: red;
+        background-color: vars.$error-background-color;
         color: vars.$ui_bg_color;
         margin-left: auto;
         font-family: "Poppins", sans-serif;
         font-size: 0.8rem;
 
         &.is-ready {
-            background-color: green;
+            background-color: vars.$success-background-color;
         }
     }
 }
@@ -177,7 +177,7 @@
         grid-template-rows: 1fr auto;
 
         &__y-axis {
-            display: flex;
+            // display: flex;
             flex-direction: column;
             justify-content: space-between;
             margin: 0;

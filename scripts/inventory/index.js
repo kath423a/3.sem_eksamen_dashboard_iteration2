@@ -30,6 +30,8 @@ async function updateView() {
     const { storage, taps, bartenders } = data;
 
     updateBeerTaps(taps);
+    prepareBartenderStatusObjects(bartenders);
+    prepareBeerStockStatusObjects(storage);
 
     // Call getQueue again, to wait for the next update to the queue
     setTimeout(updateView, 5000);
