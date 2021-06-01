@@ -30,16 +30,14 @@ let revenueResults = {
 };
 
 async function init() {
-    const localStorageHourlyRevenue = JSON.parse(
-        localStorage.getItem("hourlyRevenue")
-    );
+  const localStorageHourlyRevenue = JSON.parse(localStorage.getItem("hourlyRevenue"));
 
-    if (!localStorageHourlyRevenue) {
-        JSON.parse(localStorage.setItem("hourlyRevenue", revenueResults));
-    }
+  if (!localStorageHourlyRevenue) {
+    JSON.parse(localStorage.setItem("hourlyRevenue", revenueResults));
+  }
 
-    getData();
-    createChart();
+  getData();
+  createChart();
 }
 
 async function getData() {
@@ -77,17 +75,22 @@ async function getData() {
 }
 
 function createChart() {
-    const container = document.querySelector(".revenue_time");
-    Object.keys(revenueResults).forEach(function (key) {
-        console.log(key, revenueResults[key]);
-        const li = document.createElement("li");
-        li.textContent = key;
-        li.classList.add(`${key}`);
-        container.append(li);
-        const point = document.createElement("div");
-        point.classList.add("point", `${key}`);
-        document.querySelector(".chart_box").append(point);
-    });
+  const container = document.querySelector(".revenue_time");
+  Object.keys(revenueResults).forEach(function (key) {
+    console.log(key, revenueResults[key]);
+
+    const li = document.createElement("li");
+    li.classList.add(`${key}`);
+    container.append(li);
+
+    const span = document.createElement("span");
+    span.textContent = key;
+    li.append(span);
+
+    const div = document.createElement("div");
+    div.classList.add(`${key}`, "revenue_total", "beer-bar__percent");
+    li.append(div);
+  });
 }
 
 function getDailyOrders() {
@@ -126,74 +129,73 @@ function getOrderPrice(newestCustomer) {
 }
 
 function getHourlyRevenue() {
-    let time = new Date(data.timestamp);
-    console.log(time.getMinutes());
-    console.log(parseInt(localStorage.getItem("dailyRevenue")));
-    const hour = time.getHours();
-    if (hour in revenueResults) {
-        let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
-        revenueResults[hour] = hourlyRevenue;
-        // console.log(revenueResults);
+  let time = new Date(data.timestamp);
+  console.log(time.getMinutes());
+  console.log(parseInt(localStorage.getItem("dailyRevenue")));
+  const hour = time.getHours();
+  if (hour in revenueResults) {
+    let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
+    revenueResults[hour] = hourlyRevenue;
+    // console.log(revenueResults);
 
-        let revenue =
-            JSON.parse(localStorage.getItem("hourlyRevenue")) || revenueResults;
-        console.log(revenueResults);
-        // let revenue = [JSON.parse(localStorage.getItem("hourlyRevenue"))];
+    let revenue = JSON.parse(localStorage.getItem("hourlyRevenue")) || revenueResults;
+    console.log(revenueResults);
+    // let revenue = [JSON.parse(localStorage.getItem("hourlyRevenue"))];
 
-        revenue[hour] = revenueResults[hour];
+    revenue[hour] = revenueResults[hour];
 
-        console.log("time", time.getHours());
+    console.log("time", time.getHours());
 
-        // revenue.unshift(revenueResults);
-        // revenue.pop();
+    // revenue.unshift(revenueResults);
+    // revenue.pop();
 
-        localStorage.setItem("hourlyRevenue", JSON.stringify(revenue));
-        console.log(revenueResults);
-        console.log(localStorage);
-        // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
-    }
+    localStorage.setItem("hourlyRevenue", JSON.stringify(revenue));
+    console.log(revenueResults);
+    console.log(localStorage);
+    // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
 
-    if (time.getMinutes() == "00") {
-        localStorage.dailyRevenue = 0;
-        // console.log(localStorage);
-    }
+    displayHourlyRevenue(revenue);
+  }
+
+  if (time.getMinutes() == "00") {
+    localStorage.dailyRevenue = 0;
+    // console.log(localStorage);
+  }
+}
+
+
+function displayHourlyRevenue(revenue) {
+  document.querySelectorAll(".revenue_total").forEach((total) => {
+    let getHour = total.className.split(" ")[0];
+    total.textContent = `${revenue[getHour]},-`;
+  });
 }
 
 function getChartPoints() {
-    let points = "";
-    console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
-    if (!JSON.parse(localStorage.getItem("hourlyRevenue"))) {
-        console.log(
-            "please wait for next hourly interval to start collecting data"
-        );
+  let points = "";
+  console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
+  if (!JSON.parse(localStorage.getItem("hourlyRevenue"))) {
+    console.log("please wait for next hourly interval to start collecting data");
+  } else {
+    if (document.querySelector(".chart_box span").classList.contains("hidden")) {
+      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue")));
+      revenues.forEach((value, i) => {
+        points += i * 65 + "," + value / 100 + " ";
+      });
     } else {
-        if (
-            document
-                .querySelector(".chart_box span")
-                .classList.contains("hidden")
-        ) {
-            let revenues = Object.values(
-                JSON.parse(localStorage.getItem("hourlyRevenue"))
-            );
-            revenues.forEach((value, i) => {
-                points += i * 65 + "," + value / 100 + " ";
-            });
-        } else {
-            document.querySelector(".chart_box span").classList.add("hidden");
-            let revenues = Object.values(
-                JSON.parse(localStorage.getItem("hourlyRevenue"))
-            );
-            revenues.forEach((value, i) => {
-                points += i * 65 + "," + value / 100 + " ";
-            });
-        }
+      document.querySelector(".chart_box span").classList.add("hidden");
+      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue")));
+      revenues.forEach((value, i) => {
+        points += i * 65 + "," + value / 100 + " ";
+      });
     }
+  }
 
-    // console.log(revenueResults);
-    console.log(points);
-    const line = document.querySelector("#line");
-    line.setAttribute("points", points);
-    line.style.strokeDashoffset = 0;
+  // console.log(revenueResults);
+  console.log(points);
+  const line = document.querySelector("#line");
+  line.setAttribute("points", points);
+  line.style.strokeDashoffset = 0;
 }
 
 function getBartenderOrders() {
