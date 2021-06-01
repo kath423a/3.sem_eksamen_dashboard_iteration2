@@ -30,14 +30,16 @@ let revenueResults = {
 };
 
 async function init() {
-  const localStorageHourlyRevenue = JSON.parse(localStorage.getItem("hourlyRevenue"));
+    const localStorageHourlyRevenue = JSON.parse(
+        localStorage.getItem("hourlyRevenue")
+    );
 
-  if (!localStorageHourlyRevenue) {
-    JSON.parse(localStorage.setItem("hourlyRevenue", revenueResults));
-  }
+    if (!localStorageHourlyRevenue) {
+        JSON.parse(localStorage.setItem("hourlyRevenue", revenueResults));
+    }
 
-  getData();
-  createChart();
+    getData();
+    createChart();
 }
 
 async function getData() {
@@ -75,22 +77,22 @@ async function getData() {
 }
 
 function createChart() {
-  const container = document.querySelector(".revenue_time");
-  Object.keys(revenueResults).forEach(function (key) {
-    console.log(key, revenueResults[key]);
+    const container = document.querySelector(".revenue_time");
+    Object.keys(revenueResults).forEach(function (key) {
+        console.log(key, revenueResults[key]);
 
-    const li = document.createElement("li");
-    li.classList.add(`${key}`);
-    container.append(li);
+        const li = document.createElement("li");
+        li.classList.add(`${key}`);
+        container.append(li);
 
-    const span = document.createElement("span");
-    span.textContent = key;
-    li.append(span);
+        const span = document.createElement("span");
+        span.textContent = key;
+        li.append(span);
 
-    const div = document.createElement("div");
-    div.classList.add(`${key}`, "revenue_total", "beer-bar__percent");
-    li.append(div);
-  });
+        const div = document.createElement("div");
+        div.classList.add(`${key}`, "revenue_total", "beer-bar__percent");
+        li.append(div);
+    });
 }
 
 function getDailyOrders() {
@@ -129,73 +131,83 @@ function getOrderPrice(newestCustomer) {
 }
 
 function getHourlyRevenue() {
-  let time = new Date(data.timestamp);
-  console.log(time.getMinutes());
-  console.log(parseInt(localStorage.getItem("dailyRevenue")));
-  const hour = time.getHours();
-  if (hour in revenueResults) {
-    let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
-    revenueResults[hour] = hourlyRevenue;
-    // console.log(revenueResults);
+    let time = new Date(data.timestamp);
+    console.log(time.getMinutes());
+    console.log(parseInt(localStorage.getItem("dailyRevenue")));
+    const hour = time.getHours();
+    if (hour in revenueResults) {
+        let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
+        revenueResults[hour] = hourlyRevenue;
+        // console.log(revenueResults);
 
-    let revenue = JSON.parse(localStorage.getItem("hourlyRevenue")) || revenueResults;
-    console.log(revenueResults);
-    // let revenue = [JSON.parse(localStorage.getItem("hourlyRevenue"))];
+        let revenue =
+            JSON.parse(localStorage.getItem("hourlyRevenue")) || revenueResults;
+        console.log(revenueResults);
+        // let revenue = [JSON.parse(localStorage.getItem("hourlyRevenue"))];
 
-    revenue[hour] = revenueResults[hour];
+        revenue[hour] = revenueResults[hour];
 
-    console.log("time", time.getHours());
+        console.log("time", time.getHours());
 
-    // revenue.unshift(revenueResults);
-    // revenue.pop();
+        // revenue.unshift(revenueResults);
+        // revenue.pop();
 
-    localStorage.setItem("hourlyRevenue", JSON.stringify(revenue));
-    console.log(revenueResults);
-    console.log(localStorage);
-    // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
+        localStorage.setItem("hourlyRevenue", JSON.stringify(revenue));
+        console.log(revenueResults);
+        console.log(localStorage);
+        // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
 
-    displayHourlyRevenue(revenue);
-  }
+        displayHourlyRevenue(revenue);
+    }
 
-  if (time.getMinutes() == "00") {
-    localStorage.dailyRevenue = 0;
-    // console.log(localStorage);
-  }
+    if (time.getMinutes() == "00") {
+        localStorage.dailyRevenue = 0;
+        // console.log(localStorage);
+    }
 }
 
-
 function displayHourlyRevenue(revenue) {
-  document.querySelectorAll(".revenue_total").forEach((total) => {
-    let getHour = total.className.split(" ")[0];
-    total.textContent = `${revenue[getHour]},-`;
-  });
+    document.querySelectorAll(".revenue_total").forEach((total) => {
+        let getHour = total.className.split(" ")[0];
+        total.textContent = `${revenue[getHour]},-`;
+    });
 }
 
 function getChartPoints() {
-  let points = "";
-  console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
-  if (!JSON.parse(localStorage.getItem("hourlyRevenue"))) {
-    console.log("please wait for next hourly interval to start collecting data");
-  } else {
-    if (document.querySelector(".chart_box span").classList.contains("hidden")) {
-      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue")));
-      revenues.forEach((value, i) => {
-        points += i * 65 + "," + value / 100 + " ";
-      });
+    let points = "";
+    console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
+    if (!JSON.parse(localStorage.getItem("hourlyRevenue"))) {
+        console.log(
+            "please wait for next hourly interval to start collecting data"
+        );
     } else {
-      document.querySelector(".chart_box span").classList.add("hidden");
-      let revenues = Object.values(JSON.parse(localStorage.getItem("hourlyRevenue")));
-      revenues.forEach((value, i) => {
-        points += i * 65 + "," + value / 100 + " ";
-      });
+        if (
+            document
+                .querySelector(".chart_box span")
+                .classList.contains("hidden")
+        ) {
+            let revenues = Object.values(
+                JSON.parse(localStorage.getItem("hourlyRevenue"))
+            );
+            revenues.forEach((value, i) => {
+                points += i * 65 + "," + value / 100 + " ";
+            });
+        } else {
+            document.querySelector(".chart_box span").classList.add("hidden");
+            let revenues = Object.values(
+                JSON.parse(localStorage.getItem("hourlyRevenue"))
+            );
+            revenues.forEach((value, i) => {
+                points += i * 65 + "," + value / 100 + " ";
+            });
+        }
     }
-  }
 
-  // console.log(revenueResults);
-  console.log(points);
-  const line = document.querySelector("#line");
-  line.setAttribute("points", points);
-  line.style.strokeDashoffset = 0;
+    // console.log(revenueResults);
+    console.log(points);
+    const line = document.querySelector("#line");
+    line.setAttribute("points", points);
+    line.style.strokeDashoffset = 0;
 }
 
 function getBartenderOrders() {
@@ -203,8 +215,8 @@ function getBartenderOrders() {
         // console.log(`${person.name} serving ${person.servingCustomer}`);
         let epmloyeeStatus = employeesStatus[person.name].slice(-1)[0];
         let serving = person.servingCustomer;
-        // console.log(serving);
-        // console.log(epmloyeeStatus);
+        console.log("serving", serving);
+        console.log("epmloyeeStatus", epmloyeeStatus);
         if (serving > epmloyeeStatus) {
             employeesStatus[person.name].unshift(serving);
             employeesStatus[person.name].pop();
@@ -267,21 +279,32 @@ function displayNumber(item) {
 }
 
 function displayBartenderOrders(person) {
-    document.querySelector(`.${person.name} .order_num_wrapper`).innerHTML = "";
-    const clone = document
-        .querySelector(".orders_template")
-        .content.cloneNode(true);
-    if (person.name === "Jonas") {
-        clone.querySelector(".orders_number").textContent =
-            localStorage.JonasCount;
-    } else if (person.name === "Peter") {
-        clone.querySelector(".orders_number").textContent =
-            localStorage.PeterCount;
-    } else if (person.name === "Dannie") {
-        clone.querySelector(".orders_number").textContent =
-            localStorage.DannieCount;
-    }
-    document
-        .querySelector(`.${person.name} .order_num_wrapper`)
-        .appendChild(clone);
+    const template = document.querySelector(".bartender_template").content;
+    const list = document.querySelector(".js-bartender-order-list");
+    list.innerHTML = "";
+    const clone = template.cloneNode(true);
+
+    clone.querySelector(
+        ".bartender__image"
+    ).src = `bartenders/${person.name}.jpg`;
+
+    list.append(clone);
+
+    // document.querySelector(`.${person.name} .order_num_wrapper`).innerHTML = "";
+    // const clone = document
+    //     .querySelector(".orders_template")
+    //     .content.cloneNode(true);
+    // if (person.name === "Jonas") {
+    //     clone.querySelector(".orders_number").textContent =
+    //         localStorage.JonasCount;
+    // } else if (person.name === "Peter") {
+    //     clone.querySelector(".orders_number").textContent =
+    //         localStorage.PeterCount;
+    // } else if (person.name === "Dannie") {
+    //     clone.querySelector(".orders_number").textContent =
+    //         localStorage.DannieCount;
+    // }
+    // document
+    //     .querySelector(`.${person.name} .order_num_wrapper`)
+    //     .appendChild(clone);
 }
