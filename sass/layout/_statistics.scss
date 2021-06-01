@@ -8,6 +8,10 @@
   --spacing--xsmall: #{math.div(vars.$spacing--xsmall, 3)};
   --beer-tap-chart-height: 400px;
 }
+
+.statistics-overall-grid {
+  grid-template-rows: auto auto auto;
+}
 .statistics-grid {
   display: grid;
   padding: var(--spacing);
