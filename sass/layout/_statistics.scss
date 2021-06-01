@@ -9,15 +9,13 @@
   --beer-tap-chart-height: 400px;
 }
 
-.statistics-overall-grid {
-  grid-template-rows: auto auto auto;
-}
 .statistics-grid {
   display: grid;
   padding: var(--spacing);
   gap: math.div(vars.$spacing, 3) * 2;
 
   @media (min-width: vars.$breakpoint-small) {
+    height: 100%;
     grid-template-areas:
       "queue seved orders"
       "revenue revenue revenue";
@@ -26,28 +24,55 @@
     }
   }
 
+  .revenue {
+    // max-height: 450px;
+    max-width: 100%;
+    overflow: hidden;
+    height: 470px;
+  }
+
   .revenue_box {
     width: 100%;
-    height: 340px;
+    // height: 340px;
+    // min-width: 500px;
+    overflow-x: auto;
 
     display: grid;
-    grid-template-columns: 70px auto auto;
-    grid-template-rows: auto auto 30px;
+    grid-template-columns: 70px auto auto 50px;
+    // grid-template-rows: auto auto auto;
+    grid-template-rows: 155px 155px 100px;
     grid-template-areas:
-      "revenue_price chart_box chart_box"
-      "revenue_price chart_box chart_box"
-      ". revenue_time revenue_time";
+      "revenue_price chart_box chart_box ."
+      "revenue_price chart_box chart_box ."
+      ". revenue_time revenue_time hours";
     .revenue_time {
       display: flex;
       justify-content: space-between;
       list-style-type: none;
       width: 100%;
-      align-self: flex-end;
+      // align-self: flex-end;
       grid-area: revenue_time;
       li {
         width: 20px;
         text-align: center;
+        display: flex;
+        flex-direction: column;
       }
+    }
+    p {
+      grid-area: hours;
+      text-align: center;
+    }
+    .revenue_total {
+      writing-mode: vertical-lr;
+      background: vars.$dark_green;
+      // transform: rotate(90deg);
+      width: auto;
+      height: 60px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      padding: 0.5em 0em;
     }
     .revenue_price {
       display: flex;
@@ -62,6 +87,7 @@
       }
     }
     .chart_box {
+      min-width: 500px;
       grid-area: chart_box;
       border-bottom: 1px solid vars.$ui_color_dark;
       border-left: 1px solid vars.$ui_color_dark;

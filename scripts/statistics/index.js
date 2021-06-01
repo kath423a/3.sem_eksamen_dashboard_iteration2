@@ -30,13 +30,12 @@ let revenueResults = {
 };
 
 async function init() {
-
   const localStorageHourlyRevenue = JSON.parse(localStorage.getItem("hourlyRevenue"));
 
   if (!localStorageHourlyRevenue) {
-    JSON.parse(localStorage.setItem("hourlyRevenue")) = revenueResults;
+    JSON.parse(localStorage.setItem("hourlyRevenue", revenueResults));
   }
-  
+
   getData();
   createChart();
 }
@@ -77,13 +76,18 @@ function createChart() {
   const container = document.querySelector(".revenue_time");
   Object.keys(revenueResults).forEach(function (key) {
     console.log(key, revenueResults[key]);
+
     const li = document.createElement("li");
-    li.textContent = key;
     li.classList.add(`${key}`);
     container.append(li);
-    const point = document.createElement("div");
-    point.classList.add("point", `${key}`);
-    document.querySelector(".chart_box").append(point);
+
+    const span = document.createElement("span");
+    span.textContent = key;
+    li.append(span);
+
+    const div = document.createElement("div");
+    div.classList.add(`${key}`, "revenue_total", "beer-bar__percent");
+    li.append(div);
   });
 }
 
@@ -146,6 +150,8 @@ function getHourlyRevenue() {
     console.log(revenueResults);
     console.log(localStorage);
     // console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
+
+    displayHourlyRevenue(revenue);
   }
 
   if (time.getMinutes() == "00") {
@@ -154,8 +160,14 @@ function getHourlyRevenue() {
   }
 }
 
-function getChartPoints() {
+function displayHourlyRevenue(revenue) {
+  document.querySelectorAll(".revenue_total").forEach((total) => {
+    let getHour = total.className.split(" ")[0];
+    total.textContent = `${revenue[getHour]},-`;
+  });
+}
 
+function getChartPoints() {
   let points = "";
   console.log(JSON.parse(localStorage.getItem("hourlyRevenue")));
   if (!JSON.parse(localStorage.getItem("hourlyRevenue"))) {
