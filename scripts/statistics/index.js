@@ -132,7 +132,7 @@ function getHourlyRevenue() {
   // console.log(parseInt(localStorage.getItem("dailyRevenue")));
   const hour = time.getHours();
   if (hour in revenueResults) {
-    let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
+    let hourlyRevenue = parseInt(JSON.parse(localStorage.getItem("dailyRevenue")));
     revenueResults[hour] = hourlyRevenue;
     // console.log(revenueResults);
 
