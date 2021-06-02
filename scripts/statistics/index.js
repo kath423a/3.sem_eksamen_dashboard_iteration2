@@ -35,8 +35,10 @@ async function init() {
         localStorage.getItem("hourlyRevenue")
     );
 
+    console.log(localStorage.hasOwnProperty("hourlyRevenue"));
+
     if (localStorageHourlyRevenue === null) {
-        JSON.stringify(localStorage.setItem("hourlyRevenue", revenueResults));
+        localStorage.setItem("hourlyRevenue", JSON.stringify(revenueResults));
     }
 
     getData();
@@ -132,16 +134,16 @@ function getOrderPrice(newestCustomer) {
 }
 
 function getHourlyRevenue() {
-
-  let time = new Date(data.timestamp);
-  console.log(time.getMinutes());
-  // console.log(parseInt(localStorage.getItem("dailyRevenue")));
-  const hour = time.getHours();
-  if (hour in revenueResults) {
-    let hourlyRevenue = parseInt(JSON.parse(localStorage.getItem("dailyRevenue")));
-    revenueResults[hour] = hourlyRevenue;
-    // console.log(revenueResults);
-
+    let time = new Date(data.timestamp);
+    console.log(time.getMinutes());
+    // console.log(parseInt(localStorage.getItem("dailyRevenue")));
+    const hour = time.getHours();
+    if (hour in revenueResults) {
+        let hourlyRevenue = parseInt(
+            JSON.parse(localStorage.getItem("dailyRevenue"))
+        );
+        revenueResults[hour] = hourlyRevenue;
+        // console.log(revenueResults);
 
         let revenue =
             JSON.parse(localStorage.getItem("hourlyRevenue")) || revenueResults;
