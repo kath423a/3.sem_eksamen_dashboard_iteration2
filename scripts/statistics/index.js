@@ -129,7 +129,7 @@ function getOrderPrice(newestCustomer) {
 function getHourlyRevenue() {
   let time = new Date(data.timestamp);
   console.log(time.getMinutes());
-  console.log(parseInt(localStorage.getItem("dailyRevenue")));
+  // console.log(parseInt(localStorage.getItem("dailyRevenue")));
   const hour = time.getHours();
   if (hour in revenueResults) {
     let hourlyRevenue = parseInt(localStorage.getItem("dailyRevenue"));
