@@ -27,6 +27,7 @@ nav {
     align-items: center;
     text-decoration: none;
     gap: 1rem;
+    color: vars.$ui_color_dark;
 
     :visited {
       color: vars.$ui_color_dark;
