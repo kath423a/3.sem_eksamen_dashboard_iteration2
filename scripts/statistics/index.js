@@ -34,7 +34,7 @@ async function init() {
   const localStorageHourlyRevenue = JSON.parse(localStorage.getItem("hourlyRevenue"));
 
   if (localStorageHourlyRevenue === null) {
-    JSON.parse(localStorage.setItem("hourlyRevenue", revenueResults));
+    JSON.stringify(localStorage.setItem("hourlyRevenue", revenueResults));
   }
 
   getData();
