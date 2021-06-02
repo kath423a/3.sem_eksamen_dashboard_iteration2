@@ -1,33 +1,44 @@
 import "../../sass/index.scss";
 import dayjs from "dayjs";
 import { settings } from "../modules/settings";
-import { getRandomInteger } from "../modules/helpers";
+import { getRandomInteger, sortBy } from "../modules/helpers";
 
 window.addEventListener("DOMContentLoaded", start);
 
 let data;
 let filter = "queue";
 let activeOrders = [];
-let doneOrders = [];
+let allOrders = [];
 
 const Order = {
-    orderid: 0,
+    id: 0,
     time: 0,
-    total: 0,
-    quantity: 0,
-    image: "",
     items: [],
     customer: null,
+    status: null,
 };
 
 //Get the order data
-function start() {
-    console.log("lets gooooo");
-
-    loadJSON();
-
+async function start() {
     // Add event-listeners to filter buttons
     registerButtons();
+
+    buildList();
+}
+
+async function buildList() {
+    const serverUrl = settings.url;
+
+    const orders = await loadJSON(serverUrl);
+
+    if (orders) {
+        prepareObjects(orders);
+    }
+
+    allOrders = allOrders.sort(sortBy("id"));
+    console.log("allOrders", allOrders);
+
+    setTimeout(buildList, 5000);
 }
 
 function registerButtons() {
@@ -55,37 +66,90 @@ function registerButtons() {
 }
 
 //Get the array
-function loadJSON() {
-    fetch("https://hold-kaeft-vi-har-det-godt.herokuapp.com/")
-        .then((response) => response.json())
-        .then((jsonData) => {
-            // when loaded, prepare objects
-            data = jsonData;
-            console.log(jsonData);
-            prepareObjects(jsonData[filter]);
+async function loadJSON(url) {
+    const response = await fetch(url);
 
-            // setTimeout(loadJSON, 5000);
-        });
+    if (response.ok) {
+        // if HTTP-status is 200-299
+        // get the response body (the method explained below)
+        const jsonData = await response.json();
+        data = jsonData;
+
+        return jsonData;
+    } else {
+        alert("HTTP-Error: " + response.status);
+        return null;
+    }
 }
 
 function prepareObjects(jsonData) {
     const orders = [];
 
-    jsonData.forEach((jsonObject) => {
-        const order = Object.create(Order);
+    // Destructoring
+    const { queue, serving } = jsonData;
 
-        //Get the correct timesyntax
-        const correctTime = dayjs(jsonObject.startTime).format("hh:mm:ss");
+    queue.forEach((order) => {
+        const orderObject = createObject(order, "queue");
+        const newOrder = isOrderNew(order);
 
-        order.orderid = jsonObject.id;
-        order.time = correctTime;
-        order.items = jsonObject.order;
-        order.customer = getRandomCustomerName();
+        if (newOrder) {
+            addToAllOrders(orderObject);
+        }
 
-        orders.push(order);
+        orders.push(orderObject);
     });
 
+    serving.forEach((order) => {
+        const orderObject = createObject(order, "queue");
+        const newOrder = isOrderNew(order);
+
+        if (newOrder) {
+            addToAllOrders(orderObject);
+        }
+
+        orders.push(orderObject);
+    });
+
+    console.log("updatedOrdersoaksdoasdoskda", orders);
+
     displayList(orders);
+}
+
+function isOrderNew(order) {
+    const allOrdersClone = [...allOrders];
+
+    const orderExists = allOrders.findIndex((item) => item.id === order.id);
+
+    // If it does not exist
+    if (orderExists === -1) {
+        return true;
+    }
+    // Order is not new
+    return false;
+}
+
+function addToAllOrders(order) {
+    allOrders.push(order);
+
+    // const allOrders = allOrders
+}
+
+function createObject(orderObject, status) {
+    const order = Object.create(Order);
+
+    // Destructoring
+    const { id, order: items, startTime } = orderObject;
+
+    //Get the correct timesyntax
+    const correctTime = dayjs(startTime).format("hh:mm:ss");
+
+    order.id = id;
+    order.time = correctTime;
+    order.items = items;
+    order.customer = getRandomCustomerName();
+    order.status = status;
+
+    return order;
 }
 
 function toggleNoOrdersMessage(state) {
@@ -100,38 +164,79 @@ function toggleNoOrdersMessage(state) {
     }
 
     const orderList = document.querySelector(".js_orders_list");
+
+    // Reset list and show no orders filter
     orderList.innerHTML = `<p class="message">No ${filter} orders</p>`;
 }
 
 function displayList(orders) {
-    const orderList = document.querySelector(".js_orders_list");
-
+    // Check if there is new orders based on the selected {filter},
+    // that is not in the current {activeOrders}.
     const newOrders = addNewOrders(orders);
     console.log("newOrders: ", newOrders);
+
+    // Check if there is orders from the active list based on {filter},
+    // that is no longer a part of the "activeList".
     const oldOrders = removeOldOrders(orders);
     console.log("oldOrders", oldOrders);
 
-    console.log("doneOrders", doneOrders);
+    console.table(allOrders, ["id", "status"]);
 
+    // Display all new orders, if any.
     if (newOrders.length >= 1) {
         newOrders.forEach(displayOrder);
     }
 
     console.log("activeOrders", activeOrders);
 
+    console.log(
+        `incoming queue: ${data.queue.length}
+        serving orders: ${data.serving.length}
+        = ${data.serving.length + data.queue.length}`
+    );
+
+    console.log("-------------------------------");
+
+    // If there is 1 or more {activeOrders},
+    // Hide the "no orders" message
     if (activeOrders.length >= 1) {
         toggleNoOrdersMessage("hide");
     } else {
         toggleNoOrdersMessage("show");
     }
 
+    // Old and new activeOrders gets compared.
+    // If anyone is not in the new updated list, move them to one of the other lists {queue, serving, done}
     if (oldOrders.length >= 1) {
         oldOrders.forEach(removeOrder);
     }
 }
 
+function findNewStatus(order) {
+    // Destructoring
+    const id = order.id;
+    const { queue, serving } = data;
+
+    const belongsInQueue = queue.findIndex((item) => item.id === id);
+    console.log("belongsInQueue", belongsInQueue);
+    if (belongsInQueue !== -1) {
+        console.log("belongs in Queue!");
+        return "queue";
+    }
+
+    const belongsInServing = serving.findIndex((item) => item.id === id);
+    console.log("belongsInServing", belongsInServing);
+    if (belongsInServing !== -1) {
+        console.log("belongs in Serving!");
+        return "serving";
+    }
+
+    console.log("Belongs in done!");
+    return "done";
+}
+
 function removeOrder(order) {
-    const id = order.orderid;
+    const id = order.id;
 
     const element = document.querySelector(
         `.orders_pop[data-order-id="${id}"]`
@@ -152,22 +257,22 @@ function addNewOrders(orders) {
 
     const newOrders = [];
 
-    console.table(activeOrders, ["orderid"]);
-
     orders.forEach((order) => {
+        if (order.status !== filter) {
+            console.log(order.status);
+        }
+
         const orderExists = activeOrders.findIndex(
-            (item) => item.orderid === order.orderid
+            (item) => item.id === order.id
         );
 
-        console.log(orderExists);
-
-        // If order exist - add order
+        // If order does not exist - add order
         if (orderExists === -1) {
-            console.log("new order, adding order #", order.orderid);
+            console.log("new order, adding order #", order.id);
             newOrders.push(order);
             activeOrders.push(order);
-
-            return;
+        } else {
+            console.log("order already exists", order);
         }
     });
 
@@ -182,22 +287,31 @@ function removeOldOrders(orders) {
 
     activeOrdersClone.forEach((activeOrder) => {
         const orderExists = orders.findIndex(
-            (item) => item.orderid === activeOrder.orderid
+            (item) => item.id === activeOrder.id
         );
 
         if (orderExists === -1) {
             oldOrders.push(activeOrder);
-            doneOrders.push(activeOrder);
 
-            const index = activeOrders.findIndex(
-                (item) => item.orderid === activeOrder.orderid
+            const activeIndex = activeOrders.findIndex(
+                (item) => item.id === activeOrder.id
             );
 
-            activeOrders.splice(index, 1);
+            activeOrders.splice(activeIndex, 1);
+
+            const newStatus = findNewStatus(activeOrder);
+            const allIndex = findOrder(activeOrder.id);
+            allOrders[allIndex].status = newStatus;
         }
     });
 
     return oldOrders;
+}
+
+function findOrder(id) {
+    const index = allOrders.findIndex((item) => item.id === id);
+    console.log("index", index);
+    return index;
 }
 
 function displayOrder(order) {
@@ -205,7 +319,7 @@ function displayOrder(order) {
     const clone = document.querySelector("#order_item").content.cloneNode(true);
 
     //set clone data
-    clone.querySelector(".order_id").textContent = ` #${order.orderid}`;
+    clone.querySelector(".order_id").textContent = ` #${order.id}`;
     clone.querySelector(".time").textContent = order.time;
     clone.querySelector(".total").textContent = order.items.length * 40;
 
@@ -214,9 +328,7 @@ function displayOrder(order) {
         .addEventListener("click", () => showSingleOrder(order));
 
     clone.querySelector(".orders_pop").classList.add("backInLeft");
-    clone
-        .querySelector(".orders_pop")
-        .setAttribute("data-order-id", order.orderid);
+    clone.querySelector(".orders_pop").setAttribute("data-order-id", order.id);
 
     document.querySelector(".js_orders_list").appendChild(clone);
 }
@@ -235,19 +347,16 @@ function selectFilter() {
     activeOrders = [];
 
     if (filter === "done") {
-        console.log(doneOrders);
         displayList(doneOrders);
         return;
     } else {
-        console.log(data[filter]);
+        console.log(data);
 
-        prepareObjects(data[filter]);
+        prepareObjects(data);
     }
 }
 
 function showSingleOrder(order) {
-    console.log("Showing data to the order view");
-
     const orderInfo = document.querySelector("#order_info");
     orderInfo.classList.remove("is-hidden");
 
@@ -258,7 +367,7 @@ function showSingleOrder(order) {
 
     document.querySelector(
         ".order_status_info .order_id"
-    ).textContent = ` #${order.orderid}`;
+    ).textContent = ` #${order.id}`;
     document.querySelector(".order_status_info .time").textContent = order.time;
     document.querySelector(".order_status_info .customer_name").textContent =
         order.customer;
@@ -284,14 +393,10 @@ function displayBeers(beers) {
         if (sortedBeers.some((e) => e.name === beer)) {
             const findBeer = sortedBeers.find((e) => e.name === beer);
             findBeer.quantity = findBeer.quantity + 1;
-            console.log("der er allerede en øl med samme navn");
         } else {
             sortedBeers.push(beerObject);
-            console.log("der er IKKE en øl med samme navn");
         }
     });
-    console.log("sortedBeers", sortedBeers);
-    console.log("beers", beers);
 
     //build a new list
     sortedBeers.forEach(showBeer);
