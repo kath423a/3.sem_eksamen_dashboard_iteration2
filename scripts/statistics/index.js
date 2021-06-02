@@ -6,11 +6,6 @@ window.addEventListener("DOMContentLoaded", init);
 
 let data;
 let newestOrder = [1];
-let employeesStatus = {
-    Peter: [0],
-    Jonas: [0],
-    Dannie: [0],
-};
 
 let revenueResults = {
     8: 0,
@@ -30,18 +25,23 @@ let revenueResults = {
     22: 0,
 };
 
+const Bartender = {
+    name: null,
+    ordersServed: 0,
+    lastOrder: null,
+};
+
 async function init() {
     const localStorageHourlyRevenue = JSON.parse(
         localStorage.getItem("hourlyRevenue")
     );
 
-    console.log(localStorage.hasOwnProperty("hourlyRevenue"));
-
-    if (localStorageHourlyRevenue === null) {
+    if (!localStorageHourlyRevenue) {
         localStorage.setItem("hourlyRevenue", JSON.stringify(revenueResults));
     }
 
-    getData();
+    await getData();
+
     createChart();
 }
 
@@ -64,13 +64,33 @@ async function getData() {
         const json = await response.json();
         // updateData(data);
 
-        data = json;
+        data = await json;
+
+        data.bartenders.forEach((person) => {
+            const name = person.name;
+            const storage = JSON.parse(
+                localStorage.getItem(`bartender${name}`)
+            );
+
+            if (!storage) {
+                const bartender = Object.create(Bartender);
+
+                bartender.name = name;
+                bartender.ordersServed = 0;
+                bartender.lastOrder = null;
+
+                localStorage.setItem(
+                    `bartender${name}`,
+                    JSON.stringify(bartender)
+                );
+            }
+        });
 
         getDailyOrders();
         getBartenderOrders();
 
         // Call getQueue again, to wait for the next update to the queue
-        await setTimeout(await getData, 1000);
+        setTimeout(getData, 4000);
     } // TAK NIKLAS<3
 
     // console.log(data);
@@ -126,7 +146,7 @@ function getOrderPrice(newestCustomer) {
     console.log(findPrice);
     if (localStorage.dailyRevenue) {
         localStorage.dailyRevenue =
-            Number(localStorage.dailyRevenue) + findPrice;
+            Number(JSON.parse(localStorage.dailyRevenue)) + findPrice;
     } else {
         localStorage.dailyRevenue = 0;
     }
@@ -136,7 +156,7 @@ function getOrderPrice(newestCustomer) {
 function getHourlyRevenue() {
     let time = new Date(data.timestamp);
     console.log(time.getMinutes());
-    // console.log(parseInt(localStorage.getItem("dailyRevenue")));
+    console.log(parseInt(JSON.parse(localStorage.getItem("dailyRevenue"))));
     const hour = time.getHours();
     if (hour in revenueResults) {
         let hourlyRevenue = parseInt(
@@ -216,46 +236,54 @@ function getChartPoints() {
 }
 
 function getBartenderOrders() {
+    const list = document.querySelector(".js-bartender-order-list");
+    list.innerHTML = "";
+
+    const bartenderList = [];
+
     data.bartenders.forEach((person) => {
-        // console.log(`${person.name} serving ${person.servingCustomer}`);
-        let epmloyeeStatus = employeesStatus[person.name].slice(-1)[0];
+        console.log("person", person);
+
+        const storage = JSON.parse(localStorage[`bartender${person.name}`]);
+
         let serving = person.servingCustomer;
-        // console.log(serving);
-        // console.log(epmloyeeStatus);
-        if (serving > epmloyeeStatus) {
-            employeesStatus[person.name].unshift(serving);
-            employeesStatus[person.name].pop();
+        console.log("serving", serving);
+        if (serving > storage.lastOrder) {
             changeCount(person);
-            displayBartenderOrders(person);
         }
 
-        // console.log(employeesStatus);
-        // console.log(localStorage);
+        console.log(serving);
+
+        bartenderList.push(storage);
     });
+
+    const sortedBartenders = bartenderList
+        .sort(
+            (firstPerson, secondPerson) =>
+                firstPerson.ordersServed - secondPerson.ordersServed
+        )
+        .reverse();
+
+    console.log("sorted", sortedBartenders);
+
+    displayBartenderOrders(bartenderList);
 }
 
 function changeCount(person) {
     // console.log(person.name, "finished an order!");
 
-    if (person.name == "Peter") {
-        if (localStorage.PeterCount) {
-            localStorage.PeterCount = Number(localStorage.PeterCount) + 1;
-        } else {
-            localStorage.PeterCount = 1;
-        }
-    } else if (person.name == "Jonas") {
-        if (localStorage.JonasCount) {
-            localStorage.JonasCount = Number(localStorage.JonasCount) + 1;
-        } else {
-            localStorage.JonasCount = 1;
-        }
-    } else if (person.name == "Dannie") {
-        if (localStorage.DannieCount) {
-            localStorage.DannieCount = Number(localStorage.DannieCount) + 1;
-        } else {
-            localStorage.DannieCount = 1;
-        }
-    }
+    const presentStorage = JSON.parse(
+        localStorage.getItem(`bartender${person.name}`)
+    );
+
+    presentStorage.ordersServed += 1;
+    presentStorage.lastOrder = person.servingCustomer;
+
+    console.log("person", person);
+    localStorage.setItem(
+        `bartender${person.name}`,
+        JSON.stringify(presentStorage)
+    );
 }
 
 function resetStorage() {
@@ -283,22 +311,23 @@ function displayNumber(item) {
     document.querySelector(`.${item}_num_wrapper`).appendChild(clone);
 }
 
-function displayBartenderOrders(person) {
-    document.querySelector(`.${person.name} .order_num_wrapper`).innerHTML = "";
-    const clone = document
-        .querySelector(".orders_template")
-        .content.cloneNode(true);
-    if (person.name === "Jonas") {
-        clone.querySelector(".orders_number").textContent =
-            localStorage.JonasCount;
-    } else if (person.name === "Peter") {
-        clone.querySelector(".orders_number").textContent =
-            localStorage.PeterCount;
-    } else if (person.name === "Dannie") {
-        clone.querySelector(".orders_number").textContent =
-            localStorage.DannieCount;
-    }
-    document
-        .querySelector(`.${person.name} .order_num_wrapper`)
-        .appendChild(clone);
+function displayBartenderOrders(bartenders) {
+    bartenders.forEach((person) => {
+        console.log(person);
+
+        const template = document.querySelector(".bartender_template").content;
+        const list = document.querySelector(".js-bartender-order-list");
+        const clone = template.cloneNode(true);
+
+        clone.querySelector(
+            ".bartender__image"
+        ).src = `bartenders/${person.name}.jpg`;
+
+        clone.querySelector(".bartender_name").textContent = person.name;
+        clone.querySelector(".order_num_wrapper").textContent = JSON.parse(
+            localStorage[`bartender${person.name}`]
+        ).ordersServed;
+
+        list.append(clone);
+    });
 }
