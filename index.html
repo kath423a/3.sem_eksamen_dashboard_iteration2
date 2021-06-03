@@ -1,247 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>FooBar - Dashboard</title>
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/favicon/apple-touch-icon.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon/favicon-32x32.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
-        <link
-            rel="mask-icon"
-            href="/favicon/safari-pinned-tab.svg"
-            color="#ff912d"
-        />
-        <link rel="shortcut icon" href="/favicon/favicon.ico" />
-        <meta name="msapplication-TileColor" content="#ff912d" />
-        <meta
-            name="msapplication-config"
-            content="/favicon/browserconfig.xml"
-        />
-        <meta name="theme-color" content="#ffffff" />
-    </head>
-    <body>
-        <div class="order-dashboard-grid">
-            <header class="page-header">
-                <a href="index.html">
-                    <img src="/logo.svg" alt="FooBar Logo" />
-                </a>
-                <h1>Orders</h1>
-                <nav>
-                    <ul id="menubar">
-                        <li>
-                            <a class="is-active" href="index.html">
-                                <span class="icon">
-                                    <svg
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M18 5V4C18 3.46957 17.7893 2.96086 17.4142 2.58579C17.0391 2.21071 16.5304 2 16 2H8C7.46957 2 6.96086 2.21071 6.58579 2.58579C6.21071 2.96086 6 3.46957 6 4V5C5.20435 5 4.44129 5.31607 3.87868 5.87868C3.31607 6.44129 3 7.20435 3 8V19C3 19.7956 3.31607 20.5587 3.87868 21.1213C4.44129 21.6839 5.20435 22 6 22H18C18.7956 22 19.5587 21.6839 20.1213 21.1213C20.6839 20.5587 21 19.7956 21 19V8C21 7.20435 20.6839 6.44129 20.1213 5.87868C19.5587 5.31607 18.7956 5 18 5ZM8 4H16V8H8V4ZM19 19C19 19.2652 18.8946 19.5196 18.7071 19.7071C18.5196 19.8946 18.2652 20 18 20H6C5.73478 20 5.48043 19.8946 5.29289 19.7071C5.10536 19.5196 5 19.2652 5 19V8C5 7.73478 5.10536 7.48043 5.29289 7.29289C5.48043 7.10536 5.73478 7 6 7V8C6 8.53043 6.21071 9.03914 6.58579 9.41421C6.96086 9.78929 7.46957 10 8 10H16C16.5304 10 17.0391 9.78929 17.4142 9.41421C17.7893 9.03914 18 8.53043 18 8V7C18.2652 7 18.5196 7.10536 18.7071 7.29289C18.8946 7.48043 19 7.73478 19 8V19Z"
-                                        />
-                                    </svg>
-                                </span>
-                                <span class="text">Orders</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="inventory.html">
-                                <span class="icon">
-                                    <svg
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M12 4C11.7348 4 11.4804 4.10536 11.2929 4.29289C11.1054 4.48043 11 4.73478 11 5V20C11 20.2652 11.1054 20.5196 11.2929 20.7071C11.4804 20.8946 11.7348 21 12 21C12.2652 21 12.5196 20.8946 12.7071 20.7071C12.8946 20.5196 13 20.2652 13 20V5C13 4.73478 12.8946 4.48043 12.7071 4.29289C12.5196 4.10536 12.2652 4 12 4Z"
-                                        />
-                                        <path
-                                            d="M19 12C18.7348 12 18.4804 12.1054 18.2929 12.2929C18.1054 12.4804 18 12.7348 18 13V20C18 20.2652 18.1054 20.5196 18.2929 20.7071C18.4804 20.8946 18.7348 21 19 21C19.2652 21 19.5196 20.8946 19.7071 20.7071C19.8946 20.5196 20 20.2652 20 20V13C20 12.7348 19.8946 12.4804 19.7071 12.2929C19.5196 12.1054 19.2652 12 19 12Z"
-                                        />
-                                        <path
-                                            d="M5 8C4.73478 8 4.48043 8.10536 4.29289 8.29289C4.10536 8.48043 4 8.73478 4 9V20C4 20.2652 4.10536 20.5196 4.29289 20.7071C4.48043 20.8946 4.73478 21 5 21C5.26522 21 5.51957 20.8946 5.70711 20.7071C5.89464 20.5196 6 20.2652 6 20V9C6 8.73478 5.89464 8.48043 5.70711 8.29289C5.51957 8.10536 5.26522 8 5 8Z"
-                                        />
-                                    </svg>
-                                </span>
-                                <span class="text">Inventory</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="statistics.html">
-                                <span class="icon">
-                                    <svg
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M13 2C12.7348 2 12.4804 2.10536 12.2929 2.29289C12.1054 2.48043 12 2.73478 12 3V11C12 11.2652 12.1054 11.5196 12.2929 11.7071C12.4804 11.8946 12.7348 12 13 12H21C21.2652 12 21.5196 11.8946 21.7071 11.7071C21.8946 11.5196 22 11.2652 22 11C22 8.61305 21.0518 6.32387 19.364 4.63604C17.6761 2.94821 15.3869 2 13 2ZM14 10V4.07C15.4962 4.28561 16.8824 4.97978 17.9513 6.04868C19.0202 7.11759 19.7144 8.50379 19.93 10H14Z"
-                                        />
-                                        <path
-                                            d="M20.82 14.06C20.6959 14.0156 20.5643 13.9963 20.4327 14.0029C20.3011 14.0096 20.1721 14.0422 20.0532 14.0989C19.9342 14.1556 19.8277 14.2352 19.7396 14.3332C19.6515 14.4312 19.5837 14.5457 19.54 14.67C19.0893 15.9439 18.3234 17.0829 17.3135 17.9808C16.3036 18.8786 15.0828 19.506 13.7648 19.8045C12.4469 20.1029 11.0749 20.0626 9.77675 19.6874C8.4786 19.3123 7.29664 18.6144 6.34114 17.6589C5.38564 16.7034 4.68774 15.5214 4.31255 14.2232C3.93736 12.9251 3.89711 11.5531 4.19555 10.2352C4.49398 8.91724 5.12139 7.6964 6.01923 6.68652C6.91707 5.67665 8.05608 4.91065 9.33 4.46C9.58063 4.37248 9.78622 4.18898 9.90156 3.94987C10.0169 3.71076 10.0325 3.43563 9.945 3.185C9.85748 2.93437 9.67398 2.72877 9.43487 2.61344C9.19576 2.4981 8.92063 2.48248 8.67 2.57C7.07704 3.13278 5.65263 4.08996 4.52971 5.35222C3.4068 6.61448 2.62198 8.14065 2.24852 9.78831C1.87506 11.436 1.92512 13.1514 2.39404 14.7744C2.86296 16.3975 3.73544 17.8753 4.93006 19.0699C6.12468 20.2646 7.60249 21.137 9.22556 21.606C10.8486 22.0749 12.564 22.1249 14.2117 21.7515C15.8593 21.378 17.3855 20.5932 18.6478 19.4703C19.91 18.3474 20.8672 16.923 21.43 15.33C21.5165 15.0807 21.5009 14.8072 21.3866 14.5693C21.2724 14.3314 21.0687 14.1484 20.82 14.06Z"
-                                        />
-                                    </svg>
-                                </span>
-                                <span class="text"> Statistics </span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FooBar - Dashboard</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#ff912d" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#ff912d" />
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+  <body>
+    <div class="order-dashboard-grid">
+      <header class="page-header">
+        <a href="index.html">
+          <img src="/logo.svg" alt="FooBar Logo" />
+        </a>
+        <nav>
+          <ul id="menubar">
+            <li>
+              <a class="is-active" href="index.html">
+                <span class="icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M18 5V4C18 3.46957 17.7893 2.96086 17.4142 2.58579C17.0391 2.21071 16.5304 2 16 2H8C7.46957 2 6.96086 2.21071 6.58579 2.58579C6.21071 2.96086 6 3.46957 6 4V5C5.20435 5 4.44129 5.31607 3.87868 5.87868C3.31607 6.44129 3 7.20435 3 8V19C3 19.7956 3.31607 20.5587 3.87868 21.1213C4.44129 21.6839 5.20435 22 6 22H18C18.7956 22 19.5587 21.6839 20.1213 21.1213C20.6839 20.5587 21 19.7956 21 19V8C21 7.20435 20.6839 6.44129 20.1213 5.87868C19.5587 5.31607 18.7956 5 18 5ZM8 4H16V8H8V4ZM19 19C19 19.2652 18.8946 19.5196 18.7071 19.7071C18.5196 19.8946 18.2652 20 18 20H6C5.73478 20 5.48043 19.8946 5.29289 19.7071C5.10536 19.5196 5 19.2652 5 19V8C5 7.73478 5.10536 7.48043 5.29289 7.29289C5.48043 7.10536 5.73478 7 6 7V8C6 8.53043 6.21071 9.03914 6.58579 9.41421C6.96086 9.78929 7.46957 10 8 10H16C16.5304 10 17.0391 9.78929 17.4142 9.41421C17.7893 9.03914 18 8.53043 18 8V7C18.2652 7 18.5196 7.10536 18.7071 7.29289C18.8946 7.48043 19 7.73478 19 8V19Z"
+                    />
+                  </svg>
+                </span>
+                <span class="text">Orders</span>
+              </a>
+            </li>
+            <li>
+              <a href="inventory.html">
+                <span class="icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12 4C11.7348 4 11.4804 4.10536 11.2929 4.29289C11.1054 4.48043 11 4.73478 11 5V20C11 20.2652 11.1054 20.5196 11.2929 20.7071C11.4804 20.8946 11.7348 21 12 21C12.2652 21 12.5196 20.8946 12.7071 20.7071C12.8946 20.5196 13 20.2652 13 20V5C13 4.73478 12.8946 4.48043 12.7071 4.29289C12.5196 4.10536 12.2652 4 12 4Z"
+                    />
+                    <path
+                      d="M19 12C18.7348 12 18.4804 12.1054 18.2929 12.2929C18.1054 12.4804 18 12.7348 18 13V20C18 20.2652 18.1054 20.5196 18.2929 20.7071C18.4804 20.8946 18.7348 21 19 21C19.2652 21 19.5196 20.8946 19.7071 20.7071C19.8946 20.5196 20 20.2652 20 20V13C20 12.7348 19.8946 12.4804 19.7071 12.2929C19.5196 12.1054 19.2652 12 19 12Z"
+                    />
+                    <path
+                      d="M5 8C4.73478 8 4.48043 8.10536 4.29289 8.29289C4.10536 8.48043 4 8.73478 4 9V20C4 20.2652 4.10536 20.5196 4.29289 20.7071C4.48043 20.8946 4.73478 21 5 21C5.26522 21 5.51957 20.8946 5.70711 20.7071C5.89464 20.5196 6 20.2652 6 20V9C6 8.73478 5.89464 8.48043 5.70711 8.29289C5.51957 8.10536 5.26522 8 5 8Z"
+                    />
+                  </svg>
+                </span>
+                <span class="text">Inventory</span>
+              </a>
+            </li>
+            <li>
+              <a href="statistics.html">
+                <span class="icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M13 2C12.7348 2 12.4804 2.10536 12.2929 2.29289C12.1054 2.48043 12 2.73478 12 3V11C12 11.2652 12.1054 11.5196 12.2929 11.7071C12.4804 11.8946 12.7348 12 13 12H21C21.2652 12 21.5196 11.8946 21.7071 11.7071C21.8946 11.5196 22 11.2652 22 11C22 8.61305 21.0518 6.32387 19.364 4.63604C17.6761 2.94821 15.3869 2 13 2ZM14 10V4.07C15.4962 4.28561 16.8824 4.97978 17.9513 6.04868C19.0202 7.11759 19.7144 8.50379 19.93 10H14Z"
+                    />
+                    <path
+                      d="M20.82 14.06C20.6959 14.0156 20.5643 13.9963 20.4327 14.0029C20.3011 14.0096 20.1721 14.0422 20.0532 14.0989C19.9342 14.1556 19.8277 14.2352 19.7396 14.3332C19.6515 14.4312 19.5837 14.5457 19.54 14.67C19.0893 15.9439 18.3234 17.0829 17.3135 17.9808C16.3036 18.8786 15.0828 19.506 13.7648 19.8045C12.4469 20.1029 11.0749 20.0626 9.77675 19.6874C8.4786 19.3123 7.29664 18.6144 6.34114 17.6589C5.38564 16.7034 4.68774 15.5214 4.31255 14.2232C3.93736 12.9251 3.89711 11.5531 4.19555 10.2352C4.49398 8.91724 5.12139 7.6964 6.01923 6.68652C6.91707 5.67665 8.05608 4.91065 9.33 4.46C9.58063 4.37248 9.78622 4.18898 9.90156 3.94987C10.0169 3.71076 10.0325 3.43563 9.945 3.185C9.85748 2.93437 9.67398 2.72877 9.43487 2.61344C9.19576 2.4981 8.92063 2.48248 8.67 2.57C7.07704 3.13278 5.65263 4.08996 4.52971 5.35222C3.4068 6.61448 2.62198 8.14065 2.24852 9.78831C1.87506 11.436 1.92512 13.1514 2.39404 14.7744C2.86296 16.3975 3.73544 17.8753 4.93006 19.0699C6.12468 20.2646 7.60249 21.137 9.22556 21.606C10.8486 22.0749 12.564 22.1249 14.2117 21.7515C15.8593 21.378 17.3855 20.5932 18.6478 19.4703C19.91 18.3474 20.8672 16.923 21.43 15.33C21.5165 15.0807 21.5009 14.8072 21.3866 14.5693C21.2724 14.3314 21.0687 14.1484 20.82 14.06Z"
+                    />
+                  </svg>
+                </span>
+                <span class="text"> Statistics </span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
 
-            <main class="page-content">
-                <div class="order-grid">
-                    <section id="order_list">
-                        <div class="inner_wrapper">
-                            <div class="order_list_header">
-                                <h2>Orders</h2>
-                                <div class="order_status_tabs">
-                                    <button
-                                        class="button_new is_active"
-                                        data-order="queue"
-                                    >
-                                        New
-                                    </button>
-                                    <button
-                                        class="button_doing"
-                                        data-order="serving"
-                                    >
-                                        Doing
-                                    </button>
-                                    <button
-                                        class="button_done"
-                                        data-order="done"
-                                    >
-                                        Done
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="orders js_orders_list">
-                                <p class="message is-hidden"></p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="order_info" class="is-hidden">
-                        <h2>ORDER DETAILS</h2>
-
-                        <p class="message">Please select an order</p>
-                        <div class="inner_wrapper hidden">
-                            <div class="order_status_info">
-                                <button
-                                    aria-label="close popup"
-                                    class="js-close-button close-button"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        height="24"
-                                        width="24"
-                                    >
-                                        <g data-name="Layer 2">
-                                            <g data-name="close">
-                                                <rect
-                                                    width="24"
-                                                    height="24"
-                                                    transform="rotate(180 12 12)"
-                                                    opacity="0"
-                                                />
-                                                <path
-                                                    d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"
-                                                />
-                                            </g>
-                                        </g>
-                                    </svg>
-                                </button>
-                                <p>Order <span class="order_id"></span></p>
-                                <p class="text-with-icon">
-                                    <img src="/icons/clock.svg" alt="Clock" />
-                                    <span class="time"></span>
-                                </p>
-                                <p class="text-with-icon">
-                                    <img
-                                        src="/icons/person.svg"
-                                        alt="Customer"
-                                    />
-                                    <span class="customer_name"></span>
-                                </p>
-                            </div>
-
-                            <div class="beer_list js_beer_list"></div>
-
-                            <div class="bottom_info">
-                                <h3>
-                                    Total: <span class="total_total"></span>,-
-                                </h3>
-                                <div class="alert_button">
-                                    <span class="alert_message hidden"
-                                        >Feature coming!</span
-                                    >
-                                    <button class="accept_order">
-                                        ACCEPT ORDER
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+      <main class="page-content">
+        <div class="order-grid">
+          <section id="order_list">
+            <div class="inner_wrapper">
+              <div class="order_list_header">
+                <h2>Orders</h2>
+                <div class="order_status_tabs">
+                  <button class="button_new is_active" data-order="queue">New</button>
+                  <button class="button_doing" data-order="serving">Doing</button>
+                  <button class="button_done" data-order="done">Done</button>
                 </div>
-            </main>
+              </div>
+              <div class="orders js_orders_list">
+                <p class="message is-hidden"></p>
+              </div>
+            </div>
+          </section>
+
+          <section id="order_info" class="is-hidden">
+            <h2>ORDER DETAILS</h2>
+
+            <p class="message">Please select an order</p>
+            <div class="inner_wrapper hidden">
+              <div class="order_status_info">
+                <button aria-label="close popup" class="js-close-button close-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24">
+                    <g data-name="Layer 2">
+                      <g data-name="close">
+                        <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0" />
+                        <path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" />
+                      </g>
+                    </g>
+                  </svg>
+                </button>
+                <p>Order <span class="order_id"></span></p>
+                <p class="text-with-icon">
+                  <img src="/icons/clock.svg" alt="Clock" />
+                  <span class="time"></span>
+                </p>
+                <p class="text-with-icon">
+                  <img src="/icons/person.svg" alt="Customer" />
+                  <span class="customer_name"></span>
+                </p>
+              </div>
+
+              <div class="beer_list js_beer_list"></div>
+
+              <div class="bottom_info">
+                <h3>Total: <span class="total_total"></span>,-</h3>
+                <div class="alert_button">
+                  <span class="alert_message hidden">Feature coming!</span>
+                  <button class="accept_order">ACCEPT ORDER</button>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
+      </main>
+    </div>
 
-        <!-- Templates -->
+    <!-- Templates -->
 
-        <template id="order_item">
-            <div class="orders_pop">
-                <div class="order_info_short">
-                    <h4>Order <span class="order_id"></span></h4>
-                    <div class="summary">
-                        <p class="text-with-icon">
-                            <img src="/icons/clock.svg" alt="Clock" />
-                            <span class="time"></span>
-                        </p>
-                        <p>Total: <span class="total"></span>,-</p>
-                    </div>
-                </div>
-            </div>
-        </template>
+    <template id="order_item">
+      <div class="orders_pop">
+        <div class="order_info_short">
+          <h4>Order <span class="order_id"></span></h4>
+          <div class="summary">
+            <p class="text-with-icon">
+              <img src="/icons/clock.svg" alt="Clock" />
+              <span class="time"></span>
+            </p>
+            <p>Total: <span class="total"></span>,-</p>
+          </div>
+        </div>
+      </div>
+    </template>
 
-        <template id="beer_orders">
-            <div class="orders_pop_long">
-                <div class="beer_name_price_column">
-                    <img class="beer_image" src="#" alt="" />
-                    <div class="beer_name_price_column_inner">
-                        <p><span class="beer_name"></span></p>
-                        <p><span class="beer_price"></span></p>
-                    </div>
-                </div>
-                <p><span class="quantity"></span></p>
-                <p><span class="price"></span>,-</p>
-            </div>
-        </template>
+    <template id="beer_orders">
+      <div class="orders_pop_long">
+        <div class="beer_name_price_column">
+          <img class="beer_image" src="#" alt="" />
+          <div class="beer_name_price_column_inner">
+            <p><span class="beer_name"></span></p>
+            <p><span class="beer_price"></span></p>
+          </div>
+        </div>
+        <p><span class="quantity"></span></p>
+        <p><span class="price"></span>,-</p>
+      </div>
+    </template>
 
-        <script type="module" src="./scripts/order/index.js"></script>
-    </body>
+    <script type="module" src="./scripts/order/index.js"></script>
+  </body>
 </html>
