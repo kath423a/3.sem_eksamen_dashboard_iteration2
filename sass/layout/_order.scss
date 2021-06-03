@@ -277,6 +277,8 @@
   .beer_name_price_column {
     display: flex;
     max-width: 250px;
+    max-width: 90px;
+    align-items: center;
 
     .beer_name_price_column_inner {
       flex-direction: row;
@@ -289,7 +291,6 @@
   }
 
   .quantity {
-    margin-left: -60px;
     font-weight: 600;
   }
 }
