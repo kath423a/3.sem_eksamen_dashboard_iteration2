@@ -1,7 +1,9 @@
 import "../../sass/index.scss";
 import dayjs from "dayjs";
 import { settings } from "../modules/settings";
-import { getRandomInteger, sortBy } from "../modules/helpers";
+import { sortBy, getRandomCustomerName } from "../modules/helpers";
+
+import { showSingleOrder } from "./show-single-order";
 
 window.addEventListener("DOMContentLoaded", start);
 
@@ -23,49 +25,35 @@ async function start() {
     // Add event-listeners to filter buttons
     registerButtons();
 
-    buildList();
+    orderController();
 }
 
-async function buildList() {
+async function orderController() {
     const serverUrl = settings.url;
 
-    const orders = await loadJSON(serverUrl);
+    // Fetch new data
+    const jsonData = await loadJSON(serverUrl);
 
-    if (orders) {
-        prepareObjects(orders);
-    }
+    // Destructoring
+    const { queue, serving } = jsonData;
+
+    // Make data into order objects
+    prepareObjects(queue, "queue");
+    prepareObjects(serving, "serving");
+
+    console.log(allOrders);
+
+    setTimeout(orderController, 5000);
+}
+
+function buildList(orders) {
+    const ordersToMove = compareOrderLists(activeOrders, data.queue);
+    console.log("ordersToMove", ordersToMove);
 
     allOrders = allOrders.sort(sortBy("id"));
     console.log("allOrders", allOrders);
-
-    setTimeout(buildList, 5000);
 }
 
-function registerButtons() {
-    document
-        .querySelectorAll("[data-order]")
-        .forEach((button) => button.addEventListener("click", selectFilter));
-    document.querySelector(".accept_order").addEventListener("click", () => {
-        const alertMessage = document.querySelector(".alert_message");
-        alertMessage.classList.remove("hidden");
-        setTimeout(function () {
-            alertMessage.classList.add("hidden");
-        }, 5000);
-    });
-
-    const orderInfo = document.querySelector("#order_info");
-    const message = document.querySelector("#order_info .message");
-    const closeButton = document.querySelector(".js-close-button");
-    closeButton.addEventListener("click", () => {
-        orderInfo.classList.add("is-hidden");
-        message.classList.remove("hidden");
-        document
-            .querySelector("#order_info .inner_wrapper")
-            .classList.add("hidden");
-    });
-}
-
-//Get the array
 async function loadJSON(url) {
     const response = await fetch(url);
 
@@ -82,37 +70,16 @@ async function loadJSON(url) {
     }
 }
 
-function prepareObjects(jsonData) {
-    const orders = [];
-
-    // Destructoring
-    const { queue, serving } = jsonData;
-
-    queue.forEach((order) => {
-        const orderObject = createObject(order, "queue");
+function prepareObjects(orderArray, status) {
+    orderArray.forEach((order) => {
+        const orderObject = createObject(order, status);
         const newOrder = isOrderNew(order);
 
         if (newOrder) {
             addToAllOrders(orderObject);
+            console.log("New order: #" + order.id);
         }
-
-        orders.push(orderObject);
     });
-
-    serving.forEach((order) => {
-        const orderObject = createObject(order, "queue");
-        const newOrder = isOrderNew(order);
-
-        if (newOrder) {
-            addToAllOrders(orderObject);
-        }
-
-        orders.push(orderObject);
-    });
-
-    console.log("updatedOrdersoaksdoasdoskda", orders);
-
-    displayList(orders);
 }
 
 function isOrderNew(order) {
@@ -170,14 +137,16 @@ function toggleNoOrdersMessage(state) {
 }
 
 function displayList(orders) {
+    const filteredOrders = filterOrdersByStatus(filter);
+
     // Check if there is new orders based on the selected {filter},
     // that is not in the current {activeOrders}.
-    const newOrders = addNewOrders(orders);
+    const newOrders = addNewOrders(filteredOrders);
     console.log("newOrders: ", newOrders);
 
     // Check if there is orders from the active list based on {filter},
     // that is no longer a part of the "activeList".
-    const oldOrders = removeOldOrders(orders);
+    const oldOrders = removeOldOrders(filteredOrders);
     console.log("oldOrders", oldOrders);
 
     console.table(allOrders, ["id", "status"]);
@@ -253,26 +222,22 @@ function removeOrder(order) {
 }
 
 function addNewOrders(orders) {
-    // console.clear();
-
     const newOrders = [];
 
     orders.forEach((order) => {
-        if (order.status !== filter) {
-            console.log(order.status);
-        }
+        if (order.status === filter) {
+            const orderExists = activeOrders.findIndex(
+                (item) => item.id === order.id
+            );
 
-        const orderExists = activeOrders.findIndex(
-            (item) => item.id === order.id
-        );
-
-        // If order does not exist - add order
-        if (orderExists === -1) {
-            console.log("new order, adding order #", order.id);
-            newOrders.push(order);
-            activeOrders.push(order);
-        } else {
-            console.log("order already exists", order);
+            // If order does not exist - add order
+            if (orderExists === -1) {
+                console.log("new order, adding order #", order.id);
+                newOrders.push(order);
+                activeOrders.push(order);
+            } else {
+                console.log("order already exists", order);
+            }
         }
     });
 
@@ -346,97 +311,50 @@ function selectFilter() {
     document.querySelector(".js_orders_list").innerHTML = "";
     activeOrders = [];
 
-    if (filter === "done") {
-        displayList(doneOrders);
-        return;
-    } else {
-        console.log(data);
+    const newActiveOrders = filterOrdersByStatus(filter);
+    activeOrders = newActiveOrders;
+    console.log(activeOrders);
 
-        prepareObjects(data);
-    }
+    activeOrders.forEach(displayOrder);
 }
 
-function showSingleOrder(order) {
-    const orderInfo = document.querySelector("#order_info");
-    orderInfo.classList.remove("is-hidden");
+function filterOrdersByStatus(status) {
+    const filteredOrders = allOrders.filter((order) => order.status === status);
 
-    document.querySelector("#order_info .message").classList.add("hidden");
-    document
-        .querySelector("#order_info .inner_wrapper")
-        .classList.remove("hidden");
-
-    document.querySelector(
-        ".order_status_info .order_id"
-    ).textContent = ` #${order.id}`;
-    document.querySelector(".order_status_info .time").textContent = order.time;
-    document.querySelector(".order_status_info .customer_name").textContent =
-        order.customer;
-
-    displayBeers(order.items);
+    return filteredOrders;
 }
 
-function displayBeers(beers) {
-    //clear the list
-    document.querySelector(".js_beer_list").innerHTML = "";
-
-    const sortedBeers = [];
-    let price = 0;
-
-    beers.forEach((beer) => {
-        const beerObject = {
-            name: beer,
-            quantity: 1,
-            price: 40,
-        };
-        price = price + 40;
-        //check om øllen er der i forvejen
-        if (sortedBeers.some((e) => e.name === beer)) {
-            const findBeer = sortedBeers.find((e) => e.name === beer);
-            findBeer.quantity = findBeer.quantity + 1;
-        } else {
-            sortedBeers.push(beerObject);
-        }
+function compareOrderLists(listA, listB) {
+    //Find values that are in listA, but not in listB
+    const result = listA.filter(function (obj) {
+        return !listB.some(function (obj2) {
+            return obj.id == obj2.id;
+        });
     });
 
-    //build a new list
-    sortedBeers.forEach(showBeer);
-    showPrice(price);
+    return result;
 }
 
-function showPrice(price) {
-    document.querySelector(".bottom_info .total_total").textContent = price;
-}
+function registerButtons() {
+    document
+        .querySelectorAll("[data-order]")
+        .forEach((button) => button.addEventListener("click", selectFilter));
+    document.querySelector(".accept_order").addEventListener("click", () => {
+        const alertMessage = document.querySelector(".alert_message");
+        alertMessage.classList.remove("hidden");
+        setTimeout(function () {
+            alertMessage.classList.add("hidden");
+        }, 5000);
+    });
 
-function showBeer(beer) {
-    //create clone
-    const clone = document
-        .querySelector("#beer_orders")
-        .content.cloneNode(true);
-
-    //set clone data
-    clone.querySelector(".beer_image").src = `/images/${beer.name}.png`;
-    clone.querySelector(".beer_name").textContent = beer.name;
-    clone.querySelector(".beer_price").textContent = `${beer.price},-`;
-    clone.querySelector(".quantity").textContent = `${beer.quantity}x`;
-    clone.querySelector(".price").textContent = beer.price * beer.quantity;
-
-    const ordersPopLong = clone.querySelector(".orders_pop_long");
-
-    ordersPopLong.addEventListener("click", toggleOrderItemStatus);
-
-    document.querySelector(".js_beer_list").appendChild(clone);
-
-    function toggleOrderItemStatus() {
-        ordersPopLong.classList.toggle("is-done");
-    }
-}
-
-function getRandomCustomerName() {
-    const customers = settings.randomCustomers;
-    const customerAmount = customers.length;
-
-    const randomNumber = getRandomInteger(1, customerAmount);
-    const randomCustomer = customers[randomNumber - 1];
-
-    return randomCustomer;
+    const orderInfo = document.querySelector("#order_info");
+    const message = document.querySelector("#order_info .message");
+    const closeButton = document.querySelector(".js-close-button");
+    closeButton.addEventListener("click", () => {
+        orderInfo.classList.add("is-hidden");
+        message.classList.remove("hidden");
+        document
+            .querySelector("#order_info .inner_wrapper")
+            .classList.add("hidden");
+    });
 }

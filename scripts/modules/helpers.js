@@ -36,3 +36,13 @@ export function sortBy(field) {
         return (a[field] > b[field]) - (a[field] < b[field]);
     };
 }
+
+export function getRandomCustomerName() {
+    const customers = settings.randomCustomers;
+    const customerAmount = customers.length;
+
+    const randomNumber = getRandomInteger(1, customerAmount);
+    const randomCustomer = customers[randomNumber - 1];
+
+    return randomCustomer;
+}
