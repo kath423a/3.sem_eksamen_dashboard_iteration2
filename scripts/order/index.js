@@ -2,7 +2,6 @@ import "../../sass/index.scss";
 import dayjs from "dayjs";
 import { settings } from "../modules/settings";
 import { sortBy, getRandomCustomerName } from "../modules/helpers";
-
 import { showSingleOrder } from "./show-single-order";
 
 window.addEventListener("DOMContentLoaded", start);
@@ -133,7 +132,7 @@ function createObject(orderObject, status) {
     const { id, order: items, startTime } = orderObject;
 
     //Get the correct timesyntax
-    const correctTime = dayjs(startTime).format("hh:mm:ss");
+    const correctTime = dayjs(startTime).format("HH:mm:ss");
 
     order.id = id;
     order.time = correctTime;
