@@ -29,29 +29,68 @@ async function start() {
 }
 
 async function orderController() {
+    console.clear();
+
     const serverUrl = settings.url;
 
     // Fetch new data
     const jsonData = await loadJSON(serverUrl);
 
-    // Destructoring
+    // Destructoring queue and serving
     const { queue, serving } = jsonData;
 
-    // Make data into order objects
+    // Combine queue and serving arrays
+    // const newestOrderData = [...queue, ...serving];
+
+    // Make new data into {Order} objects and add them to allOrders
     prepareObjects(queue, "queue");
     prepareObjects(serving, "serving");
 
-    console.log(allOrders);
+    const queueOrdersToUpdate = compareOrderLists(
+        filterOrdersByStatus("queue"),
+        queue
+    );
+
+    const servingOrdersToUpdate = compareOrderLists(
+        filterOrdersByStatus("serving"),
+        serving
+    );
+
+    // Combine them in an array
+    const ordersToUpdate = [...queueOrdersToUpdate, ...servingOrdersToUpdate];
+
+    ordersToUpdate.forEach((order) => {
+        const newStatus = findNewStatus(order);
+
+        const index = findOrder(order.id);
+        allOrders[index].status = newStatus;
+    });
+
+    console.log("queueOrdersToUpdate", queueOrdersToUpdate);
+    console.log("servingOrdersToUpdate", servingOrdersToUpdate);
+    console.table(allOrders.sort(sortBy("id")), ["id", "status"]);
+
+    console.log(
+        `Queue: ${data.queue.length} \nServing: ${
+            data.serving.length
+        } \nTotal: ${data.serving.length + data.queue.length}`
+    );
+
+    buildList();
 
     setTimeout(orderController, 5000);
 }
 
-function buildList(orders) {
-    const ordersToMove = compareOrderLists(activeOrders, data.queue);
-    console.log("ordersToMove", ordersToMove);
+function prepareObjects(orderArray, status) {
+    orderArray.forEach((order) => {
+        const orderObject = createObject(order, status);
+        const newOrder = isOrderNew(order);
 
-    allOrders = allOrders.sort(sortBy("id"));
-    console.log("allOrders", allOrders);
+        if (newOrder) {
+            addToAllOrders(orderObject);
+            return null;
+        }
+    });
 }
 
 async function loadJSON(url) {
@@ -70,21 +109,7 @@ async function loadJSON(url) {
     }
 }
 
-function prepareObjects(orderArray, status) {
-    orderArray.forEach((order) => {
-        const orderObject = createObject(order, status);
-        const newOrder = isOrderNew(order);
-
-        if (newOrder) {
-            addToAllOrders(orderObject);
-            console.log("New order: #" + order.id);
-        }
-    });
-}
-
 function isOrderNew(order) {
-    const allOrdersClone = [...allOrders];
-
     const orderExists = allOrders.findIndex((item) => item.id === order.id);
 
     // If it does not exist
@@ -136,7 +161,7 @@ function toggleNoOrdersMessage(state) {
     orderList.innerHTML = `<p class="message">No ${filter} orders</p>`;
 }
 
-function displayList(orders) {
+function buildList() {
     const filteredOrders = filterOrdersByStatus(filter);
 
     // Check if there is new orders based on the selected {filter},
@@ -149,21 +174,17 @@ function displayList(orders) {
     const oldOrders = removeOldOrders(filteredOrders);
     console.log("oldOrders", oldOrders);
 
-    console.table(allOrders, ["id", "status"]);
-
     // Display all new orders, if any.
     if (newOrders.length >= 1) {
         newOrders.forEach(displayOrder);
     }
 
     console.log("activeOrders", activeOrders);
-
     console.log(
         `incoming queue: ${data.queue.length}
         serving orders: ${data.serving.length}
         = ${data.serving.length + data.queue.length}`
     );
-
     console.log("-------------------------------");
 
     // If there is 1 or more {activeOrders},
@@ -187,20 +208,15 @@ function findNewStatus(order) {
     const { queue, serving } = data;
 
     const belongsInQueue = queue.findIndex((item) => item.id === id);
-    console.log("belongsInQueue", belongsInQueue);
     if (belongsInQueue !== -1) {
-        console.log("belongs in Queue!");
         return "queue";
     }
 
     const belongsInServing = serving.findIndex((item) => item.id === id);
-    console.log("belongsInServing", belongsInServing);
     if (belongsInServing !== -1) {
-        console.log("belongs in Serving!");
         return "serving";
     }
 
-    console.log("Belongs in done!");
     return "done";
 }
 
@@ -313,9 +329,15 @@ function selectFilter() {
 
     const newActiveOrders = filterOrdersByStatus(filter);
     activeOrders = newActiveOrders;
-    console.log(activeOrders);
 
-    activeOrders.forEach(displayOrder);
+    // If there is 1 or more {activeOrders},
+    // Hide the "no orders" message
+    if (activeOrders.length >= 1) {
+        toggleNoOrdersMessage("hide");
+        activeOrders.forEach(displayOrder);
+    } else {
+        toggleNoOrdersMessage("show");
+    }
 }
 
 function filterOrdersByStatus(status) {
