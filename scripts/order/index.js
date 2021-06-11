@@ -198,6 +198,12 @@ function updateNumbers() {
 
   const amountDone = filterOrdersByStatus("done");
   document.querySelector("[data-order=done] .order_number").textContent = amountDone.length;
+
+  updateButton();
+}
+
+function updateButton() {
+  // document.querySelector(".accept_order").textContent =
 }
 
 function findNewStatus(order) {
