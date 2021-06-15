@@ -198,6 +198,9 @@
       p {
         color: white;
       }
+      svg {
+        fill: white;
+      }
     }
   }
 
@@ -249,6 +252,12 @@
   margin: 30px 0 15px;
 }
 
+.order_details_h2 {
+  &.hide {
+    display: none;
+  }
+}
+
 .orders_pop_long {
   display: flex;
   justify-content: space-between;
@@ -280,6 +289,7 @@
     display: flex;
     max-width: 250px;
     align-items: center;
+    flex-grow: 1;
 
     .beer_name_price_column_inner {
       flex-direction: row;
@@ -316,6 +326,10 @@
     border: none;
     width: 198px;
     height: 34px;
+
+    &.hide {
+      display: none;
+    }
   }
 
   h3 {

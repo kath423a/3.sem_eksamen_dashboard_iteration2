@@ -4,13 +4,13 @@ import { settings } from "../modules/settings";
 import { sortBy, getRandomCustomerName } from "../modules/helpers";
 import { showSingleOrder } from "./show-single-order";
 
-window.addEventListener("DOMContentLoaded", start);
-
 let data;
 let filter = "queue";
 let activeOrders = [];
 let allOrders = [];
 let selectedOrder = null;
+
+window.addEventListener("DOMContentLoaded", start);
 
 const Order = {
   id: 0,
@@ -177,6 +177,10 @@ function buildList() {
 
   updateNumbers();
 
+  if (selectedOrder) {
+    updateSingleview();
+  }
+
   // If there is 1 or more {activeOrders},
   // Hide the "no orders" message
   if (activeOrders.length >= 1) {
@@ -192,18 +196,31 @@ function buildList() {
   }
 }
 
+function updateSingleview() {
+  const index = findOrder(selectedOrder);
+  const status = allOrders[index].status;
+  const button = document.querySelector(".accept_order");
+
+  if (status === "queue") {
+    button.textContent = "Accept order";
+    button.classList.remove("hide");
+    document.querySelector(".order_status_info .order_status").textContent = "New";
+  } else if (status === "serving") {
+    button.textContent = "Order done";
+    button.classList.remove("hide");
+    document.querySelector(".order_status_info .order_status").textContent = "Doing";
+  } else {
+    button.classList.add("hide");
+    document.querySelector(".order_status_info .order_status").textContent = "Done";
+  }
+}
+
 function updateNumbers() {
   document.querySelector("[data-order=queue] .order_number").textContent = data.queue.length;
   document.querySelector("[data-order=serving] .order_number").textContent = data.serving.length;
 
   const amountDone = filterOrdersByStatus("done");
   document.querySelector("[data-order=done] .order_number").textContent = amountDone.length;
-
-  updateButton();
-}
-
-function updateButton() {
-  // document.querySelector(".accept_order").textContent =
 }
 
 function findNewStatus(order) {
@@ -285,12 +302,6 @@ function removeOldOrders(orders) {
   return oldOrders;
 }
 
-function findOrder(id) {
-  const index = allOrders.findIndex((item) => item.id === id);
-  console.log("index", index);
-  return index;
-}
-
 function displayOrder(order) {
   //create clone
   const clone = document.querySelector("#order_item").content.cloneNode(true);
@@ -305,6 +316,7 @@ function displayOrder(order) {
   orderElement.addEventListener("click", () => {
     selectedOrder = order.id;
     showSingleOrder(order, orderElement);
+    updateSingleview();
   });
 
   if (order.id === selectedOrder) {
@@ -377,5 +389,12 @@ function registerButtons() {
     orderInfo.classList.add("is-hidden");
     message.classList.remove("hidden");
     document.querySelector("#order_info .inner_wrapper").classList.add("hidden");
+    document.querySelector(".order_details_h2").classList.add("hide");
   });
+}
+
+function findOrder(id) {
+  const index = allOrders.findIndex((item) => item.id === id);
+  console.log("index", index);
+  return index;
 }

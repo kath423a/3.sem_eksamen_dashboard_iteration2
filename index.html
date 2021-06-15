@@ -100,7 +100,7 @@
           </section>
 
           <section id="order_info" class="is-hidden">
-            <h2>ORDER DETAILS</h2>
+            <h2 class="order_details_h2 hide">ORDER <span class="order_id"></span> DETAILS</h2>
 
             <p class="message">Please select an order</p>
             <div class="inner_wrapper hidden">
@@ -117,7 +117,7 @@
                     </g>
                   </svg>
                 </button>
-                <p>Order <span class="order_id"></span></p>
+                <p>Status: <span class="order_status"></span></p>
                 <p class="text-with-icon">
                   <img src="/icons/clock.svg" alt="Clock" />
                   <span class="time"></span>
@@ -151,7 +151,15 @@
           <h4>Order <span class="order_id"></span></h4>
           <div class="summary">
             <p class="text-with-icon">
-              <img src="/icons/clock.svg" alt="Clock" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g data-name="Layer 2">
+                  <g data-name="clock">
+                    <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0" />
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z" />
+                    <path d="M16 11h-3V8a1 1 0 0 0-2 0v4a1 1 0 0 0 1 1h4a1 1 0 0 0 0-2z" />
+                  </g>
+                </g>
+              </svg>
               <span class="time"></span>
             </p>
             <p>Total: <span class="total"></span>,-</p>
