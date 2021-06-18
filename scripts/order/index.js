@@ -69,18 +69,6 @@ async function orderController() {
   setTimeout(orderController, 5000);
 }
 
-function prepareObjects(orderArray, status) {
-  orderArray.forEach((order) => {
-    const orderObject = createObject(order, status);
-    const newOrder = isOrderNew(order);
-
-    if (newOrder) {
-      addToAllOrders(orderObject);
-      return null;
-    }
-  });
-}
-
 async function loadJSON(url) {
   const response = await fetch(url);
 
@@ -95,6 +83,18 @@ async function loadJSON(url) {
     alert("HTTP-Error: " + response.status);
     return null;
   }
+}
+
+function prepareObjects(orderArray, status) {
+  orderArray.forEach((order) => {
+    const orderObject = createObject(order, status);
+    const newOrder = isOrderNew(order);
+
+    if (newOrder) {
+      addToAllOrders(orderObject);
+      return null;
+    }
+  });
 }
 
 function isOrderNew(order) {
@@ -390,6 +390,10 @@ function registerButtons() {
     message.classList.remove("hidden");
     document.querySelector("#order_info .inner_wrapper").classList.add("hidden");
     document.querySelector(".order_details_h2").classList.add("hide");
+    const activeOrder = document.querySelector(".orders_pop.is_active");
+    if (activeOrder) {
+      activeOrder.classList.remove("is_active");
+    }
   });
 }
 
