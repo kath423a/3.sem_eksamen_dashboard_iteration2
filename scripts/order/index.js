@@ -34,11 +34,8 @@ async function orderController() {
   // Call function to get fetched data
   const jsonData = await loadJSON(serverUrl);
 
-  // Destructoring queue and serving
+  // Destructuring queue and serving
   const { queue, serving } = jsonData;
-
-  // Combine queue and serving arrays
-  // const newestOrderData = [...queue, ...serving];
 
   // Make new data into {Order} objects and add them to allOrders
   prepareObjects(queue, "queue");
