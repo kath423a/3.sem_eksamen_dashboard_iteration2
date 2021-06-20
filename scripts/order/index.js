@@ -31,7 +31,7 @@ async function start() {
 async function orderController() {
   const serverUrl = settings.url;
 
-  // Fetch new data
+  // Call function to get fetched data
   const jsonData = await loadJSON(serverUrl);
 
   // Destructoring queue and serving
